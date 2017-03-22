@@ -35,13 +35,18 @@ public class Parser {
 
     /**
      * Parses the file specified in the path
-     * reads it line by line and returns a list of instructions
+     * reads it line by line and creates a list of instructions
      * in the same order they appear in the file
+     *
+     * @throws ParsingException in case the input file is illegal
      */
     public void parse() {
-        
+
     }
 
+    /**
+     * returns the ArrayList of Instructions created by parse()
+     */
     public ArrayList<Instruction> getParsedInstuctions() {
         return parsedInstructions;
     }
