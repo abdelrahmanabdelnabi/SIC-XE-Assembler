@@ -4,7 +4,10 @@ package parser;
  * Created by abdelrahman on 3/22/17.
  */
 
+import assembler.Instruction;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Responsible for reading an input assembly file
@@ -15,8 +18,11 @@ import java.io.IOException;
 public class Parser {
     private String filePath;
 
+    ArrayList<Instruction> parsedInstructions;
+
     public Parser(String filePath) {
         this.filePath = filePath;
+        parsedInstructions = new ArrayList<Instruction>();
     }
 
     /**
@@ -24,6 +30,20 @@ public class Parser {
      */
     public void openFile() throws IOException {
 
+    }
+
+
+    /**
+     * Parses the file specified in the path
+     * reads it line by line and returns a list of instructions
+     * in the same order they appear in the file
+     */
+    public void parse() {
+        
+    }
+
+    public ArrayList<Instruction> getParsedInstuctions() {
+        return parsedInstructions;
     }
 
 }
