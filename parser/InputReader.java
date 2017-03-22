@@ -39,7 +39,6 @@ public class InputReader {
         return reader.readLine();
     }
 
-
     public static enum InputType {
         File,
         String;
