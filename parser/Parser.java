@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Responsible for reading an input assembly file
- * possible containing errors, parses it an returns
- * an arrayList of <code>Instruction<code/> in the order they
- * appear in the input file
+ * possible containing comments or unexpected characters, parses it an creates
+ * an arrayList of Instruction in the order they appear in the input file.
+ * does not know the details of the assembler or instructions
  */
 public class Parser {
     ArrayList<Instruction> parsedInstructions;
@@ -29,7 +29,7 @@ public class Parser {
      * reads it line by line and creates a list of instructions
      * in the same order they appear in the file
      *
-     * @throws ParsingException in case the input file is illegal
+     * @throws ParsingException in case the input file contains unexpected text
      */
     public void parse() throws ParsingException {
 
