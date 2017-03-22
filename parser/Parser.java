@@ -5,8 +5,12 @@ package parser;
  */
 
 import assembler.Instruction;
+import sun.rmi.log.LogInputStream;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +23,7 @@ public class Parser {
     private String filePath;
 
     ArrayList<Instruction> parsedInstructions;
+    BufferedReader br = new BufferedReader(new StringReader(filePath));
 
     public Parser(String filePath) {
         this.filePath = filePath;
