@@ -5,12 +5,7 @@ package parser;
  */
 
 import assembler.Instruction;
-import sun.rmi.log.LogInputStream;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
@@ -20,21 +15,12 @@ import java.util.ArrayList;
  * appear in the input file
  */
 public class Parser {
-    private String filePath;
-
     ArrayList<Instruction> parsedInstructions;
-    BufferedReader br = new BufferedReader(new StringReader(filePath));
+    InputReader reader;
 
-    public Parser(String filePath) {
-        this.filePath = filePath;
+    public Parser(InputReader reader) {
+        this.reader = reader;
         parsedInstructions = new ArrayList<Instruction>();
-    }
-
-    /**
-     * Opens the file specified by the <code>filePath<code/>
-     */
-    public void openFile() throws IOException {
-
     }
 
 
@@ -45,7 +31,7 @@ public class Parser {
      *
      * @throws ParsingException in case the input file is illegal
      */
-    public void parse() {
+    public void parse() throws ParsingException {
 
     }
 
