@@ -3,12 +3,13 @@ package assembler;
 import assembler.datastructures.LocationCounter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by abdelrahman on 3/22/17.
  */
 public class Assembler {
-    private hashmap<String, symbolProperties> symbolTable;
+    private HashMap<String, SymbolProperties> symbolTable;
     // literal table: hashmap<String, literalProperties>
     LocationCounter loc = new LocationCounter();
 
@@ -19,7 +20,7 @@ public class Assembler {
     }
 
     public void generatePassOne() throws AssemblerException {
-        if(instructions.size() == 0)
+        if (instructions.size() == 0)
             return;
 
         // check for START directive
@@ -33,8 +34,8 @@ public class Assembler {
                 instructions = new ArrayList<Instruction>(instructions.subList(1, instructions.size()));
             } catch (NumberFormatException e) {
                 // build error string
-                String error = "error in line " + first.getLineNumber() + ". ";
-                error += "in Operand of " + first.getMnemonic() + ": " + ErrorStrings.INVALID_NUMBER_FORMAT;
+                String error = buildErrorString(first.getLineNumber(),
+                        InstructionPart.OPERAND, ErrorStrings.INVALID_NUMBER_FORMAT);
                 throw new AssemblerException(error);
             }
         } else {
@@ -42,15 +43,40 @@ public class Assembler {
         }
 
 
-        for(Instruction currentInst : instructions) {
+        for (Instruction currentInst : instructions) {
 
-            if(currentInst.getMnemonic().equals("end"))
+            if (currentInst.getMnemonic().equals("end"))
                 break;
 
+            String label = currentInst.getLabel();
 
-
+            if (!label.equals("")) {
+                // search symbol table for label
+                if (symbolTable.containsKey(label)) {
+                    // build error string
+                    String error = buildErrorString(currentInst.getLineNumber(),
+                            InstructionPart.LABEL, ErrorStrings.LABEL_REDEFINITION);
+                    throw new AssemblerException(error);
+                } else {
+                    // insert label in symbol table
+                    symbolTable.put(label, new SymbolProperties(loc.getCurrentCounterValue()));
+                }
+            }
 
         }
 
+    }
+
+
+    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("error in assembling line ").append(lineNumber)
+                .append(" in the ").append(ip.toString()).append(" part: ").append(error);
+
+        return builder.toString();
+    }
+
+    private enum InstructionPart {
+        LABEL, MNEMONIC, OPERAND;
     }
 }
