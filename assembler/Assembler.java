@@ -15,4 +15,8 @@ public class Assembler {
     public Assembler(ArrayList<Instruction> instructions) {
         this.instructions = instructions;
     }
+
+    public void generatePassOne() {
+
+    }
 }

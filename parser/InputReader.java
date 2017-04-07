@@ -40,7 +40,6 @@ public class InputReader {
     }
 
     public static enum InputType {
-        File,
-        String;
+        File, String;
     }
 }
