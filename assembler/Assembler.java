@@ -1,5 +1,7 @@
 package assembler;
 
+import assembler.datastructures.LocationCounter;
+
 import java.util.ArrayList;
 
 /**
@@ -8,8 +10,8 @@ import java.util.ArrayList;
 public class Assembler {
     // symbol table: hashmap<String, symbolProperties>
     // literal table: hashmap<String, literalProperties>
+    LocationCounter loc = new LocationCounter();
 
-    int locationCounter;
     ArrayList<Instruction> instructions;
 
     public Assembler(ArrayList<Instruction> instructions) {
@@ -17,6 +19,10 @@ public class Assembler {
     }
 
     public void generatePassOne() {
+        Instruction first = instructions.get(0);
+        if(first.getMnemonic().equals("START")) {
+            loc.setCurrentCounterValue(Integer.parseInt(first.getOperand()));
+        }
 
     }
 }

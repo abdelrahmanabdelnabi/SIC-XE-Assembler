@@ -45,7 +45,7 @@ public class LocationCounter {
         }
     }
 
-    public void updateCurrentCounterValue(int newValue) {
+    public void setCurrentCounterValue(int newValue) {
         switch (currentCounter) {
             case CODE:
                 codeCounter = newValue;
