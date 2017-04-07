@@ -8,11 +8,13 @@ public class Instruction {
     private String mnemonic;
     private String operand;
     private InstrcutionType type;
+    private int lineNumber;
 
-    public Instruction(String label, String mnemonic, String operand) {
+    public Instruction(String label, String mnemonic, String operand, int lineNumber) {
         this.label = label;
         this.mnemonic = mnemonic;
         this.operand = operand;
+        this.lineNumber = lineNumber;
     }
 
     public void setType(InstrcutionType type) {
@@ -33,6 +35,10 @@ public class Instruction {
 
     public InstrcutionType getType() {
         return type;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
     }
 
     public static enum InstrcutionType {

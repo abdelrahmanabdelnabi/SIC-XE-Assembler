@@ -18,10 +18,28 @@ public class Assembler {
         this.instructions = instructions;
     }
 
-    public void generatePassOne() {
+    public void generatePassOne() throws AssemblerException {
+        if(instructions.size() == 0)
+            return;
+
+        // check for START directive
         Instruction first = instructions.get(0);
-        if(first.getMnemonic().equals("START")) {
-            loc.setCurrentCounterValue(Integer.parseInt(first.getOperand()));
+        if (first.getMnemonic().equals("START")) {
+            try {
+                // TODO: Check the base for the START operand decimal/hexadecimal
+                loc.setCurrentCounterValue(Integer.parseInt(first.getOperand(), 10));
+            } catch (NumberFormatException e) {
+                // build error string
+                String error = "error in line " + first.getLineNumber() + ". ";
+                error += "in Operand of " + first.getMnemonic() + ": " + ErrorStrings.INVALID_NUMBER_FORMAT;
+                throw new AssemblerException(error);
+            }
+        }
+
+        for(int i = 1; i < instructions.size(); i++) {
+            Instruction currentInst = instructions.get(i);
+
+            
         }
 
     }
