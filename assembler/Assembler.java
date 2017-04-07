@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by abdelrahman on 3/22/17.
  */
 public class Assembler {
-    // symbol table: hashmap<String, symbolProperties>
+    private hashmap<String, symbolProperties> symbolTable;
     // literal table: hashmap<String, literalProperties>
     LocationCounter loc = new LocationCounter();
 
@@ -28,18 +28,28 @@ public class Assembler {
             try {
                 // TODO: Check the base for the START operand decimal/hexadecimal
                 loc.setCurrentCounterValue(Integer.parseInt(first.getOperand(), 10));
+
+                // if START found then remove it (without changing the original list)
+                instructions = new ArrayList<Instruction>(instructions.subList(1, instructions.size()));
             } catch (NumberFormatException e) {
                 // build error string
                 String error = "error in line " + first.getLineNumber() + ". ";
                 error += "in Operand of " + first.getMnemonic() + ": " + ErrorStrings.INVALID_NUMBER_FORMAT;
                 throw new AssemblerException(error);
             }
+        } else {
+            loc.setCurrentCounterValue(0);
         }
 
-        for(int i = 1; i < instructions.size(); i++) {
-            Instruction currentInst = instructions.get(i);
 
-            
+        for(Instruction currentInst : instructions) {
+
+            if(currentInst.getMnemonic().equals("end"))
+                break;
+
+
+
+
         }
 
     }
