@@ -36,7 +36,7 @@ public class Parser {
      */
     public void parse() throws ParsingException {
         try {
-            Logger.Log("Parsing File");
+            Logger.Log("Parsing File in progress");
             String newLine;
             int lineNumber = 0;
             while ((newLine = reader.getLine()) != null) {
