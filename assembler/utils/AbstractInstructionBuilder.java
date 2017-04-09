@@ -1,8 +1,10 @@
-package assembler.datastructures.utils;
+package assembler.utils;
 
 /**
  * Created by abdelrahman on 4/9/17.
  */
+
+import assembler.datastructures.Format;
 
 /**
  * incrementally builds the hexadecimal object code of an instruction.
@@ -23,4 +25,11 @@ public abstract class AbstractInstructionBuilder {
      */
     @Override
     public abstract String toString();
+
+    public abstract void setIndirect(boolean isIndirect);
+    public abstract void setImmediate(boolean isImmediate);
+    public abstract void setIndexed(boolean isIndirect);
+    public abstract void setBaseRelative(boolean isBaseRelative);
+    public abstract void setPCRelative(boolean isPCRelative);
+    public abstract Format getFormat();
 }
