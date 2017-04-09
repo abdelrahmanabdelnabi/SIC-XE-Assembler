@@ -32,7 +32,8 @@ public class Parser {
      * @throws ParsingException in case the input file contains unexpected text
      */
     public void parse() throws ParsingException {
-
+        // SymTab
+        //
     }
 
     /**

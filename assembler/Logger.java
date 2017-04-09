@@ -1,0 +1,48 @@
+package assembler;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+/**
+ * Created by ahmed on 4/9/17.
+ */
+
+// This Class is just used for logging and error messages
+public class Logger {
+    private static StringBuilder logString;
+    private static int errorsCnt = 0;
+    private static Logger logger = new Logger();
+    private SimpleDateFormat simpleDateFormat;
+
+    private Logger() {
+        simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH/mm");
+        logString = new StringBuilder();
+    }
+
+    // Singleton pattern
+    public static void Log(String message) {
+        logger.LogMessage(message);
+    }
+
+
+    public static StringBuilder getLogString() {
+        logger.LogMessage(errorsCnt + " Errors Found, TERMINATED");
+        return logString;
+    }
+
+    public static int getErrorsCnt() {
+        return errorsCnt;
+    }
+
+    public static void errorFound() {
+        errorsCnt++;
+    }
+
+    // console logging
+    private void LogMessage(String message) {
+        System.out.println(message);
+        String timeStamp = simpleDateFormat.format(Calendar.getInstance().getTime());
+        logString.append(String.format("%-20s    %s", timeStamp, message));
+        logString.append("\n");
+    }
+}
