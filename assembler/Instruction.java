@@ -9,12 +9,21 @@ public class Instruction {
     private String operand;
     private InstrcutionType type;
     private int lineNumber;
+    private int address;
 
     public Instruction(String label, String mnemonic, String operand, int lineNumber) {
         this.label = label;
         this.mnemonic = mnemonic;
         this.operand = operand;
         this.lineNumber = lineNumber;
+    }
+
+    public int getAddress() {
+        return address;
+    }
+
+    public void setAddress(int address) {
+        this.address = address;
     }
 
     public void setType(InstrcutionType type) {
