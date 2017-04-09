@@ -1,6 +1,9 @@
 package assembler;
 
 import assembler.datastructures.LocationCounter;
+import assembler.utils.AbstractInstructionBuilder;
+import assembler.utils.Format3_4Builder;
+import assembler.utils.FormatTwoBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,15 +12,25 @@ import java.util.HashMap;
  * Created by abdelrahman on 3/22/17.
  */
 public class Assembler {
+
+    // SYMTAB
     private HashMap<String, SymbolProperties> symbolTable;
+
+    // Instruction Builders
+    AbstractInstructionBuilder format2Builder;
+    AbstractInstructionBuilder format3_4Builder;
+
     // literal table: hashmap<String, literalProperties>
-    LocationCounter loc = new LocationCounter();
+    private LocationCounter loc = new LocationCounter();
 
     ArrayList<Instruction> instructions;
 
     public Assembler(ArrayList<Instruction> instructions) {
         this.instructions = instructions;
+        format3_4Builder = new Format3_4Builder();
+        format2Builder = new FormatTwoBuilder();
     }
+
 
     public void generatePassOne() throws AssemblerException {
         if (instructions.size() == 0)
@@ -45,23 +58,36 @@ public class Assembler {
 
         for (Instruction currentInst : instructions) {
 
+
+            // if END, stop
             if (currentInst.getMnemonic().equals("end"))
                 break;
 
             String label = currentInst.getLabel();
 
+            // if there is a symbol in the sybmol field
             if (!label.equals("")) {
+
                 // search symbol table for label
                 if (symbolTable.containsKey(label)) {
+
+                    // duplicate label error
                     // build error string
                     String error = buildErrorString(currentInst.getLineNumber(),
                             InstructionPart.LABEL, ErrorStrings.LABEL_REDEFINITION);
                     throw new AssemblerException(error);
+
+                    // log error in log file
+                    // TODO: log error in log file
+
                 } else {
                     // insert label in symbol table
                     symbolTable.put(label, new SymbolProperties(loc.getCurrentCounterValue()));
                 }
             }
+
+            // search OPTABLE for opcode
+
 
         }
 

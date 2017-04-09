@@ -5,7 +5,7 @@ import assembler.datastructures.Format;
 /**
  * Created by abdelrahman on 4/9/17.
  */
-class FormatTwoBuilder extends AbstractInstructionBuilder{
+public class FormatTwoBuilder extends AbstractInstructionBuilder{
     private int operand;
 
     @Override
