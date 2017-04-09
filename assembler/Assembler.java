@@ -11,19 +11,17 @@ import java.util.HashMap;
 /**
  * Created by abdelrahman on 3/22/17.
  */
-public class Assembler {
 
-    // SYMTAB
-    private HashMap<String, SymbolProperties> symbolTable;
+public class Assembler {
 
     // Instruction Builders
     AbstractInstructionBuilder format2Builder;
     AbstractInstructionBuilder format3_4Builder;
-
+    ArrayList<Instruction> instructions;
+    // SYMTAB
+    private HashMap<String, SymbolProperties> symbolTable;
     // literal table: hashmap<String, literalProperties>
     private LocationCounter loc = new LocationCounter();
-
-    ArrayList<Instruction> instructions;
 
     public Assembler(ArrayList<Instruction> instructions) {
         this.instructions = instructions;
@@ -31,6 +29,13 @@ public class Assembler {
         format2Builder = new FormatTwoBuilder();
     }
 
+    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("error in assembling line ").append(lineNumber)
+                .append(" in the ").append(ip.toString()).append(" part: ").append(error);
+
+        return builder.toString();
+    }
 
     public void generatePassOne() throws AssemblerException {
         if (instructions.size() == 0)
@@ -91,15 +96,6 @@ public class Assembler {
 
         }
 
-    }
-
-
-    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("error in assembling line ").append(lineNumber)
-                .append(" in the ").append(ip.toString()).append(" part: ").append(error);
-
-        return builder.toString();
     }
 
     private enum InstructionPart {

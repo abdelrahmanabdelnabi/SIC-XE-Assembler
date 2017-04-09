@@ -26,7 +26,6 @@ public class Parser {
         parsedInstructions = new ArrayList<Instruction>();
     }
 
-
     /**
      * Parses the file specified in the path
      * reads it line by line and creates a list of instructions
