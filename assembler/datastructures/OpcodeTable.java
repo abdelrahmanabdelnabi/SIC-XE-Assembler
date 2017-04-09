@@ -2,16 +2,26 @@ package assembler.datastructures;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
     private static Map<String, InstProp> opCodeTable;
+    private static Set<String> assemblerDirectives;
 
     public static Map<String, InstProp> getOpcodeTable() {
         fillOpcodeTable();
         return Collections.unmodifiableMap(opCodeTable);
+    }
+
+    public static boolean isDirective(String directive) {
+        return assemblerDirectives.contains(directive);
+    }
+
+    public static boolean isOpcode(String opcode) {
+        return opCodeTable.containsKey(opcode);
     }
 
     public static int getOpcode(String instruction) {

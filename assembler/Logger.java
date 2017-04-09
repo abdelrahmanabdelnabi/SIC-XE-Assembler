@@ -19,24 +19,26 @@ public class Logger {
         logString = new StringBuilder();
     }
 
-    // Singleton pattern
+    // Singleton pattern, Log
     public static void Log(String message) {
         logger.LogMessage(message);
     }
 
+    // Signlton pattern, to Log Error
+    public static void LogError(String message) {
+        errorsCnt++;
+        logger.LogMessage(message);
+    }
 
-    public static StringBuilder getLogString() {
+    public static String getLogString() {
         logger.LogMessage(errorsCnt + " Errors Found, TERMINATED");
-        return logString;
+        return logString.toString();
     }
 
     public static int getErrorsCnt() {
         return errorsCnt;
     }
 
-    public static void errorFound() {
-        errorsCnt++;
-    }
 
     // console logging
     private void LogMessage(String message) {
