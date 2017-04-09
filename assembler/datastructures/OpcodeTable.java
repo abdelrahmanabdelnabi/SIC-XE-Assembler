@@ -1,16 +1,16 @@
 package assembler.datastructures;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
-    private static Map<String, InstProp> opCodeTable;
-    private static Set<String> assemblerDirectives;
-
+    private static Map<String, InstProp> opCodeTable= new HashMap<>();
+    private static Set<String> assemblerDirectives=new HashSet<>();
+    {
+        fillOpcodeTable();
+    }
     public static Map<String, InstProp> getOpcodeTable() {
         fillOpcodeTable();
         return Collections.unmodifiableMap(opCodeTable);
@@ -34,7 +34,6 @@ public class OpcodeTable {
 
     private static void fillOpcodeTable() {
         // TODO: insert instruction names and their properties
-        // opCodeTable.put("", new InstProp());
         opCodeTable.put("ADD", new InstProp(24, Format.FORMAT3_4));
         opCodeTable.put("ADDF", new InstProp(88, Format.FORMAT3_4));
         opCodeTable.put("ADDR", new InstProp(144, Format.FORMAT2));

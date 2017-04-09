@@ -12,6 +12,7 @@ import java.io.*;
  */
 public class InputReader {
     BufferedReader reader;
+    InputType inputType;
 
     /**
      * Creates a buffered input reader that either reads from a file or from a string
@@ -30,6 +31,7 @@ public class InputReader {
         } else if (type == InputType.String) {
             reader = new BufferedReader(new StringReader(input));
         }
+        inputType = type;
     }
 
     /**
@@ -37,6 +39,11 @@ public class InputReader {
      */
     public String getLine() throws IOException {
         return reader.readLine();
+    }
+
+    public void setInputString(String input) {
+        if(inputType == InputType.String)
+            reader = new BufferedReader(new StringReader(input));
     }
 
     public static enum InputType {
