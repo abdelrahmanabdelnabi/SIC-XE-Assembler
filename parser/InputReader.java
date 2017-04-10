@@ -13,8 +13,8 @@ import java.io.*;
  * the input stream is either a file or a string
  */
 public class InputReader {
-    BufferedReader reader;
-    InputType inputType;
+    private BufferedReader reader;
+    private InputType inputType;
 
     /**
      * Creates a buffered input reader that either reads from a file or from a string
@@ -50,7 +50,7 @@ public class InputReader {
             reader = new BufferedReader(new StringReader(input));
     }
 
-    public static enum InputType {
-        File, String;
+    public enum InputType {
+        File, String
     }
 }

@@ -45,6 +45,19 @@ public class LocationCounter {
         }
     }
 
+    public int getCurrentCounterValue() {
+        switch (currentCounter) {
+            case CODE:
+                return codeCounter;
+            case DATA:
+                return dataCounter;
+            case BLOCKS:
+                return blockCounter;
+            default:
+                return 0;
+        }
+    }
+
     public void setCurrentCounterValue(int newValue) {
         switch (currentCounter) {
             case CODE:
@@ -59,20 +72,7 @@ public class LocationCounter {
         }
     }
 
-    public int getCurrentCounterValue() {
-        switch (currentCounter) {
-            case CODE:
-                return codeCounter;
-            case DATA:
-                return dataCounter;
-            case BLOCKS:
-                return blockCounter;
-            default:
-                return 0;
-        }
-    }
-
-    public static enum Counter{
-        CODE, DATA, BLOCKS;
+    public enum Counter {
+        CODE, DATA, BLOCKS
     }
 }

@@ -106,6 +106,6 @@ public class Assembler {
 
 
     private enum InstructionPart {
-        LABEL, MNEMONIC, OPERAND;
+        LABEL, MNEMONIC, OPERAND
     }
 }

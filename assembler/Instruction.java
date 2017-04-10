@@ -55,8 +55,7 @@ public class Instruction {
         return String.format("%-10s %-10s %-10s\n", label, mnemonic, operand);
     }
 
-    public static enum InstructionType {
-        Directive,
-        Instruction;
+    public enum InstructionType {
+        Directive, Instruction
     }
 }
