@@ -16,7 +16,7 @@ public class Main {
 
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
 
-        assembler.generatePassOne();
-//        src.assembler.generatePassTwo();
+        assembler.executePassOne();
+        assembler.executePassTwo();
     }
 }

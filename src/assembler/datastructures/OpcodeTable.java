@@ -15,7 +15,7 @@ public class OpcodeTable {
         // TODO: call a method that fills the assembler directives table
     }
 
-    public static Set<String> getAssemblerDirectivesTable() {
+    public static Set<String> getAssemblerDirectivesSet() {
         return Collections.unmodifiableSet(assemblerDirectives);
     }
 
