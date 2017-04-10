@@ -1,4 +1,4 @@
-package parser;
+package src.parser;
 
 /**
  * Created by abdelrahman on 3/22/17.

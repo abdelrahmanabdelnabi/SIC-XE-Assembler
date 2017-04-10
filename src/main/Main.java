@@ -1,8 +1,8 @@
-package main;
+package src.main;
 
-import assembler.Assembler;
-import parser.InputReader;
-import parser.Parser;
+import src.assembler.Assembler;
+import src.parser.InputReader;
+import src.parser.Parser;
 
 /**
  * Created by abdelrahman on 4/9/17.
@@ -17,6 +17,6 @@ public class Main {
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
 
         assembler.generatePassOne();
-//        assembler.generatePassTwo();
+//        src.assembler.generatePassTwo();
     }
 }

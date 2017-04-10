@@ -1,6 +1,6 @@
-package parser;
+package src.parser;
 
-import assembler.Logger;
+import src.assembler.Logger;
 
 import java.io.*;
 

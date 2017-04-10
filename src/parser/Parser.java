@@ -1,22 +1,22 @@
-package parser;
+package src.parser;
 
 /**
  * Created by abdelrahman on 3/22/17.
  */
 
-import assembler.Instruction;
-import assembler.Logger;
+import src.assembler.Instruction;
+import src.assembler.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static assembler.datastructures.OpcodeTable.isMnemonic;
+import static src.assembler.datastructures.OpcodeTable.isMnemonic;
 
 /**
  * Responsible for reading an input assembly file
  * possible containing comments or unexpected characters, parses it an creates
  * an arrayList of Instruction in the order they appear in the input file.
- * does not know the details of the assembler or instructions
+ * does not know the details of the src.assembler or instructions
  */
 public class Parser {
     private ArrayList<Instruction> parsedInstructions;

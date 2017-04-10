@@ -1,9 +1,9 @@
-package assembler;
+package src.assembler;
 
-import assembler.datastructures.LocationCounter;
-import assembler.utils.AbstractInstructionBuilder;
-import assembler.utils.Format3_4Builder;
-import assembler.utils.FormatTwoBuilder;
+import src.assembler.datastructures.LocationCounter;
+import src.assembler.utils.AbstractInstructionBuilder;
+import src.assembler.utils.Format3_4Builder;
+import src.assembler.utils.FormatTwoBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,10 @@
-package assembler.utils;
+package src.assembler.utils;
 
 /**
  * Created by abdelrahman on 4/9/17.
  */
 
-import assembler.datastructures.Format;
+import src.assembler.datastructures.Format;
 
 /**
  * incrementally builds the hexadecimal object code of an instruction.

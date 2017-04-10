@@ -1,4 +1,4 @@
-package assembler;
+package src.assembler;
 
 /**
  * Created by abdelrahman on 3/22/17.

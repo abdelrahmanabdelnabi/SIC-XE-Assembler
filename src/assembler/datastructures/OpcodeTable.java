@@ -1,4 +1,4 @@
-package assembler.datastructures;
+package src.assembler.datastructures;
 
 import java.util.*;
 

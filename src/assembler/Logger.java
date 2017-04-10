@@ -1,4 +1,4 @@
-package assembler;
+package src.assembler;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
