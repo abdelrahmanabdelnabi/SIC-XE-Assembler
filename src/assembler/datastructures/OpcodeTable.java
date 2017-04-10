@@ -9,7 +9,7 @@ public class OpcodeTable {
     private static Map<String, InstProp> opCodeTable = new HashMap<>();
     private static Set<String> assemblerDirectives = new HashSet<>();
 
-    {
+    static {
         fillOpcodeTable();
     }
 
