@@ -10,8 +10,10 @@ public class FormatTwoBuilder extends AbstractInstructionBuilder{
 
     @Override
     public String toString() {
-        // TODO: implement this method
-        return null;
+        String objectCode = Integer.toHexString(opCode) + Integer.toHexString(operand);
+        opCode = 0;
+        operand = 0;
+        return objectCode;
     }
 
     @Override
@@ -41,6 +43,11 @@ public class FormatTwoBuilder extends AbstractInstructionBuilder{
     @Override
     public void setPCRelative(boolean isPCRelative) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setOperand(int operand) {
+        this.operand = operand;
     }
 
     @Override

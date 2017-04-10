@@ -13,7 +13,7 @@ import src.assembler.datastructures.Format;
  */
 public abstract class AbstractInstructionBuilder {
     // the op code of the instruction in decimal
-    private int opCode;
+    protected int opCode;
 
     public void setOpCode(int opCode) {
         this.opCode = opCode;
@@ -31,5 +31,7 @@ public abstract class AbstractInstructionBuilder {
     public abstract void setIndexed(boolean isIndirect);
     public abstract void setBaseRelative(boolean isBaseRelative);
     public abstract void setPCRelative(boolean isPCRelative);
+
+    public abstract void setOperand(int operand);
     public abstract Format getFormat();
 }
