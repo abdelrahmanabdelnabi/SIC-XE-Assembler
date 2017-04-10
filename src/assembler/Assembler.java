@@ -1,12 +1,17 @@
 package src.assembler;
 
+import src.assembler.datastructures.Format;
+import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.LocationCounter;
+import src.assembler.datastructures.OpcodeTable;
 import src.assembler.utils.AbstractInstructionBuilder;
 import src.assembler.utils.Format3_4Builder;
 import src.assembler.utils.FormatTwoBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by abdelrahman on 3/22/17.
@@ -21,6 +26,10 @@ public class Assembler {
 
     // SYMTAB
     private HashMap<String, SymbolProperties> symbolTable;
+
+    private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
+
+    private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
 
     // literal table: hashmap<String, literalProperties>
     private LocationCounter loc = new LocationCounter();
@@ -39,7 +48,7 @@ public class Assembler {
         return builder.toString();
     }
 
-    public void generatePassOne() throws AssemblerException {
+    public void executePassOne() throws AssemblerException {
         if (instructions.size() == 0)
             return;
 
@@ -89,7 +98,6 @@ public class Assembler {
 
                     throw new AssemblerException(error);
 
-
                 } else {
                     // insert label in symbol table
                     symbolTable.put(label, new SymbolProperties(loc.getCurrentCounterValue()));
@@ -100,25 +108,57 @@ public class Assembler {
             // Check for Format 4
             int objCodeLength = 0;
 
-            if(currentInst.getMnemonic().startsWith("+")) {
-                objCodeLength = 4;
+            String mnemonic = currentInst.getMnemonic();
 
-                String parsedMnemonic = currentInst.getMnemonic().substring(1);
+            if (mnemonic.startsWith("+")) {
+                objCodeLength = 4;
+                String parsedMnemonic = mnemonic.substring(1);
 
                 // Search OPTAB for OPCODE
-                //if()
+                if (!OpcodeTable.isOpcode(parsedMnemonic)) {
+                    // mnemonic not found
+                    String error = buildErrorString(currentInst.getLineNumber(),
+                            InstructionPart.MNEMONIC, ErrorStrings.UNDEFINED_MNEMONIC);
 
-            }
+                    Logger.LogError(error);
+                    throw new AssemblerException(error);
+                }
 
+                if (OPTAB.get(parsedMnemonic).getFormat() != Format.FORMAT3_4) {
+                    // error: + sign is used with a instruction that is not format 3
+                    String error = buildErrorString(currentInst.getLineNumber
+                            (), InstructionPart.MNEMONIC, ErrorStrings.INVALID_PLUS_SIGN_USE);
 
+                    Logger.LogError(error);
 
-        }
+                    throw new AssemblerException(error);
+                }
+
+                // no errors, update location counter
+                loc.increment(4);
+
+            } else if(OPTAB.containsKey(mnemonic)) {
+
+                switch (OPTAB.get(mnemonic).getFormat()) {
+                    case FORMAT1:
+                        loc.increment(1);
+                        break;
+                    case FORMAT2:
+                        loc.increment(2);
+                        break;
+                    case FORMAT3_4:
+                        loc.increment(3);
+                }
+            } // else check for directives
+
+        } // end for loop
+
 
     }
 
 
-    public void generatePassTwo() {
-
+    public void executePassTwo() throws AssemblerException {
+        // TODO: implement this method
     }
 
 
