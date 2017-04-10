@@ -18,8 +18,10 @@ public class Assembler {
     AbstractInstructionBuilder format2Builder;
     AbstractInstructionBuilder format3_4Builder;
     ArrayList<Instruction> instructions;
+
     // SYMTAB
     private HashMap<String, SymbolProperties> symbolTable;
+
     // literal table: hashmap<String, literalProperties>
     private LocationCounter loc = new LocationCounter();
 
@@ -81,10 +83,12 @@ public class Assembler {
                     // build error string
                     String error = buildErrorString(currentInst.getLineNumber(),
                             InstructionPart.LABEL, ErrorStrings.LABEL_REDEFINITION);
-                    throw new AssemblerException(error);
 
                     // log error in log file
-                    // TODO: log error in log file
+                    Logger.Log(error);
+
+                    throw new AssemblerException(error);
+
 
                 } else {
                     // insert label in symbol table
@@ -92,7 +96,20 @@ public class Assembler {
                 }
             }
 
-            // search OPTABLE for opcode
+            // Parse OPCODE
+            // Check for Format 4
+            int objCodeLength = 0;
+
+            if(currentInst.getMnemonic().startsWith("+")) {
+                objCodeLength = 4;
+
+                String parsedMnemonic = currentInst.getMnemonic().substring(1);
+
+                // Search OPTAB for OPCODE
+                //if()
+
+            }
+
 
 
         }

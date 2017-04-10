@@ -9,12 +9,17 @@ public class OpcodeTable {
     private static Map<String, InstProp> opCodeTable = new HashMap<>();
     private static Set<String> assemblerDirectives = new HashSet<>();
 
-    {
+    // static initialization block to fill the tables before they are used anywhere in the program
+    static {
         fillOpcodeTable();
+        // TODO: call a method that fills the assembler directives table
+    }
+
+    public static Set<String> getAssemblerDirectivesTable() {
+        return Collections.unmodifiableSet(assemblerDirectives);
     }
 
     public static Map<String, InstProp> getOpcodeTable() {
-        fillOpcodeTable();
         return Collections.unmodifiableMap(opCodeTable);
     }
 
