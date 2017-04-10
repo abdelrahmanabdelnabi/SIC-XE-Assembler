@@ -46,7 +46,8 @@ public class Assembler {
         if (first.getMnemonic().equals("START")) {
             try {
                 // TODO: Check the base for the START operand decimal/hexadecimal
-                loc.setCurrentCounterValue(Integer.parseInt(first.getOperand(), 10));
+                // DONE
+                loc.setCurrentCounterValue(Integer.parseInt(first.getOperand(), 16));
 
                 // if START found then remove it (without changing the original list)
                 instructions = new ArrayList<Instruction>(instructions.subList(1, instructions.size()));
@@ -97,6 +98,12 @@ public class Assembler {
         }
 
     }
+
+
+    public void generatePassTwo() {
+
+    }
+
 
     private enum InstructionPart {
         LABEL, MNEMONIC, OPERAND;

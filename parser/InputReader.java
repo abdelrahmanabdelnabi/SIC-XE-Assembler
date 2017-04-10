@@ -1,5 +1,7 @@
 package parser;
 
+import assembler.Logger;
+
 import java.io.*;
 
 /**
@@ -17,7 +19,7 @@ public class InputReader {
     /**
      * Creates a buffered input reader that either reads from a file or from a string
      *
-     * @param type the source of the input, either file or string
+     * @param type  the source of the input, either file or string
      * @param input the file name in case the input type is file, or
      *              the input itself in case the input type is string.
      */
@@ -25,8 +27,10 @@ public class InputReader {
         if (type == InputType.File) {
             try {
                 reader = new BufferedReader(new FileReader(input));
+                Logger.Log("File path set successfully");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                Logger.Log("Failed to load file");
             }
         } else if (type == InputType.String) {
             reader = new BufferedReader(new StringReader(input));
@@ -42,7 +46,7 @@ public class InputReader {
     }
 
     public void setInputString(String input) {
-        if(inputType == InputType.String)
+        if (inputType == InputType.String)
             reader = new BufferedReader(new StringReader(input));
     }
 

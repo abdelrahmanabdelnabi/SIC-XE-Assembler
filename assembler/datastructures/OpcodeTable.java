@@ -6,14 +6,20 @@ import java.util.*;
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
-    private static Map<String, InstProp> opCodeTable= new HashMap<>();
-    private static Set<String> assemblerDirectives=new HashSet<>();
+    private static Map<String, InstProp> opCodeTable = new HashMap<>();
+    private static Set<String> assemblerDirectives = new HashSet<>();
+
     {
         fillOpcodeTable();
     }
+
     public static Map<String, InstProp> getOpcodeTable() {
         fillOpcodeTable();
         return Collections.unmodifiableMap(opCodeTable);
+    }
+
+    public static boolean isMnemonic(String mnemonic) {
+        return isDirective(mnemonic) || isOpcode(mnemonic);
     }
 
     public static boolean isDirective(String directive) {

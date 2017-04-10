@@ -7,7 +7,7 @@ public class Instruction {
     private String label;
     private String mnemonic;
     private String operand;
-    private InstrcutionType type;
+    private InstructionType type;
     private int lineNumber;
     private int address;
 
@@ -26,10 +26,6 @@ public class Instruction {
         this.address = address;
     }
 
-    public void setType(InstrcutionType type) {
-        this.type = type;
-    }
-
     public String getLabel() {
         return label;
     }
@@ -42,16 +38,25 @@ public class Instruction {
         return operand;
     }
 
-    public InstrcutionType getType() {
+    public InstructionType getType() {
         return type;
+    }
+
+    public void setType(InstructionType type) {
+        this.type = type;
     }
 
     public int getLineNumber() {
         return lineNumber;
     }
 
-    public static enum InstrcutionType {
+    @Override
+    public String toString() {
+        return String.format("%-10s %-10s %-10s\n", label, mnemonic, operand);
+    }
+
+    public static enum InstructionType {
         Directive,
-        Instrcution;
+        Instruction;
     }
 }

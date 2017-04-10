@@ -6,10 +6,11 @@ package parser;
 
 import assembler.Instruction;
 import assembler.Logger;
-import assembler.datastructures.OpcodeTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static assembler.datastructures.OpcodeTable.isMnemonic;
 
 /**
  * Responsible for reading an input assembly file
@@ -18,8 +19,8 @@ import java.util.ArrayList;
  * does not know the details of the assembler or instructions
  */
 public class Parser {
-    ArrayList<Instruction> parsedInstructions;
-    InputReader reader;
+    private ArrayList<Instruction> parsedInstructions;
+    private InputReader reader;
 
     public Parser(InputReader reader) {
         this.reader = reader;
@@ -48,20 +49,40 @@ public class Parser {
                 // else split line to tokens
                 String tokens[] = newLine.split(" ");
                 // classify line
-                if (tokens.length == 3 && (OpcodeTable.isOpcode(tokens[1]) || OpcodeTable.isDirective(tokens[1]))) {
+
+                /*
+                 * Format 1,2,3
+                 */
+                if (tokens.length == 3 && isMnemonic(tokens[1])) {
                     parseInstruction(tokens[0], tokens[1], tokens[2], lineNumber);
-                } else if (tokens.length == 2 && (OpcodeTable.isOpcode(tokens[0]) || OpcodeTable.isDirective(tokens[0]))) {
+                } else if (tokens.length == 2 && isMnemonic(tokens[0])) {
                     parseInstruction("", tokens[0], tokens[1], lineNumber);
-                } else if (tokens.length == 2 && (OpcodeTable.isOpcode(tokens[1]) || OpcodeTable.isDirective(tokens[1]))) {
+                } else if (tokens.length == 2 && isMnemonic(tokens[1])) {
                     parseInstruction(tokens[0], tokens[1], "", lineNumber);
-                } else if (tokens.length == 1 && (OpcodeTable.isOpcode(tokens[0]) || OpcodeTable.isDirective(tokens[0]))) {
+                } else if (tokens.length == 1 && isMnemonic(tokens[0])) {
                     parseInstruction("", tokens[0], "", lineNumber);
-                } else {
+                }
+
+                /*
+                 * Format 4
+                 */
+                else if (tokens.length == 3 && tokens[1].charAt(0) == '+' && isMnemonic(tokens[1].substring(1))) {
+                    parseInstruction(tokens[0], tokens[1], tokens[2], lineNumber);
+                } else if (tokens.length == 2 && tokens[0].charAt(0) == '+' && isMnemonic(tokens[0].substring(1))) {
+                    parseInstruction("", tokens[0], tokens[1], lineNumber);
+                } else if (tokens.length == 2 && tokens[1].charAt(0) == '+' && isMnemonic(tokens[1].substring(1))) {
+                    parseInstruction(tokens[0], tokens[1], "", lineNumber);
+                }
+
+                /*
+                 * Error !
+                 */
+                else {
                     throw new ParsingException("Unrecognized line format", lineNumber);
                 }
 
-                Logger.Log("Parsing Completed Successfully");
             }
+            Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,6 +94,7 @@ public class Parser {
     private void parseInstruction(String label, String mnemonic, String operand, int lineNumber) {
         parsedInstructions.add(new Instruction(label, mnemonic, operand, lineNumber));
     }
+
 
     /**
      * returns the ArrayList of Instructions created by parse()
