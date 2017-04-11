@@ -149,7 +149,30 @@ public class Assembler {
                     case FORMAT3_4:
                         loc.increment(3);
                 }
-            } // else check for directives
+            } else if(directives.contains(mnemonic)) {
+                // handle only the Directives that affect the instruction addresses
+
+                switch (mnemonic) {
+                    case "BYTE":
+                        break;
+                    case "RESB":
+                        break;
+                    case "WORD":
+                        break;
+                    case "RESW":
+                        break;
+                }
+
+            } else {
+                // neither instruction nor assembler directive
+                // error
+                String error = buildErrorString(currentInst.getLineNumber(), InstructionPart
+                        .MNEMONIC, ErrorStrings.UNDEFINED_MNEMONIC);
+
+                Logger.LogError(error);
+
+                throw new AssemblerException(error);
+            }
 
         } // end for loop
 
