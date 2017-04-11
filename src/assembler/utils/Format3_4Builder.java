@@ -53,6 +53,11 @@ public class Format3_4Builder extends AbstractInstructionBuilder{
     }
 
     @Override
+    public void setOperand(int operand) {
+
+    }
+
+    @Override
     public Format getFormat() {
         return null;
     }
