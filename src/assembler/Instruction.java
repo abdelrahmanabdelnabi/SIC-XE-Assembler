@@ -10,6 +10,8 @@ public class Instruction {
     private InstructionType type;
     private int lineNumber;
     private int address;
+    private String objectCode;
+    private boolean hasError = false;
 
     public Instruction(String label, String mnemonic, String operand, int lineNumber) {
         this.label = label;
@@ -53,6 +55,22 @@ public class Instruction {
     @Override
     public String toString() {
         return String.format("%-10s %-10s %-10s\n", label, mnemonic, operand);
+    }
+
+    public String getObjectCode() {
+        return objectCode;
+    }
+
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }
+
+    public boolean HasError() {
+        return hasError;
+    }
+
+    public void setHasError(boolean hasError) {
+        this.hasError = hasError;
     }
 
     public enum InstructionType {

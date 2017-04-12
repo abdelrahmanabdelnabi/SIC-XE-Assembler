@@ -39,6 +39,10 @@ public class OpcodeTable {
         return opCodeTable.get(instruction).getOpCode();
     }
 
+    public static String getHexOpcode(String mnemonic) {
+        return Integer.toHexString(opCodeTable.get(mnemonic).getOpCode());
+    }
+
     public static Format getFormat(String instruction) {
         return opCodeTable.get(instruction).getFormat();
     }

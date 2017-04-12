@@ -12,8 +12,6 @@ public class Main {
         String path = "";
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);
-        parser.parse();
-
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
 
         assembler.executePassOne();

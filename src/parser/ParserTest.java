@@ -2,7 +2,6 @@ package src.parser;
 
 import org.junit.Before;
 import org.junit.Test;
-import src.assembler.datastructures.OpcodeTable;
 
 import java.util.Arrays;
 
@@ -25,7 +24,6 @@ public class ParserTest {
 
     @Test
     public void testReader_Parser() {
-        parser.parse();
         System.out.println(Arrays.toString(parser.getParsedInstuctions().toArray()));
     }
 

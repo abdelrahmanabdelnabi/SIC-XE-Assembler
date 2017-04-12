@@ -34,7 +34,12 @@ public class Parser {
      *
      * @throws ParsingException in case the input file contains unexpected text
      */
-    public void parse() throws ParsingException {
+    /*
+     * Made Private
+     *
+     * @throws ParsingException
+     */
+    private void parse() throws ParsingException {
         try {
             Logger.Log("Parsing File in progress");
             String newLine;
@@ -97,9 +102,11 @@ public class Parser {
 
 
     /**
+     * Calls Parse then
      * returns the ArrayList of Instructions created by parse()
      */
     public ArrayList<Instruction> getParsedInstuctions() {
+        parse();
         return parsedInstructions;
     }
 

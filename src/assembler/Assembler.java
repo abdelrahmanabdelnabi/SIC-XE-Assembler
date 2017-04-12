@@ -4,9 +4,7 @@ import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.LocationCounter;
 import src.assembler.datastructures.OpcodeTable;
-import src.assembler.utils.AbstractInstructionBuilder;
-import src.assembler.utils.Format3_4Builder;
-import src.assembler.utils.FormatTwoBuilder;
+import src.assembler.utils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,7 +135,7 @@ public class Assembler {
                 // no errors, update location counter
                 loc.increment(4);
 
-            } else if(OPTAB.containsKey(mnemonic)) {
+            } else if (OPTAB.containsKey(mnemonic)) {
 
                 switch (OPTAB.get(mnemonic).getFormat()) {
                     case FORMAT1:
@@ -149,7 +147,7 @@ public class Assembler {
                     case FORMAT3_4:
                         loc.increment(3);
                 }
-            } else if(directives.contains(mnemonic)) {
+            } else if (directives.contains(mnemonic)) {
                 // handle only the Directives that affect the instruction addresses
 
                 switch (mnemonic) {
@@ -181,7 +179,40 @@ public class Assembler {
 
 
     public void executePassTwo() throws AssemblerException {
-        // TODO: implement this method
+        // TODO: format 3, 4 & assembler directives
+        ObjectBuilder format1 = new Format_1();
+        ObjectBuilder format2 = new Format_2();
+        ObjectBuilder format3 = new Format_3();
+        ObjectBuilder format4 = new Format_4();
+
+        for (Instruction curInst : instructions) {
+            /**
+             * If is Instruction
+             */
+            if (curInst.getType() == Instruction.InstructionType.Instruction) {
+                Format format = OPTAB.get(curInst.getMnemonic()).getFormat();
+                switch (format) {
+                    case FORMAT1:
+                        curInst.setObjectCode(format1.getObjectCode(curInst));
+                        break;
+                    case FORMAT2:
+                        curInst.setObjectCode(format2.getObjectCode(curInst));
+                        break;
+                    case FORMAT3_4:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            /**
+             * if is assembler directive
+             */
+            else if (curInst.getType() == Instruction.InstructionType.Directive) {
+
+            }
+        }
     }
 
 

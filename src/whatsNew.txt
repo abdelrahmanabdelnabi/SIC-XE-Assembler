@@ -1,0 +1,6 @@
+## New Design for object code generator
+## Done with format 1 & 2 object generation
+## Added ObjectCode Field at Instruction class, now instruction class represents our "abo fayez table"
+## Added hasError Filed at Instruction class
+
+## Error At  Assembler.executePassOne() line 70 "Null Pointer"
