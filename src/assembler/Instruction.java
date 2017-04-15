@@ -1,5 +1,7 @@
 package src.assembler;
 
+import src.assembler.datastructures.Format;
+
 /**
  * Created by abdelrahman on 3/22/17.
  */
@@ -12,6 +14,7 @@ public class Instruction {
     private int address;
     private String objectCode;
     private boolean hasError = false;
+    private Format format;
 
     public Instruction(String label, String mnemonic, String operand, int lineNumber) {
         this.label = label;
@@ -58,7 +61,7 @@ public class Instruction {
     }
 
     public String getObjectCode() {
-        return objectCode;
+        return objectCode.toUpperCase();
     }
 
     public void setObjectCode(String objectCode) {
@@ -71,6 +74,14 @@ public class Instruction {
 
     public void setHasError(boolean hasError) {
         this.hasError = hasError;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
     }
 
     public enum InstructionType {

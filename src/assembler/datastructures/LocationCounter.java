@@ -8,12 +8,13 @@ public class LocationCounter {
     private int dataCounter;
     private int blockCounter;
 
-    private Counter currentCounter;
+    private Counter currentCounter = Counter.CODE;
 
     /**
      * increments the current location counter with the specified offset
+     *
      * @param offset the offset to add to the current value of the current counter
-     *               @returns the new value of the current counter
+     * @returns the new value of the current counter
      */
     public int increment(int offset) {
         switch (currentCounter) {

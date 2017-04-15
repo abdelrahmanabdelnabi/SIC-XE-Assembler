@@ -47,7 +47,7 @@ public class Parser {
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
-                newLine = newLine.replaceAll("^ +| +$|( )+", "$1");
+                newLine = newLine.replaceAll("^ +| +$|( )+|\t", " ");
                 // check if comment line , continue
                 if (newLine.charAt(0) == '.') continue;
 

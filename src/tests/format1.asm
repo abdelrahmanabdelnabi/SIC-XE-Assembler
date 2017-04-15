@@ -1,6 +1,6 @@
-    FIX
-    FLOAT
-    NORM
+        FIX
+        FLOAT
+        NORM
     SIO
     HIO
     TIO
