@@ -1,6 +1,6 @@
 package src.parser;
 
-/**
+/*
  * Created by abdelrahman on 3/22/17.
  */
 
@@ -24,7 +24,7 @@ public class Parser {
 
     public Parser(InputReader reader) {
         this.reader = reader;
-        parsedInstructions = new ArrayList<Instruction>();
+        parsedInstructions = new ArrayList<>();
     }
 
     /**
@@ -41,13 +41,13 @@ public class Parser {
      */
     private void parse() throws ParsingException {
         try {
-            Logger.Log("Parsing File in progress");
+            Logger.Log("Starting to parse File");
             String newLine;
             int lineNumber = 0;
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
-                newLine = newLine.replaceAll("^ +| +$|( )+|\t", " ");
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t", " ");
                 // check if comment line , continue
                 if (newLine.charAt(0) == '.') continue;
 
@@ -90,6 +90,7 @@ public class Parser {
             Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {
             e.printStackTrace();
+            Logger.Log("Parsing Failed");
         }
     }
 

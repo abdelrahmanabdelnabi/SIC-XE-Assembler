@@ -15,6 +15,7 @@ import java.io.*;
 public class InputReader {
     private BufferedReader reader;
     private InputType inputType;
+    private String path;
 
     /**
      * Creates a buffered input reader that either reads from a file or from a string
@@ -27,6 +28,7 @@ public class InputReader {
         if (type == InputType.File) {
             try {
                 reader = new BufferedReader(new FileReader(input));
+                path = input;
                 Logger.Log("File path set successfully");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -48,6 +50,10 @@ public class InputReader {
     public void setInputString(String input) {
         if (inputType == InputType.String)
             reader = new BufferedReader(new StringReader(input));
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public enum InputType {

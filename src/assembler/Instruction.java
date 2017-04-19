@@ -14,6 +14,7 @@ public class Instruction {
     private int address;
     private String objectCode;
     private boolean hasError = false;
+    private boolean hasObject = false;
     private Format format;
 
     public Instruction(String label, String mnemonic, String operand, int lineNumber) {
@@ -82,6 +83,14 @@ public class Instruction {
 
     public void setFormat(Format format) {
         this.format = format;
+    }
+
+    public boolean getHasObject() {
+        return hasObject;
+    }
+
+    public void setHasObject(boolean hasObject) {
+        this.hasObject = hasObject;
     }
 
     public enum InstructionType {

@@ -2,7 +2,7 @@ package src.assembler.utils;
 
 import src.assembler.datastructures.Format;
 
-import static src.assembler.datastructures.OpcodeTable.getHexOpcode;
+import static src.assembler.datastructures.OpcodeTable.getOpCode;
 
 /**
  * Created by ahmed on 4/12/17.
@@ -11,7 +11,7 @@ public class Format_1 extends ObjectBuilder {
 
     @Override
     public String toString() {
-        return getHexOpcode(inst.getMnemonic());
+        return Integer.toHexString(getOpCode(inst.getMnemonic()));
     }
 
     @Override

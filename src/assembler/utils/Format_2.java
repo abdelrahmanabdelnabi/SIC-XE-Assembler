@@ -2,9 +2,10 @@ package src.assembler.utils;
 
 import src.assembler.Logger;
 import src.assembler.datastructures.Format;
-import src.assembler.datastructures.OpcodeTable;
 
 import java.util.HashMap;
+
+import static src.assembler.datastructures.OpcodeTable.getOpCode;
 
 /**
  * Created by ahmed on 4/12/17.
@@ -19,7 +20,7 @@ public class Format_2 extends ObjectBuilder {
 
     @Override
     public String toString() {
-        return OpcodeTable.getHexOpcode(inst.getMnemonic()) + parseOperand(inst.getOperand());
+        return Integer.toHexString(getOpCode(inst.getMnemonic())) + parseOperand(inst.getOperand());
     }
 
     @Override

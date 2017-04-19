@@ -12,7 +12,7 @@ import static src.parser.InputReader.InputType;
  */
 public class ParserTest {
     private String relativePath = System.getProperty("user.dir");
-    private String testFilePath = relativePath + "/src/tests/parsingTest.asm";
+    private String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
     private Parser parser;
     private InputReader reader;
 

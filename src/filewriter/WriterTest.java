@@ -1,13 +1,15 @@
-package src.assembler;
+package src.filewriter;
 
 import org.junit.Test;
+import src.assembler.Assembler;
+import src.assembler.Instruction;
 import src.parser.InputReader;
 import src.parser.Parser;
 
 /**
- * Created by ahmed on 4/12/17.
+ * Created by ahmed on 4/19/17.
  */
-public class ObjectBuilderTesting {
+public class WriterTest {
     private String relativePath = System.getProperty("user.dir");
     private String format1_FilePath = relativePath + "/src/testIn/format1.asm";
     private String format2_FilePath = relativePath + "/src/testIn/format2.asm";
@@ -16,12 +18,6 @@ public class ObjectBuilderTesting {
     private Parser parser;
     private InputReader reader;
 
-//    @Before
-//    public void setUp() {
-//        reader = new InputReader(InputReader.InputType.File, format1_FilePath);
-//        parser = new Parser(reader);
-//    }
-
     @Test
     public void testFormat_1() {
         reader = new InputReader(InputReader.InputType.File, format1_FilePath);
@@ -29,26 +25,12 @@ public class ObjectBuilderTesting {
         Run();
     }
 
-    @Test
-    public void testFormat_2() {
-        reader = new InputReader(InputReader.InputType.File, format2_FilePath);
-        parser = new Parser(reader);
-        Run();
-    }
-
-    @Test
-    public void testFormat_3() {
-        reader = new InputReader(InputReader.InputType.File, format3_FilePath);
-        parser = new Parser(reader);
-        Run();
-    }
-
-    @Test
-    public void testFormat_4() {
-        reader = new InputReader(InputReader.InputType.File, format4_FilePath);
-        parser = new Parser(reader);
-        Run();
-    }
+//    @Test
+//    public void testFormat_2() {
+//        reader = new InputReader(InputReader.InputType.File, format2_FilePath);
+//        parser = new Parser(reader);
+//        Run();
+//    }
 
     private void Run() {
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
@@ -57,5 +39,18 @@ public class ObjectBuilderTesting {
         for (Instruction inst : assembler.instructions) {
             System.out.println(inst.getObjectCode());
         }
+        Writer writer = new Writer(relativePath + "/src/testOut/");
+
+        writer.setFileName("format1.obj");
+        FormObjectString formObjectString = new FormObjectString(assembler.instructions);
+        writer.toFile(formObjectString.toString());
+
+        writer.setFileName("format1_symTab.txt");
+        FormSymbolsString formSymbolsString = new FormSymbolsString(assembler.getSymbolTable());
+        writer.toFile(formSymbolsString.toString());
+
+        writer.setFileName("format1_aboFayezTable.txt");
+        FormAboFayezString aboFayezString = new FormAboFayezString(assembler.instructions);
+        writer.toFile(aboFayezString.toString());
     }
 }

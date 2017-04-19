@@ -8,11 +8,14 @@ import java.util.*;
 public class OpcodeTable {
     private static Map<String, InstProp> opCodeTable = new HashMap<>();
     private static Set<String> assemblerDirectives = new HashSet<>();
+    private static String programName = "";
+    private static int startAddress = 0;
+    private static int programLength;
 
     // static initialization block to fill the tables before they are used anywhere in the program
     static {
         fillOpcodeTable();
-        // TODO: call a method that fills the assembler directives table
+        fillAssemblerDirectives();
     }
 
     public static Set<String> getAssemblerDirectivesSet() {
@@ -39,8 +42,8 @@ public class OpcodeTable {
         return opCodeTable.get(instruction).getOpCode();
     }
 
-    public static String getHexOpcode(String mnemonic) {
-        return Integer.toHexString(opCodeTable.get(mnemonic).getOpCode());
+    public static int getOpCode(String mnemonic) {
+        return opCodeTable.get(mnemonic).getOpCode();
     }
 
     public static Format getFormat(String instruction) {
@@ -108,5 +111,41 @@ public class OpcodeTable {
         opCodeTable.put("STX", new InstProp(16, Format.FORMAT3));
         opCodeTable.put("SUB", new InstProp(28, Format.FORMAT3));
         opCodeTable.put("SUBF", new InstProp(92, Format.FORMAT3));
+    }
+
+    private static void fillAssemblerDirectives() {
+        assemblerDirectives.add("BYTE");
+        assemblerDirectives.add("RESB");
+        assemblerDirectives.add("WORD");
+        assemblerDirectives.add("RESW");
+        assemblerDirectives.add("START");
+        assemblerDirectives.add("END");
+        assemblerDirectives.add("ORG");
+        assemblerDirectives.add("LTORG");
+        // TODO : Add them all
+    }
+
+    public static String getProgramName() {
+        return programName;
+    }
+
+    public static void setProgramName(String programName) {
+        OpcodeTable.programName = programName;
+    }
+
+    public static int getStartAddress() {
+        return startAddress;
+    }
+
+    public static void setStartAddress(int startAddress) {
+        OpcodeTable.startAddress = startAddress;
+    }
+
+    public static int getProgramLength() {
+        return programLength;
+    }
+
+    public static void setProgramLength(int programLength) {
+        OpcodeTable.programLength = programLength;
     }
 }

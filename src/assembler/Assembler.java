@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static src.assembler.datastructures.OpcodeTable.*;
+
 /**
  * Created by abdelrahman on 3/22/17.
  */
@@ -18,15 +20,12 @@ import java.util.Set;
 public class Assembler {
 
     // Instruction Builders
-    ArrayList<Instruction> instructions;
+    public ArrayList<Instruction> instructions;
 
-    // SYMTAB
-    private HashMap<String, SymbolProperties> symbolTable;
-
+    // SYM TAB
+    private HashMap<String, SymbolProperties> symbolTable = new HashMap<>();
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
-
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
-
     // literal table: hashmap<String, literalProperties>
     private LocationCounter loc = new LocationCounter();
 
@@ -35,13 +34,12 @@ public class Assembler {
     }
 
     private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("error in assembling line ").append(lineNumber)
-                .append(" in the ").append(ip.toString()).append(" part: ").append(error);
-
-        return builder.toString();
+        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
     }
 
+    public HashMap<String, SymbolProperties> getSymbolTable() {
+        return symbolTable;
+    }
 
     public void executePassOne() throws AssemblerException {
         if (instructions.isEmpty())
@@ -55,14 +53,11 @@ public class Assembler {
             // if END, stop
             if (inst.getMnemonic().equals("end"))
                 break;
-
             handleLabel(inst);
             handleMnemonic(inst);
-
-
         } // end for loop
 
-
+        setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
     }
 
     private void checkForSTART(Instruction inst) {
@@ -70,6 +65,8 @@ public class Assembler {
         if (inst.getMnemonic().equals("START")) {
             try {
                 loc.setCurrentCounterValue(Integer.parseInt(inst.getOperand(), 16));
+                setProgramName(inst.getLabel());
+                setStartAddress(loc.getCurrentCounterValue());
                 // if START found then remove it (without changing the original list)
                 instructions = new ArrayList<>(instructions.subList(1, instructions.size()));
             } catch (NumberFormatException e) {
@@ -128,6 +125,7 @@ public class Assembler {
             loc.increment(4);
             inst.setFormat(Format.FORMAT4);
             inst.setType(Instruction.InstructionType.Instruction);
+            inst.setHasObject(true);
         } else if (OPTAB.containsKey(mnemonic)) {
             inst.setType(Instruction.InstructionType.Instruction);
             switch (OPTAB.get(mnemonic).getFormat()) {
@@ -143,6 +141,7 @@ public class Assembler {
                     loc.increment(3);
                     inst.setFormat(Format.FORMAT3);
             }
+            inst.setHasObject(true);
         }
 
         // TODO : Handle directives
@@ -151,12 +150,16 @@ public class Assembler {
             inst.setType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
                 case "BYTE":
+                    loc.increment(1);
                     break;
                 case "RESB":
+                    loc.increment(Integer.parseInt(inst.getOperand()));
                     break;
                 case "WORD":
+                    loc.increment(3);
                     break;
                 case "RESW":
+                    loc.increment(Integer.parseInt(inst.getOperand()) * 3);
                     break;
             }
         } else {
@@ -177,7 +180,7 @@ public class Assembler {
         ObjectBuilder format3 = new Format_3();
         ObjectBuilder format4 = new Format_4();
         for (Instruction curInst : instructions) {
-            /**
+            /*
              * If is Instruction
              */
 //            if (curInst.getType() == Instruction.InstructionType.Instruction) {
@@ -203,11 +206,11 @@ public class Assembler {
                         break;
                 }
             }
-            /**
+            /*
              * if is assembler directive
              */
             else if (curInst.getType() == Instruction.InstructionType.Directive) {
-
+                // TODO : Handle directives
             }
         }
     }
