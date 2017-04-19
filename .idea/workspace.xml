@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="86930e51-c2c0-47f2-927d-885f82b72ba0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filewriter/FormAboFayezString.java" afterPath="$PROJECT_DIR$/src/filewriter/FormAboFayezString.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/Main.java" afterPath="$PROJECT_DIR$/src/main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testIn/format1.asm" afterPath="$PROJECT_DIR$/src/testIn/format1.asm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testOut/format1.obj" afterPath="$PROJECT_DIR$/src/testOut/format1.obj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testOut/format1_aboFayezTable.txt" afterPath="$PROJECT_DIR$/src/testOut/format1_aboFayezTable.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testOut/format1_symTab.txt" afterPath="$PROJECT_DIR$/src/testOut/format1_symTab.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testOut/format2_aboFayezTable.txt" afterPath="$PROJECT_DIR$/src/testOut/format2_aboFayezTable.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/" />
@@ -58,21 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="format2.obj" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/testOut/format2.obj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="format2_aboFayezTable.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="format2_aboFayezTable.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/testOut/format2_aboFayezTable.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -112,10 +97,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
+            <state relative-caret-position="-326">
               <caret line="18" column="98" lean-forward="false" selection-start-line="18" selection-start-column="98" selection-end-line="18" selection-end-column="98" />
               <folding />
             </state>
@@ -125,8 +110,18 @@
       <file leaf-file-name="format1.asm" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/testIn/format1.asm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="133">
+              <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="format1_log.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/testOut/format1_log.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -223,10 +218,10 @@
         <option value="$PROJECT_DIR$/src/parser/InputReader.java" />
         <option value="$PROJECT_DIR$/src/filewriter/FormSymbolsString.java" />
         <option value="$PROJECT_DIR$/src/filewriter/WriterTest.java" />
-        <option value="$PROJECT_DIR$/src/testIn/format1.asm" />
         <option value="$PROJECT_DIR$/src/testOut/format2_aboFayezTable.txt" />
         <option value="$PROJECT_DIR$/src/filewriter/FormAboFayezString.java" />
         <option value="$PROJECT_DIR$/src/testOut/format1_aboFayezTable.txt" />
+        <option value="$PROJECT_DIR$/src/testIn/format1.asm" />
         <option value="$PROJECT_DIR$/src/main/Main.java" />
       </list>
     </option>
@@ -403,6 +398,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/testOut" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -1028,7 +1024,7 @@
       <workItem from="1492622614986" duration="3171000" />
       <workItem from="1492625805343" duration="2449000" />
       <workItem from="1492628476967" duration="8000" />
-      <workItem from="1492640826687" duration="539000" />
+      <workItem from="1492640826687" duration="1644000" />
     </task>
     <task id="LOCAL-00001" summary="Parser and Logger Edited">
       <created>1491764466573</created>
@@ -1107,7 +1103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1492640943298</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="code clean up">
+      <created>1492641376461</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1492641376461</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1143,7 +1146,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53968000" />
+    <option name="totallyTimeSpent" value="55073000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1237,7 +1240,8 @@
     <MESSAGE value="utils package re-designed, general fixes" />
     <MESSAGE value="Generating files, bug fixes, code clean up" />
     <MESSAGE value="removed unnecessary files" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary files" />
+    <MESSAGE value="code clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="code clean up" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1261,7 +1265,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/String.java" />
     <entry file="file://$PROJECT_DIR$/src/testIn/format4.asm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1530,34 +1533,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/testOut/format1.obj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/testIn/format1.asm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/testOut/format1_aboFayezTable.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="18" column="98" lean-forward="false" selection-start-line="18" selection-start-column="98" selection-end-line="18" selection-end-column="98" />
           <folding />
         </state>
       </provider>
@@ -1573,7 +1552,39 @@
     <entry file="file://$PROJECT_DIR$/src/testOut/format2_aboFayezTable.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testOut/format1.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testIn/format1.asm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testOut/format1_log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-326">
+          <caret line="18" column="98" lean-forward="false" selection-start-line="18" selection-start-column="98" selection-end-line="18" selection-end-column="98" />
           <folding />
         </state>
       </provider>
