@@ -37,7 +37,7 @@ public class FormAboFayezString {
     }
 
     private String formInstructionString(Instruction inst) {
-        return String.format("%-3s | %-10s| %-30s| %-10s| %-20s| %-10s\n", Integer.toString(inst.getLineNumber()),
+        return String.format(" %-3s| %-10s| %-30s| %-10s| %-20s| %-10s\n", Integer.toString(inst.getLineNumber()),
                 stretch(Integer.toHexString(inst.getAddress()), 6),
                 inst.getLabel(),
                 inst.getMnemonic(),

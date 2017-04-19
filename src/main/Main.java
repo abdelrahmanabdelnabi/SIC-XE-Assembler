@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         // take argument from command line
 //        String path = args[0];
-        String path = "/home/ahmed/Data/Workspace/IdeaProjects/SIC-XE-Assembler/src/testIn/format1.asm";
+        String path = "/home/ahmed/Data/Workspace/IdeaProjects/SIC-XE-Assembler/src/testIn/format2.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);

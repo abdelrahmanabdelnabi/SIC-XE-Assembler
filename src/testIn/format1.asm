@@ -5,4 +5,4 @@ BLOQ         NORM
              SIO
              HIO
 SLOQ         TIO
-FIFO         BIFO
+FIFO         SIO
