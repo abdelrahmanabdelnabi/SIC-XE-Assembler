@@ -6,10 +6,7 @@ import src.assembler.datastructures.LocationCounter;
 import src.assembler.datastructures.OpcodeTable;
 import src.assembler.utils.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static src.assembler.datastructures.OpcodeTable.*;
 
@@ -19,26 +16,23 @@ import static src.assembler.datastructures.OpcodeTable.*;
 
 public class Assembler {
 
-    // Instruction Builders
-    public ArrayList<Instruction> instructions;
+    // Instructions
+    private List<Instruction> instructions;
 
-    // SYM TAB
+    // Tables
     private HashMap<String, SymbolProperties> symbolTable = new HashMap<>();
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
-    // literal table: hashmap<String, literalProperties>
+
+    // Location Counter
     private LocationCounter loc = new LocationCounter();
 
-    public Assembler(ArrayList<Instruction> instructions) {
+    public Assembler(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 
     private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
         return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
-    }
-
-    public HashMap<String, SymbolProperties> getSymbolTable() {
-        return symbolTable;
     }
 
     public void executePassOne() throws AssemblerException {
@@ -63,17 +57,19 @@ public class Assembler {
     private void checkForSTART(Instruction inst) {
         // check for START directive
         if (inst.getMnemonic().equals("START")) {
+
             try {
                 loc.setCurrentCounterValue(Integer.parseInt(inst.getOperand(), 16));
-                setProgramName(inst.getLabel());
-                setStartAddress(loc.getCurrentCounterValue());
-                // if START found then remove it (without changing the original list)
-                instructions = new ArrayList<>(instructions.subList(1, instructions.size()));
             } catch (NumberFormatException e) {
                 // build error string
                 String error = buildErrorString(inst.getLineNumber(), InstructionPart.OPERAND, ErrorStrings.INVALID_NUMBER_FORMAT);
                 throw new AssemblerException(error);
             }
+
+            // if START found then remove it (without changing the original list)
+            instructions = instructions.subList(1, instructions.size());
+            setProgramName(inst.getLabel());
+            setStartAddress(loc.getCurrentCounterValue());
         } else {
             loc.setCurrentCounterValue(0);
         }
@@ -100,12 +96,16 @@ public class Assembler {
     }
 
     private void handleMnemonic(Instruction inst) {
-        // Check for Format 4
+
         int objCodeLength = 0;
         String mnemonic = inst.getMnemonic();
+        inst.setAddress(loc.getCurrentCounterValue());
+
+        // Check for Format 4
         if (mnemonic.startsWith("+")) {
             objCodeLength = 4;
             String parsedMnemonic = mnemonic.substring(1);
+
             // Search OPTAB for OPCODE
             if (!OpcodeTable.isOpcode(parsedMnemonic)) {
                 // mnemonic not found
@@ -144,8 +144,8 @@ public class Assembler {
             inst.setHasObject(true);
         }
 
-        // TODO : Handle directives
         else if (directives.contains(mnemonic)) {
+            // TODO : Handle directives
             // handle only the Directives that affect the instruction addresses
             inst.setType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
@@ -216,7 +216,11 @@ public class Assembler {
     }
 
 
+    public HashMap<String, SymbolProperties> getSymbolTable() {
+        return symbolTable;
+    }
+
     private enum InstructionPart {
-        LABEL, MNEMONIC, OPERAND
+        LABEL, MNEMONIC, OPERAND;
     }
 }
