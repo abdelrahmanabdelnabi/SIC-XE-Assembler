@@ -15,15 +15,14 @@ import static src.assembler.datastructures.OpcodeTable.*;
  */
 
 public class Assembler {
-
     // Instructions
     private List<Instruction> instructions;
 
     // Tables
     private HashMap<String, SymbolProperties> symbolTable = new HashMap<>();
+
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
-
     // Location Counter
     private LocationCounter loc = new LocationCounter();
 
@@ -56,23 +55,33 @@ public class Assembler {
 
     private void checkForSTART(Instruction inst) {
         // check for START directive
+        int startAddress = 0;
+
         if (inst.getMnemonic().equals("START")) {
 
+
             try {
-                loc.setCurrentCounterValue(Integer.parseInt(inst.getOperand(), 16));
+                startAddress = Integer.parseInt(inst.getOperand(), 16);
+
             } catch (NumberFormatException e) {
                 // build error string
                 String error = buildErrorString(inst.getLineNumber(), InstructionPart.OPERAND, ErrorStrings.INVALID_NUMBER_FORMAT);
                 throw new AssemblerException(error);
             }
 
+            loc.setCurrentCounterValue(startAddress);
+
             // if START found then remove it (without changing the original list)
             instructions = instructions.subList(1, instructions.size());
+
+            // if program has a name, then put it in the symbol table
+            if (!inst.getLabel().isEmpty())
+                symbolTable.put(inst.getLabel(), new SymbolProperties(startAddress));
             setProgramName(inst.getLabel());
             setStartAddress(loc.getCurrentCounterValue());
-        } else {
-            loc.setCurrentCounterValue(0);
         }
+
+        loc.setCurrentCounterValue(startAddress);
     }
 
     private void handleLabel(Instruction inst) {
@@ -121,45 +130,42 @@ public class Assembler {
                 Logger.LogError(error);
                 throw new AssemblerException(error);
             }
-            // no errors, update location counter
-            loc.increment(4);
             inst.setFormat(Format.FORMAT4);
             inst.setType(Instruction.InstructionType.Instruction);
             inst.setHasObject(true);
+
         } else if (OPTAB.containsKey(mnemonic)) {
             inst.setType(Instruction.InstructionType.Instruction);
             switch (OPTAB.get(mnemonic).getFormat()) {
                 case FORMAT1:
-                    loc.increment(1);
+                    objCodeLength = 1;
                     inst.setFormat(Format.FORMAT1);
                     break;
                 case FORMAT2:
-                    loc.increment(2);
+                    objCodeLength = 2;
                     inst.setFormat(Format.FORMAT2);
                     break;
                 case FORMAT3:
-                    loc.increment(3);
+                    objCodeLength = 3;
                     inst.setFormat(Format.FORMAT3);
             }
             inst.setHasObject(true);
-        }
-
-        else if (directives.contains(mnemonic)) {
+        } else if (directives.contains(mnemonic)) {
             // TODO : Handle directives
             // handle only the Directives that affect the instruction addresses
             inst.setType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
                 case "BYTE":
-                    loc.increment(1);
+                    objCodeLength = 1;
                     break;
                 case "RESB":
-                    loc.increment(Integer.parseInt(inst.getOperand()));
+                    objCodeLength = Integer.parseInt(inst.getOperand());
                     break;
                 case "WORD":
-                    loc.increment(3);
+                    objCodeLength = 3;
                     break;
                 case "RESW":
-                    loc.increment(Integer.parseInt(inst.getOperand()) * 3);
+                    objCodeLength = Integer.parseInt(inst.getOperand()) * 3;
                     break;
             }
         } else {
@@ -215,9 +221,12 @@ public class Assembler {
         }
     }
 
-
     public HashMap<String, SymbolProperties> getSymbolTable() {
         return symbolTable;
+    }
+
+    public List<Instruction> getInstructions() {
+        return instructions;
     }
 
     private enum InstructionPart {
