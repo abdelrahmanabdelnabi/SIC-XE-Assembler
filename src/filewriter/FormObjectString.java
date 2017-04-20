@@ -3,6 +3,7 @@ package src.filewriter;
 import src.assembler.Instruction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static src.assembler.datastructures.OpcodeTable.*;
 
@@ -10,10 +11,10 @@ import static src.assembler.datastructures.OpcodeTable.*;
  * Created by ahmed on 4/19/17.
  */
 public class FormObjectString {
-    private ArrayList<Instruction> instructions;
+    private List<Instruction> instructions;
     private StringBuilder objectCode;
 
-    public FormObjectString(ArrayList<Instruction> instructions) {
+    public FormObjectString(List<Instruction> instructions) {
         this.instructions = instructions;
         objectCode = new StringBuilder();
         formHTE();

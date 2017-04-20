@@ -3,15 +3,16 @@ package src.filewriter;
 import src.assembler.Instruction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ahmed on 4/19/17.
  */
 public class FormAboFayezString {
-    private ArrayList<Instruction> instructions;
+    private List<Instruction> instructions;
     private StringBuilder data;
 
-    public FormAboFayezString(ArrayList<Instruction> instructions) {
+    public FormAboFayezString(List<Instruction> instructions) {
         this.instructions = instructions;
         data = new StringBuilder();
         formString();

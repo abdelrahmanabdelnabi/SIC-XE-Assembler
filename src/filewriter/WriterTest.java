@@ -36,13 +36,13 @@ public class WriterTest {
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
         assembler.executePassOne();
         assembler.executePassTwo();
-        for (Instruction inst : assembler.instructions) {
+        for (Instruction inst : assembler.getInstructions()) {
             System.out.println(inst.getObjectCode());
         }
         Writer writer = new Writer(relativePath + "/src/testOut/");
 
         writer.setFileName("format1.obj");
-        FormObjectString formObjectString = new FormObjectString(assembler.instructions);
+        FormObjectString formObjectString = new FormObjectString(assembler.getInstructions());
         writer.toFile(formObjectString.toString());
 
         writer.setFileName("format1_symTab.txt");
@@ -50,7 +50,7 @@ public class WriterTest {
         writer.toFile(formSymbolsString.toString());
 
         writer.setFileName("format1_aboFayezTable.txt");
-        FormAboFayezString aboFayezString = new FormAboFayezString(assembler.instructions);
+        FormAboFayezString aboFayezString = new FormAboFayezString(assembler.getInstructions());
         writer.toFile(aboFayezString.toString());
     }
 }

@@ -38,10 +38,10 @@ public class Main {
             writer.toFile(new FormSymbolsString(assembler.getSymbolTable()).toString());
             // object
             writer.setFileName(objectFile);
-            writer.toFile(new FormObjectString(assembler.instructions).toString());
+            writer.toFile(new FormObjectString(assembler.getInstructions()).toString());
             // abo fayez table
             writer.setFileName(aboFayezTab);
-            writer.toFile(new FormAboFayezString(assembler.instructions).toString());
+            writer.toFile(new FormAboFayezString(assembler.getInstructions()).toString());
             // Log file
             writer.setFileName(errorFile);
             writer.toFile(Logger.getLogString());
