@@ -39,7 +39,7 @@ public class Parser {
      *
      * @throws ParsingException
      */
-    private void parse() throws ParsingException {
+    public void parse() throws ParsingException {
         try {
             Logger.Log("Starting to parse File");
             String newLine;
@@ -107,7 +107,6 @@ public class Parser {
      * returns the ArrayList of Instructions created by parse()
      */
     public ArrayList<Instruction> getParsedInstuctions() {
-        parse();
         return parsedInstructions;
     }
 
