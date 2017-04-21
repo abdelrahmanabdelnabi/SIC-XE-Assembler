@@ -23,7 +23,6 @@ public class Main {
             Assembler assembler = new Assembler(parser.getParsedInstuctions());
 
             assembler.assembleCode();
-            assembler.assembleCode();
 
             path = path.replace("testIn", "testOut");
             // check for errors
