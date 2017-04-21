@@ -5,19 +5,23 @@ import src.assembler.datastructures.Format;
 /**
  * Created by ahmed on 4/12/17.
  */
-public class Format_3 extends ObjectBuilder {
-    // TODO: implement ME
-    protected int operand;
-    private int secondOperand;
+public class Format_3 extends Format_2 {
+
     private boolean isIndirect;
     private boolean isImmediate;
     private boolean isIndexed;
     private boolean isBaseRelative;
     private boolean isPCRelative;
 
+    private StringBuilder builder;
+
     @Override
     public String toString() {
-        return null;
+        // TODO: implement this method
+        String objectCode = builder.toString();
+
+        builder.setLength(0);
+        return objectCode;
     }
 
     @Override
@@ -62,6 +66,7 @@ public class Format_3 extends ObjectBuilder {
 
     @Override
     public Format getFormat() {
-        return null;
+        return Format.FORMAT3;
+
     }
 }

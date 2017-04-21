@@ -50,13 +50,11 @@ public class Format_2 extends ObjectBuilder {
     @Override
     public void setOperand(int operand) {
         this.operand = operand;
-//        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     public void setSecondOperand(int secondOperand) {
         this.secondOperand = secondOperand;
-//        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
