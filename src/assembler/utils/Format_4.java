@@ -14,42 +14,42 @@ public class Format_4 extends Format_3 {
     }
 
     @Override
-    void setIndirect(boolean isIndirect) {
+    public void setIndirect(boolean isIndirect) {
 
     }
 
     @Override
-    void setImmediate(boolean isImmediate) {
+    public void setImmediate(boolean isImmediate) {
 
     }
 
     @Override
-    void setIndexed(boolean isIndirect) {
+    public void setIndexed(boolean isIndirect) {
 
     }
 
     @Override
-    void setBaseRelative(boolean isBaseRelative) {
+    public void setBaseRelative(boolean isBaseRelative) {
         super.setBaseRelative(false);
     }
 
     @Override
-    void setPCRelative(boolean isPCRelative) {
+    public void setPCRelative(boolean isPCRelative) {
         super.setPCRelative(false);
     }
 
     @Override
-    void setOperand(int operand) {
+    public void setOperand(int operand) {
 
     }
 
     @Override
-    void setSecondOperand(int secondOperand) {
+    public void setSecondOperand(int secondOperand) {
 
     }
 
     @Override
-    Format getFormat() {
+    public Format getFormat() {
         return null;
     }
 }

@@ -1,12 +1,6 @@
 package src.assembler.utils;
 
-import src.assembler.Logger;
 import src.assembler.datastructures.Format;
-import src.assembler.datastructures.RegisterTable;
-
-import java.util.HashMap;
-
-import static src.assembler.datastructures.OpcodeTable.getOpCode;
 
 /**
  * Created by ahmed on 4/12/17.
@@ -29,42 +23,42 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    void setIndirect(boolean isIndirect) {
+    public void setIndirect(boolean isIndirect) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setImmediate(boolean isImmediate) {
+    public void setImmediate(boolean isImmediate) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setIndexed(boolean isIndexed) {
+    public void setIndexed(boolean isIndexed) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setBaseRelative(boolean isBaseRelative) {
+    public void setBaseRelative(boolean isBaseRelative) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setPCRelative(boolean isPCRelative) {
+    public void setPCRelative(boolean isPCRelative) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setOperand(int operand) {
+    public void setOperand(int operand) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    void setSecondOperand(int secondOperand) {
+    public void setSecondOperand(int secondOperand) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    Format getFormat() {
+    public Format getFormat() {
         return Format.FORMAT2;
     }
 

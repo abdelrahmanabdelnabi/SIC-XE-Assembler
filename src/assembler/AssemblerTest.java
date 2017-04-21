@@ -27,7 +27,9 @@ public class AssemblerTest {
 
         Assembler assembler = new Assembler(tests);
 
-        assembler.assembleCode();
+        assembler.executePassOne();
+        assembler.executePassTwo();
+
         List<Instruction> actualOutput = assembler.getInstructions();
 
         List<Instruction> correctOutput = new ArrayList<>(tests);
@@ -41,25 +43,25 @@ public class AssemblerTest {
 
         assertEquals("Incorrect number of output instructions", correctOutput.size(),
                 actualOutput.size
-                ());
+                        ());
 
-        for(int i = 0; i < correctOutput.size(); i++) {
+        for (int i = 0; i < correctOutput.size(); i++) {
             assertEquals(correctOutput.get(i).getAddress(), actualOutput.get(i).getAddress());
         }
 
         for (String s : assembler.getSymbolTable().keySet())
-                System.out.println(s);
+            System.out.println(s);
 
         assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, assembler
                 .getSymbolTable().size());
 
-        assertEquals( assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
+        assertEquals(assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
                 (0).getAddress());
         assertEquals(assembler.getSymbolTable().get("FIRST").getAddress(), new SymbolProperties
                 (0).getAddress());
-        assertEquals( assembler.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
+        assertEquals(assembler.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
                 (3).getAddress());
-        assertEquals( assembler.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
+        assertEquals(assembler.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
                 (10).getAddress());
 
     }
