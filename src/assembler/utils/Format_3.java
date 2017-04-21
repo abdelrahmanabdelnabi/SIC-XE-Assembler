@@ -7,11 +7,11 @@ import src.assembler.datastructures.Format;
  */
 public class Format_3 extends Format_2 {
 
-    private boolean isIndirect = false;
-    private boolean isImmediate = false;
-    private boolean isIndexed = false;
-    private boolean isBaseRelative = false;
-    private boolean isPCRelative = false;
+    String isIndirect = "0";
+    String isImmediate = "0";
+    String isIndexed = "0";
+    String isBaseRelative = "0";
+    String isPCRelative = "0";
 
     private StringBuilder builder;
 
@@ -25,32 +25,31 @@ public class Format_3 extends Format_2 {
     }
 
     @Override
-    public void setIndirect(boolean isIndirect) {
-        this.isIndirect = isIndirect;
+    public void setIndirect() {
+        this.isIndirect = "1";
 
     }
 
     @Override
-    public void setImmediate(boolean isImmediate) {
-        this.isImmediate = isImmediate;
+    public void setImmediate() {
+        this.isImmediate = "1";
 
     }
 
     @Override
     public void setIndexed() {
-        this.isIndexed = isIndexed;
-
+        this.isIndexed = "1";
     }
 
     @Override
     public void setBaseRelative() {
-        this.isBaseRelative = isBaseRelative;
+        this.isBaseRelative = "1";
 
     }
 
     @Override
     public void setPCRelative() {
-        this.isPCRelative = isPCRelative;
+        this.isPCRelative = "1";
 
     }
 

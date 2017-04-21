@@ -25,9 +25,9 @@ public abstract class ObjectBuilder {
         this.opCode = opCode;
     }
 
-    public abstract void setIndirect(boolean isIndirect);
+    public abstract void setIndirect();
 
-    public abstract void setImmediate(boolean isImmediate);
+    public abstract void setImmediate();
 
     public abstract void setIndexed();
 

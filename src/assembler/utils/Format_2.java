@@ -26,12 +26,12 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    public void setIndirect(boolean isIndirect) {
+    public void setIndirect() {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setImmediate(boolean isImmediate) {
+    public void setImmediate() {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 

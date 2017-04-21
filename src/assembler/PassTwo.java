@@ -152,8 +152,8 @@ public class PassTwo {
 
     private void checkIndirectImmediate(Instruction inst, ObjectBuilder objectBuilder) {
         String operand = inst.getOperand();
-        if (operand.startsWith("@")) objectBuilder.setIndirect(true);
-        else if (operand.startsWith("#")) objectBuilder.setImmediate(true);
+        if (operand.startsWith("@")) objectBuilder.setIndirect();
+        else if (operand.startsWith("#")) objectBuilder.setImmediate();
     }
 
     private int getOperandTargetAddress(Instruction instruction) {
