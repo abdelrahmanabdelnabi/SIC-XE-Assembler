@@ -2,7 +2,6 @@ package src.filewriter;
 
 import src.assembler.Instruction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static src.assembler.datastructures.OpcodeTable.*;

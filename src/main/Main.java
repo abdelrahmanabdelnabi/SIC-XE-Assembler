@@ -1,6 +1,5 @@
 package src.main;
 
-import jdk.nashorn.internal.runtime.ParserException;
 import src.assembler.Assembler;
 import src.assembler.AssemblerException;
 import src.assembler.Logger;
