@@ -24,43 +24,43 @@ public class Format_2 extends ObjectBuilder {
         builder.append(String.format("%01X", secondOperand));
 
         // TODO: reset values to default
-        
+
         return builder.toString();
     }
 
     @Override
     void setIndirect(boolean isIndirect) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setImmediate(boolean isImmediate) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setIndexed(boolean isIndexed) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setBaseRelative(boolean isBaseRelative) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setPCRelative(boolean isPCRelative) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setOperand(int operand) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
     void setSecondOperand(int secondOperand) {
-        throw new UnsupportedOperationException("Format 2 don't have flags");
+        throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
