@@ -181,10 +181,9 @@ public class Assembler {
 
     public void executePassTwo() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
-        ObjectBuilder format1 = new Format_1();
         ObjectBuilder format2 = new Format_2();
-        ObjectBuilder format3 = new Format_3();
-        ObjectBuilder format4 = new Format_4();
+        ObjectBuilder format3_4 = new Format3_4();
+
         for (Instruction curInst : instructions) {
             /*
              * If is Instruction
@@ -194,20 +193,21 @@ public class Assembler {
             if (curInst.getType() == Instruction.InstructionType.Instruction) {
                 switch (format) {
                     case FORMAT1:
-                        format1.setInstruction(curInst);
-                        curInst.setObjectCode(format1.toString());
+                        // TODO: Build the object code using the builder
+                        int opCode = getOpCode(curInst.getMnemonic());
+                        curInst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
                         break;
                     case FORMAT2:
-                        format2.setInstruction(curInst);
+                        // TODO: build the object code using the builder
                         curInst.setObjectCode(format2.toString());
                         break;
                     case FORMAT3:
-                        format3.setInstruction(curInst);
-                        curInst.setObjectCode(format3.toString());
+                        // TODO: Build the object code using the builder
+                        curInst.setObjectCode(format3_4.toString());
                         break;
                     case FORMAT4:
-                        format4.setInstruction(curInst);
-                        curInst.setObjectCode(format4.toString());
+                        // TODO: Build the object code using the builder
+                        curInst.setObjectCode(format3_4.toString());
                     default:
                         break;
                 }

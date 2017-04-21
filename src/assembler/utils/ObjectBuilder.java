@@ -6,12 +6,9 @@ import src.assembler.datastructures.Format;
 /**
  * Created by ahmed on 4/12/17.
  */
-public abstract class ObjectBuilder {// the op code of the instruction in decimal
-    Instruction inst = null;
-
-    public void setInstruction(Instruction inst) {
-        this.inst = inst;
-    }
+public abstract class ObjectBuilder {
+    // the op code of the instruction in decimal
+    protected int opCode;
 
     /**
      * Returns a Hexadecimal string representation of the instruction built
@@ -33,5 +30,11 @@ public abstract class ObjectBuilder {// the op code of the instruction in decima
 
     abstract void setOperand(int operand);
 
+    abstract void setSecondOperand(int secondOperand);
+
     abstract Format getFormat();
+
+    public static final String buildFormatOne(int opCode) {
+        return new String(Integer.toHexString(opCode));
+    }
 }

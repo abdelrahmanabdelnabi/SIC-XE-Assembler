@@ -2,6 +2,7 @@ package src.assembler.utils;
 
 import src.assembler.Logger;
 import src.assembler.datastructures.Format;
+import src.assembler.datastructures.RegisterTable;
 
 import java.util.HashMap;
 
@@ -11,16 +12,15 @@ import static src.assembler.datastructures.OpcodeTable.getOpCode;
  * Created by ahmed on 4/12/17.
  */
 public class Format_2 extends ObjectBuilder {
-    private HashMap<String, String> Registers;
+    protected int firstOperand;
+    protected int secondOperand;
 
     public Format_2() {
-        Registers = new HashMap<>();
-        buildRegisters();
     }
 
     @Override
     public String toString() {
-        return Integer.toHexString(getOpCode(inst.getMnemonic())) + parseOperand(inst.getOperand());
+        return null;
     }
 
     @Override
@@ -54,28 +54,13 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
+    void setSecondOperand(int secondOperand) {
+
+    }
+
+    @Override
     Format getFormat() {
         return null;
     }
 
-    private String parseOperand(String operand) {
-        String[] registers = operand.split(",");
-        if (registers.length != 2 || Registers.get(registers[0]) == null || Registers.get(registers[1]) == null) {
-            // TODO Throw Exception
-            Logger.Log("Error, Can't detect registers ");
-        }
-        return Registers.get(registers[0]) + Registers.get(registers[1]);
-    }
-
-    private void buildRegisters() {
-        Registers.put("A", "0");
-        Registers.put("X", "1");
-        Registers.put("L", "2");
-        Registers.put("B", "3");
-        Registers.put("S", "4");
-        Registers.put("T", "5");
-        Registers.put("F", "6");
-        Registers.put("PC", "8");
-        Registers.put("SW", "9");
-    }
 }
