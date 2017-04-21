@@ -8,12 +8,12 @@ import static src.assembler.utils.Common.extendToLength;
  * Created by ahmed on 4/12/17.
  */
 public class Format_3 extends Format_2 {
-
-    private boolean isIndirect;
-    private boolean isImmediate;
-    private boolean isIndexed;
-    private boolean isBaseRelative;
-    private boolean isPCRelative;
+    // DONOT MAKE THME PRIVATE FFS !
+    boolean isIndirect;
+    boolean isImmediate;
+    boolean isIndexed;
+    boolean isBaseRelative;
+    boolean isPCRelative;
 
 //    private StringBuilder builder;
 
