@@ -27,7 +27,8 @@ public class AssemblerTest {
 
         Assembler assembler = new Assembler(tests);
 
-        assembler.assembleCode();
+        assembler.executePassOne();
+
         List<Instruction> actualOutput = assembler.getInstructions();
 
         List<Instruction> correctOutput = new ArrayList<>(tests);
