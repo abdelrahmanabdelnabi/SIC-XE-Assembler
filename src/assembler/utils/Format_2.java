@@ -26,27 +26,27 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    public void setIndirect() {
+    public void setIndirect(boolean isIndirect) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setImmediate() {
+    public void setImmediate(boolean isImmediate) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setIndexed() {
+    public void setIndexed(boolean isIndexed) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setBaseRelative() {
+    public void setBaseRelative(boolean isBaseRelative) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setPCRelative() {
+    public void setPCRelative(boolean isPCRelative) {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 

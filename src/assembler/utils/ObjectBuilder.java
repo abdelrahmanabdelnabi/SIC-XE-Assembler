@@ -25,15 +25,15 @@ public abstract class ObjectBuilder {
         this.opCode = opCode;
     }
 
-    public abstract void setIndirect();
+    public abstract void setIndirect(boolean isIndirect);
 
-    public abstract void setImmediate();
+    public abstract void setImmediate(boolean isImmediate);
 
-    public abstract void setIndexed();
+    public abstract void setIndexed(boolean isIndexed);
 
-    public abstract void setBaseRelative();
+    public abstract void setBaseRelative(boolean isBaseRelative);
 
-    public abstract void setPCRelative();
+    public abstract void setPCRelative(boolean isPCRelative);
 
     public abstract void setOperand(int operand);
 
