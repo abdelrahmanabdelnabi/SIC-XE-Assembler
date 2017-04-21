@@ -13,6 +13,7 @@ public class ParsingException extends RuntimeException {
 
     public ParsingException(String message, int lineNumber) {
         super(message);
+        this.lineNumber = lineNumber;
     }
 
     public int getLineNumber() {
