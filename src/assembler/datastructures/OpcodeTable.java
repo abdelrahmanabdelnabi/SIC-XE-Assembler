@@ -40,10 +40,6 @@ public class OpcodeTable {
         return opCodeTable.containsKey(opcode);
     }
 
-    public static int getOpcode(String instruction) {
-        return opCodeTable.get(instruction).getOpCode();
-    }
-
     public static int getOpCode(String mnemonic) {
         return opCodeTable.get(mnemonic).getOpCode();
     }
@@ -160,5 +156,13 @@ public class OpcodeTable {
 
     public static void setProgramLength(int programLength) {
         OpcodeTable.programLength = programLength;
+    }
+
+    public static OperandType getFirstOperandType(String mnemonic) {
+        return opCodeTable.get(mnemonic).getFirstOperand();
+    }
+
+    public static OperandType getSecondOperandType(String mnemonic) {
+        return opCodeTable.get(mnemonic).getSecondOperand();
     }
 }

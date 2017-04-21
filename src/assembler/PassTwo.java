@@ -2,7 +2,6 @@ package src.assembler;
 
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
-import src.assembler.datastructures.OpcodeTable;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
@@ -13,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static src.assembler.datastructures.OpcodeTable.getOpCode;
+import static src.assembler.datastructures.OpcodeTable.*;
+import static src.assembler.datastructures.OperandType.REGISTER;
+import static src.assembler.datastructures.OperandType.VALUE;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -21,8 +22,8 @@ import static src.assembler.datastructures.OpcodeTable.getOpCode;
 public class PassTwo {
     private final HashMap<String, SymbolProperties> symbolTable;
     private List<Instruction> instructions;
-    private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
-    private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
+    private Set<String> directives = getAssemblerDirectivesSet();
+    private Map<String, InstProp> OPTAB = getOpcodeTable();
 
     PassTwo(List<Instruction> instructions, HashMap<String, SymbolProperties> symbolTable) {
         this.instructions = instructions;
@@ -69,6 +70,32 @@ public class PassTwo {
                 // TODO : Handle directives
             }
         }
+    }
+
+    private void handleFormat2(Instruction inst, Format_2 format_2) {
+        String mnemonic = inst.getMnemonic();
+        if (getFirstOperandType(mnemonic) == REGISTER) {
+
+        } else if (getFirstOperandType(mnemonic) == VALUE) {
+
+        }
+
+        if (getSecondOperandType(mnemonic) == REGISTER) {
+
+        } else if (getSecondOperandType(mnemonic) == VALUE) {
+
+        } else {
+
+        }
+
+    }
+
+    private void handleFormat3() {
+
+    }
+
+    private void handleFormat4() {
+
     }
 
     public List<Instruction> getOutputInstructions() {

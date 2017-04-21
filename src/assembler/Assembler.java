@@ -13,9 +13,16 @@ public class Assembler {
     private PassOne passOne;
     private PassTwo passTwo;
 
-
     public Assembler(List<Instruction> inputInstructions) {
         this.inputInstructions = inputInstructions;
+    }
+
+    public static String extendToLength(String str, int len) {
+        StringBuilder zeroes = new StringBuilder();
+
+        for (int i = 0; i < len; i++) zeroes.append("0");
+
+        return (zeroes.toString() + str).substring(str.length());
     }
 
     public void executePassOne() throws AssemblerException {
@@ -28,7 +35,7 @@ public class Assembler {
         passTwo.execute();
     }
 
-    public HashMap<String,SymbolProperties> getSymbolTable() {
+    public HashMap<String, SymbolProperties> getSymbolTable() {
         return passOne.getSymbolTable();
     }
 
