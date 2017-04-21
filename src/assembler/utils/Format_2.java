@@ -12,14 +12,13 @@ public class Format_2 extends ObjectBuilder {
     @Override
     public String toString() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(String.format("%02X", opCode));
-        builder.append(String.format("%01X", operand));
-        builder.append(String.format("%01X", secondOperand));
+        String builder = String.format("%02X", opCode) +
+                String.format("%01X", operand) +
+                String.format("%01X", secondOperand);
 
         // TODO: reset values to default
 
-        return builder.toString();
+        return builder;
     }
 
     @Override
