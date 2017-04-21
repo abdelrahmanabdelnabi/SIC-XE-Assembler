@@ -8,24 +8,27 @@ import static src.assembler.utils.Common.extendToLength;
  * Created by ahmed on 4/21/17.
  */
 public class Format_4 extends Format_3 {
-    private StringBuilder builder = new StringBuilder();
 
     @Override
     public String toString() {
+        String objectString = "";
         // Add only first 6 bits of the opCode 'as binary'
-        builder.append(Integer.toBinaryString(opCode).substring(0, 6));
+        String BinaryString = Integer.toBinaryString(opCode);
+        String extended = extendToLength(BinaryString, 8);
+        String trimmed = extended.substring(0, 6);
+        objectString += (trimmed);
         // N I X B P E
-        builder.append(isIndirect);
-        builder.append(isImmediate);
-        builder.append(isIndexed);
-        builder.append(isBaseRelative);
-        builder.append(isPCRelative);
-        builder.append("1");
+        objectString += (isIndirect);
+        objectString += (isImmediate);
+        objectString += (isIndexed);
+        objectString += (isBaseRelative);
+        objectString += (isPCRelative);
+        objectString += ("1");
+        //
+        objectString = extendToLength(Integer.toHexString(Integer.parseInt(objectString, 2)), 3);
+        objectString += (extendToLength(Integer.toHexString(operand), 5));
 
-        int value = Integer.parseInt(builder.toString(), 2);
-        builder = new StringBuilder(Integer.toHexString(value));
-        builder.append(extendToLength(Integer.toHexString(operand), 5));
-        return builder.toString().toUpperCase();
+        return objectString.toUpperCase();
     }
 
     @Override
