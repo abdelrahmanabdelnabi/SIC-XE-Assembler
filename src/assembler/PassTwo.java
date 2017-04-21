@@ -137,12 +137,12 @@ public class PassTwo {
 
                 if (isFitPCRelative(labelAddress - PC)) {
                     displacement = labelAddress - PC;
-                    format3.setPCRelative();
+                    format3.setPCRelative(true);
 
                 } else if (isFitBaseRelative(labelAddress - baseAddress)) {
                     displacement = labelAddress - baseAddress;
 
-                    format3.setBaseRelative();
+                    format3.setBaseRelative(true);
                     format3.setOperand(displacement);
 
                 } else {
@@ -156,10 +156,10 @@ public class PassTwo {
                 }
             }
 
-            format3.setIndirect();
+            format3.setIndirect(false);
 
             if(direct)
-                format3.setImmediate();
+                format3.setImmediate(true);
 
             format3.setOpCode(opCode);
 
@@ -181,13 +181,13 @@ public class PassTwo {
     }
 
     private void checkIndexed(Instruction inst, ObjectBuilder objectBuilder) {
-        if (inst.getOperand().contains(",X")) objectBuilder.setIndexed();
+        if (inst.getOperand().contains(",X")) objectBuilder.setIndexed(true);
     }
 
     private void checkIndirectImmediate(Instruction inst, ObjectBuilder objectBuilder) {
         String operand = inst.getOperand();
-        if (operand.startsWith("@")) objectBuilder.setIndirect();
-        else if (operand.startsWith("#")) objectBuilder.setImmediate();
+        if (operand.startsWith("@")) objectBuilder.setIndirect(true);
+        else if (operand.startsWith("#")) objectBuilder.setImmediate(true);
     }
 
     private int getOperandTargetAddress(Instruction instruction) {
@@ -207,8 +207,8 @@ public class PassTwo {
         return TA;
     }
 
-    private boolean isFitPCRelative(int displacment) {
-        return displacment >= -2048 && displacment <= 2047;
+    private boolean isFitPCRelative(int displacement) {
+        return displacement >= -2048 && displacement <= 2047;
     }
 
     private boolean isFitBaseRelative(int displacement) {
