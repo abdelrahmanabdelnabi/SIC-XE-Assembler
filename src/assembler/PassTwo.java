@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static src.assembler.Instruction.InstructionType.Directive;
+import static src.assembler.Instruction.InstructionType.Instruction;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
@@ -42,37 +44,38 @@ public class PassTwo {
             /*
              * If is Instruction
              */
-            if (inst.getType() == Instruction.InstructionType.Instruction) {
-                Format format = OPTAB.get(inst.getMnemonic()).getFormat();
-                switch (format) {
-                    case FORMAT1:
-                        int opCode = getOpCode(inst.getMnemonic());
-                        inst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
-                        break;
-                    case FORMAT2:
-                        handleFormat2(inst, format2);
-                        inst.setObjectCode(format2.toString());
-                        break;
-                    case FORMAT3:
-                        // TODO: Build the object code using the builder
-                        checkIndexed(inst, format3);
-                        checkIndirectImmediate(inst, format3);
-                        inst.setObjectCode(format3.toString());
-                        break;
-                    case FORMAT4:
-                        // TODO: Build the object code using the builder
-                        checkIndexed(inst, format4);
-                        checkIndirectImmediate(inst, format4);
-                        handleFormat4(inst, format4);
-                        inst.setObjectCode(format3.toString());
-                    default:
-                        break;
+            if (inst.getType() == Instruction) {
+                String mnemonic = inst.getMnemonic();
+                // FORMAT 4
+                if (mnemonic.startsWith("+")) {
+                    checkIndexed(inst, format4);
+                    checkIndirectImmediate(inst, format4);
+                    handleFormat4(inst, format4);
+                    inst.setObjectCode(format4.toString());
+                } else {
+                    Format format = OPTAB.get(inst.getMnemonic()).getFormat();
+                    switch (format) {
+                        case FORMAT1:
+                            int opCode = getOpCode(inst.getMnemonic());
+                            inst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
+                            break;
+                        case FORMAT2:
+                            handleFormat2(inst, format2);
+                            inst.setObjectCode(format2.toString());
+                            break;
+                        case FORMAT3:
+                            // TODO: Build the object code using the builder
+                            checkIndexed(inst, format3);
+                            checkIndirectImmediate(inst, format3);
+                            inst.setObjectCode(format3.toString());
+                            break;
+                    }
                 }
             }
             /*
              * if is assembler directive
              */
-            else if (inst.getType() == Instruction.InstructionType.Directive) {
+            else if (inst.getType() == Directive) {
                 // TODO : Handle directives
             }
         }
@@ -141,7 +144,7 @@ public class PassTwo {
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
-        format4.setOpCode(getOpCode(inst.getMnemonic()));
+        format4.setOpCode(getOpCode(inst.getMnemonic().substring(1)));
         int TA = getOperandTargetAddress(inst);
         format4.setOperand(TA);
     }
