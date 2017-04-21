@@ -26,16 +26,12 @@ public class Main {
         Parser parser = new Parser(reader);
 
         try {
-
             parser.parse();
-
         } catch (ParsingException pe) {
             // TODO: output errors to stdout as well as log file
             System.out.println(pe.getMessage());
         }
-
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
-
         try {
 
 

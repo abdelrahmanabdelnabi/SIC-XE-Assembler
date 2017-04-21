@@ -41,7 +41,7 @@ public class Parser {
      */
     public void parse() throws ParsingException {
         try {
-            Logger.Log("Starting to parse File");
+            Logger.Log("Start File Parsing");
             String newLine;
             int lineNumber = 0;
             while ((newLine = reader.getLine()) != null) {
@@ -83,9 +83,9 @@ public class Parser {
                  * Error !
                  */
                 else {
+                    Logger.Log("Line " + lineNumber + " is Not a valid SIC-XE instruction !");
                     throw new ParsingException("Unrecognized line format", lineNumber);
                 }
-
             }
             Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {
@@ -107,7 +107,6 @@ public class Parser {
      * returns the ArrayList of Instructions created by parse()
      */
     public ArrayList<Instruction> getParsedInstuctions() {
-        parse();
         return parsedInstructions;
     }
 

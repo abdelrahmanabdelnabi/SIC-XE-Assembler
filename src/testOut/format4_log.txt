@@ -1,6 +1,6 @@
-2017/04/21_18/58        File path set successfully
-2017/04/21_18/58        Starting to parse File
-2017/04/21_18/58        Parsing Completed Successfully
-2017/04/21_18/58        Starting to parse File
-2017/04/21_18/58        Parsing Completed Successfully
-2017/04/21_18/58        0 Errors Found, TERMINATED
+2017/04/21_20/22        File path set successfully
+2017/04/21_20/22        Start File Parsing
+2017/04/21_20/22        Parsing Completed Successfully
+2017/04/21_20/22        Start Pass One
+2017/04/21_20/22        End Pass One
+2017/04/21_20/22        0 Errors Found, TERMINATED

@@ -28,7 +28,12 @@ public class PassOne {
         symbolTable = new HashMap<>();
     }
 
+    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
+    }
+
     public void execute() {
+        Logger.Log("Start Pass One");
         checkForSTART(instructions.get(0));
 
         for (Instruction inst : instructions) {
@@ -42,6 +47,7 @@ public class PassOne {
         } // end for loop
 
         setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
+        Logger.Log("End Pass One");
     }
 
     private void checkForSTART(Instruction inst) {
@@ -53,10 +59,10 @@ public class PassOne {
 
             try {
                 startAddress = Integer.parseInt(inst.getOperand(), 16);
-
             } catch (NumberFormatException e) {
                 // build error string
                 String error = buildErrorString(inst.getLineNumber(), OPERAND, ErrorStrings.INVALID_NUMBER_FORMAT);
+                Logger.Log(error);
                 throw new AssemblerException(error);
             }
 
@@ -71,7 +77,6 @@ public class PassOne {
             setProgramName(inst.getLabel());
             setStartAddress(loc.getCurrentCounterValue());
         }
-
         loc.setCurrentCounterValue(startAddress);
     }
 
@@ -176,9 +181,5 @@ public class PassOne {
 
     public HashMap<String, SymbolProperties> getSymbolTable() {
         return symbolTable;
-    }
-
-    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
     }
 }
