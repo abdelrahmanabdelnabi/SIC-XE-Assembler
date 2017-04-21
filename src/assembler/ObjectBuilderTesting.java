@@ -52,8 +52,8 @@ public class ObjectBuilderTesting {
 
     private void Run() {
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
-        assembler.assembleCode();
-        assembler.assembleCode();
+        assembler.executePassOne();
+        assembler.executePassTwo();
         for (Instruction inst : assembler.getInstructions()) {
             System.out.println(inst.getObjectCode());
         }

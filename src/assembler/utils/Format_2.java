@@ -1,12 +1,6 @@
 package src.assembler.utils;
 
-import src.assembler.Logger;
 import src.assembler.datastructures.Format;
-import src.assembler.datastructures.RegisterTable;
-
-import java.util.HashMap;
-
-import static src.assembler.datastructures.OpcodeTable.getOpCode;
 
 /**
  * Created by ahmed on 4/12/17.
@@ -55,7 +49,7 @@ public class Format_2 extends ObjectBuilder {
 
     @Override
     public void setOperand(int operand) {
-        throw new UnsupportedOperationException("Format 2 doesn't have flags");
+        this.operand = operand;
     }
 
     @Override

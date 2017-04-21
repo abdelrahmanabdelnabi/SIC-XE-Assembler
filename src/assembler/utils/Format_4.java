@@ -11,16 +11,12 @@ public class Format_4 extends Format_3 {
     @Override
     public String toString() {
         // TODO: implement this method
-
-        String objectCode = builder.toString();
-
-        // clear the contents of the string builder
-        builder.setLength(0);
-        return objectCode;
+        return null;
     }
 
     @Override
     public Format getFormat() {
         return Format.FORMAT4;
     }
+
 }

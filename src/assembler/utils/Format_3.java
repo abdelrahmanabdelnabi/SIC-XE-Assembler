@@ -67,5 +67,6 @@ public class Format_3 extends Format_2 {
     @Override
     public Format getFormat() {
         return Format.FORMAT3;
+
     }
 }

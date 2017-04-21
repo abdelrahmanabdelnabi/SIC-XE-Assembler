@@ -3,8 +3,10 @@ package src.assembler;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.OpcodeTable;
+import src.assembler.datastructures.RegisterTable;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
+import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
 
 import java.util.HashMap;
@@ -31,15 +33,15 @@ public class PassTwo {
     public void execute() {
         // TODO: format 3, 4 & assembler directives
         ObjectBuilder format2 = new Format_2();
-        ObjectBuilder format3_4 = new Format_3();
+        ObjectBuilder format_3 = new Format_3();
+        ObjectBuilder format_4 = new Format_4();
 
         for (Instruction curInst : instructions) {
             /*
              * If is Instruction
              */
-//            if (curInst.getType() == Instruction.InstructionType.Instruction) {
-            Format format = OPTAB.get(curInst.getMnemonic()).getFormat();
             if (curInst.getType() == Instruction.InstructionType.Instruction) {
+                Format format = OPTAB.get(curInst.getMnemonic()).getFormat();
                 switch (format) {
                     case FORMAT1:
                         // TODO: Build the object code using the builder
@@ -48,15 +50,23 @@ public class PassTwo {
                         break;
                     case FORMAT2:
                         // TODO: build the object code using the builder
+                        String operand1 = curInst.getOperand().split(",")[0];
+                        format2.setOperand(RegisterTable.getRegisterNumber(operand1));
+                        String operand2 = curInst.getOperand().split(",")[1];
+                        if (curInst.getObjectCode().contains("SHIFT")) {
+                            format2.setSecondOperand(Integer.parseInt(operand2));
+                        } else {
+                            format2.setSecondOperand(RegisterTable.getRegisterNumber(operand2));
+                        }
                         curInst.setObjectCode(format2.toString());
                         break;
                     case FORMAT3:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format3_4.toString());
+                        curInst.setObjectCode(format_3.toString());
                         break;
                     case FORMAT4:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format3_4.toString());
+                        curInst.setObjectCode(format_3.toString());
                     default:
                         break;
                 }
