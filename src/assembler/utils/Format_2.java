@@ -41,12 +41,12 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    public void setBaseRelative(boolean isBaseRelative) {
+    public void setBaseRelative() {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 
     @Override
-    public void setPCRelative(boolean isPCRelative) {
+    public void setPCRelative() {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 

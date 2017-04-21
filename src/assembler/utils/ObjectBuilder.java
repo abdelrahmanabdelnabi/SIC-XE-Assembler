@@ -31,9 +31,9 @@ public abstract class ObjectBuilder {
 
     public abstract void setIndexed();
 
-    public abstract void setBaseRelative(boolean isBaseRelative);
+    public abstract void setBaseRelative();
 
-    public abstract void setPCRelative(boolean isPCRelative);
+    public abstract void setPCRelative();
 
     public abstract void setOperand(int operand);
 
