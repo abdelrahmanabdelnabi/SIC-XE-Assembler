@@ -19,9 +19,6 @@ public class Assembler {
         this.instructions = instructions;
     }
 
-    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
-    }
 
     public void assembleCode() {
         PassOne passOne = new PassOne(instructions);
@@ -36,6 +33,9 @@ public class Assembler {
     public List<Instruction> getInstructions() {
         return instructions;
     }
+//    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+//        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
+//    }
 
 
 //    public void executePassOne() throws AssemblerException {
