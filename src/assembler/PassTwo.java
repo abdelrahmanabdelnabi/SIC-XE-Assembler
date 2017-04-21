@@ -55,10 +55,15 @@ public class PassTwo {
                         break;
                     case FORMAT3:
                         // TODO: Build the object code using the builder
+                        checkIndexed(inst, format3);
+                        checkIndirectImmediate(inst, format3);
                         inst.setObjectCode(format3.toString());
                         break;
                     case FORMAT4:
                         // TODO: Build the object code using the builder
+                        checkIndexed(inst, format4);
+                        checkIndirectImmediate(inst, format4);
+                        handleFormat4(inst, format4);
                         inst.setObjectCode(format3.toString());
                     default:
                         break;
@@ -78,12 +83,14 @@ public class PassTwo {
 
         format_2.setOpCode(getOpCode(mnemonic));
 
+        // 1st Operand
         if (getFirstOperandType(mnemonic) == REGISTER) {
             format_2.setOperand(getRegisterNumber(inst.getOperand().split(",")[0]));
         } else if (getFirstOperandType(mnemonic) == VALUE) {
             format_2.setOperand(Integer.parseInt(inst.getOperand().split(",")[0]));
         }
 
+        // 2nd Operand
         if (getSecondOperandType(mnemonic) == REGISTER) {
             format_2.setSecondOperand(getRegisterNumber(inst.getOperand().split(",")[1]));
         } else if (getSecondOperandType(mnemonic) == VALUE) {
@@ -96,43 +103,28 @@ public class PassTwo {
 
     private void handleFormat3(Instruction inst, ObjectBuilder format3) {
         format3.setOpCode(getOpCode(inst.getMnemonic()));
-        String operand = inst.getOperand();
-        boolean immediate = false, indirect = false, indexed = false, base = false, pc = false;
 
         // TARGET ADDRESS AND DISPLACEMENT
-        int TA = 0, DISPLACEMENT;
-
-        // check if immediate or indirect
-        if (operand.startsWith("@")) {
-            format3.setImmediate(false);
-            format3.setIndirect(true);
-            indirect = true;
-            operand = operand.substring(1);
-        } else if (operand.startsWith("#")) {
-            format3.setImmediate(true);
-            format3.setIndirect(false);
-            immediate = true;
-            operand = operand.substring(1);
-        }
-
-        // check if indexed
-        if (operand.contains(",X")) {
-            format3.setIndexed();
-            indexed = true;
-            operand = operand.replace(",X", "");
-        }
-
-        // check is value or symbol
-        if (Pattern.matches("[0-9]+", operand)) {
-            TA = Integer.parseInt(operand);
-        } else if (symbolTable.containsKey(operand)) {
-            TA = symbolTable.get(operand).getAddress();
-            DISPLACEMENT = TA - inst.getAddress();
-            format3.setOperand(DISPLACEMENT);
-        } else {
-            // TODO Error
-        }
-
+        int TA = getOperandTargetAddress(inst), DISPLACEMENT;
+/*
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+ */
         // Check Base Vs Pc relative
         DISPLACEMENT = TA - inst.getAddress();
         if (DISPLACEMENT <= 2047) {
@@ -140,14 +132,45 @@ public class PassTwo {
             format3.setOperand(DISPLACEMENT);
         } else {
             format3.setBaseRelative();
-            // TODO calculate base address
+            // TODO calculate base address IMPORTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            // TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            // TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT
 //            DISPLACEMENT = TA - ;
             format3.setOperand(DISPLACEMENT);
         }
     }
 
-    private void handleFormat4() {
+    private void handleFormat4(Instruction inst, ObjectBuilder format4) {
+        format4.setOpCode(getOpCode(inst.getMnemonic()));
+        int TA = getOperandTargetAddress(inst);
+        format4.setOperand(TA);
+    }
 
+    private void checkIndexed(Instruction inst, ObjectBuilder objectBuilder) {
+        if (inst.getOperand().contains(",X")) objectBuilder.setIndexed();
+    }
+
+    private void checkIndirectImmediate(Instruction inst, ObjectBuilder objectBuilder) {
+        String operand = inst.getOperand();
+        if (operand.startsWith("@")) objectBuilder.setIndirect(true);
+        else if (operand.startsWith("#")) objectBuilder.setImmediate(true);
+    }
+
+    private int getOperandTargetAddress(Instruction instruction) {
+        String operand = instruction.getOperand();
+        int TA = 0;
+        operand = operand.replace(",X", "");
+        operand = operand.replace("@", "");
+        operand = operand.replace("#", "");
+        // check is value or symbol
+        if (Pattern.matches("[0-9]+", operand)) {
+            TA = Integer.parseInt(operand);
+        } else if (symbolTable.containsKey(operand)) {
+            TA = symbolTable.get(operand).getAddress();
+        } else {
+            // TODO Error while parsing
+        }
+        return TA;
     }
 
     public List<Instruction> getOutputInstructions() {
