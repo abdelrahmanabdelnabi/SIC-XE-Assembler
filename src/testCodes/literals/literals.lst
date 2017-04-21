@@ -1,0 +1,25 @@
+00000            main   START   0    
+00000  032009    first  LDA     *0 (WORD C'FOO')    
+00003  6F2009           LDS     *1 (WORD C'BAR')    
+00006  0B2003           LDL     *0 (WORD C'FOO')    
+00009  3F2006           J       next1    
+0000C                   LTORG       
+0000C  464F4F    *0     WORD    C'FOO'    
+0000F  424152    *1     WORD    C'BAR'    
+00012  6B2009    next1  LDB     *2 (WORD X'123456')    
+00015  6F2009           LDS     *3 (WORD X'ABCDEF')    
+00018  772003           LDT     *2 (WORD X'123456')    
+0001B  3F2006           J       next2    
+0001E                   LTORG       
+0001E  123456    *2     WORD    X'123456'    
+00021  ABCDEF    *3     WORD    X'ABCDEF'    
+00024  03200C    next2  LDA     *4 (WORD 65535)    
+00027  03200C           LDA     *5 (WORD 1193046)    
+0002A  03200C           LDA     *6 (WORD 42798)    
+0002D  03200C           LDA     *7 (WORD 11184810)    
+00030  3F2FFD    halt   J       halt    
+00033  00FFFF    *4     WORD    65535    
+00036  123456    *5     WORD    1193046    
+00039  00A72E    *6     WORD    42798    
+0003C  AAAAAA    *7     WORD    11184810    
+0003F                   END     first    

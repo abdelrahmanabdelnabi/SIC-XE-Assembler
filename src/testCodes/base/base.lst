@@ -1,0 +1,19 @@
+                  . Tests: base-relative, directives BASE, NOBASE
+                  
+0A000            base  START   40960    
+                  
+                  . load B register and notify assembler
+0A000  6910A809       +LDB     #b    
+0A000                  BASE    b    
+                  
+0A004  014000          LDA     #b    . base-relative addressing: (B)+0
+0A007  0127FF          LDA     #b    . but pc-relative addressing prefered: (PC)+2047
+0A00A  00....00        RESB    2047    
+0A809  464F4F    b     BYTE    C'FOO'    . b displaced by 2048 bytes
+                  
+                  . ********** other **********
+0A80C  01480A          LDA     #c    . base-relative (since c-b < 4096)
+0A80C                  NOBASE      
+0A80F  0110B013       +LDA     #c    . direct extended, LDA #c would fail here
+0A813  00....00        RESB    2048    
+0B013  424152    c     BYTE    C'BAR'    

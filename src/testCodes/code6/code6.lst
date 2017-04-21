@@ -1,0 +1,14 @@
+00000            main   START   0    
+00000  032015    first  LDA     *0 (WORD 1193046)    
+00003  532015           LDCH    *1 (WORD X'AABBCC')    
+00006  DF2015           WD      *2 (WORD X'41')    
+00009  DB2015           RD      *3 (WORD X'42')    
+0000C  DB2012           RD      *3 (WORD X'42')    
+0000F  DB200F           RD      *3 (WORD X'42')    
+00012  DB200C           RD      *3 (WORD X'42')    
+00015  3F2FFD    halt   J       halt    
+00018  123456    *0     WORD    1193046    
+0001B  AABBCC    *1     WORD    X'AABBCC'    
+0001E  410000    *2     WORD    X'41'    
+00021  420000    *3     WORD    X'42'    
+00024                   END     first    

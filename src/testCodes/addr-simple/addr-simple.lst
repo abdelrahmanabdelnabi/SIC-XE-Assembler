@@ -1,0 +1,42 @@
+                  . don't run, examine generate code
+                  . immediate addressing
+00000            simple  START   0    
+                  . simple		START	0x1000		. label first cannot be resolved in SIC/XE
+                  . simple		START	0x8000		. label first: fallback to old SIC
+                  
+                  . ******* numbers *********
+                  . absolute/direct
+00000  0300AB    first   LDA     171    
+00003  0380AB            LDA     171,X    . + indexed
+00006  030000            LDA     0    . min displacement
+00009  030FFF            LDA     4095    . max displacement
+                  . extended format, absolute
+0000C  03112345         +LDA     74565    
+00010  03100000         +LDA     0    . min address
+00014  031FFFFF         +LDA     1048575    . max address
+                  
+                  . ********** symbols **********
+                  . absolute
+00018            five    EQU     5    
+00018  030005            LDA     five    . if absolute symbol then absolute addressing
+                  . pc-relative
+0001B  032000            LDA     a    . (PC)+0
+0001E  032FFD    a       LDA     a    . (PC)-3
+00021  03AFFA            LDA     a,X    . + indexed
+                  . base-relative
+00024  69100830         +LDB     #b    
+00024                    BASE    b    
+00028  034000            LDA     b    . (B)+0
+0002B  03C000            LDA     b,X    . + indexed
+0002E  0327FF            LDA     b    . but pc-relative prefered: (PC)+2047
+00031  00....00          RESB    2047    
+00830  464F4F    b       BYTE    C'FOO'    . b displaced by 2048 bytes
+                  
+                  . careful: start address may be too large
+00833  030000            LDA     first    . direct: pc-rel fail, base-rel fail
+00836                    ORG     4096    
+01000  C4        c       FIX         
+01001  00....00          RESB    2084    
+01001                    NOBASE      
+01825  001000            LDA     c    . fallback to old SIC
+                  

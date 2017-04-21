@@ -1,0 +1,16 @@
+***** Section <default> *****
+Stats: size=4118  blocks=4118  symbols=3  literals=0  relocations=2
+Blocks
+    name        start   size  #ins #dir #sto
+    <default>   0A000  01016     5    5    2
+Symbols
+    name        hex       dec  scope     kind      description
+    b        00A809     43017  local     relative  label
+    base     00A000     40960  exported  relative  label
+    c        00B013     45075  local     relative  label
+Literals
+    label   definition
+Relocations
+    address length flag symbol
+    0A001        5
+    0A810        5

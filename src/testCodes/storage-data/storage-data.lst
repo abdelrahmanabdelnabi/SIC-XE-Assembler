@@ -1,0 +1,29 @@
+00000            init   START   0    
+00000  C4        first  FIX         
+                  
+                  . characters
+00001  61626364         BYTE    C'abcd'    
+00005  610000           WORD    C'a'    
+                  
+                  . hex encoding
+00008  CAFEBABE         BYTE    X'CAFEBABE'    
+0000C  BEEF00           WORD    X'BEEF'    
+                  
+                  . numbers
+                  . BYTE [-128,127]
+0000F  7B               BYTE    123    
+00010  9C               BYTE    -100    
+00011  FE               BYTE    254    
+                  
+                  . WORD [...]
+00012  00007B           WORD    123    
+00015  FFFF9C           WORD    -100    
+00018  0000FE           WORD    254    
+                  
+                  . multiple initializers
+0001B  41               BYTE    C'A'    . , X'41'
+0001C  2A               BYTE    42    . , 0b101, 0o10
+0001D  003039           WORD    12345    . , -1
+00020  CCBBAA           WORD    13417386    
+                  
+00023                   END     first    

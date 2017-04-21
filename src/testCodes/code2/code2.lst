@@ -1,0 +1,9 @@
+                  
+00000  03200F         LDA     a    
+00003  2B2009         COMP    b    
+00006  372003         JGT     grt    
+00009  0300BB    lwr  LDA     187    
+0000C  0300AA    grt  LDA     170    
+                  
+0000F  000001    b    WORD    1    
+00012  FFFFFF    a    WORD    16777215    

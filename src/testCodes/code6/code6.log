@@ -1,0 +1,22 @@
+***** Section <default> *****
+Stats: size=36  blocks=36  symbols=7  literals=4  relocations=0
+Blocks
+    name        start   size  #ins #dir #sto
+    <default>   00000  00024     8    6    0
+Symbols
+    name        hex       dec  scope     kind      description
+    *0       000018        24  local     relative  label
+    *1       00001B        27  local     relative  label
+    *2       00001E        30  local     relative  label
+    *3       000021        33  local     relative  label
+    first    000000         0  local     relative  label
+    halt     000015        21  local     relative  label
+    main     000000         0  exported  relative  label
+Literals
+    label   definition
+    *0      WORD 1193046
+    *1      WORD X'AABBCC'
+    *2      WORD X'41'
+    *3      WORD X'42'
+Relocations
+    address length flag symbol

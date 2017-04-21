@@ -1,0 +1,14 @@
+00000  9001           ADDR    A,X    
+00002  9423           SUBR    L,B    
+00004  9845           MULR    S,T    
+00006  9C60           DIVR    F,A    
+00008  A012           COMPR   X,L    
+                  . SHIFT 1 .. 16
+                  . SHIFTL	B,0
+0000A  A410           SHIFTL  X,1    
+0000C  A414           SHIFTL  X,5    
+0000E  A849           SHIFTR  S,10    
+00010  A85F           SHIFTR  T,16    
+00012  B440           CLEAR   S    
+00014  B850           TIXR    T    
+00016  B0D0           SVC     13    

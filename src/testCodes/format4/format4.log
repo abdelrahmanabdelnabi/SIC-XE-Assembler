@@ -1,0 +1,11 @@
+***** Section <default> *****
+Stats: size=156  blocks=156  symbols=0  literals=0  relocations=0
+Blocks
+    name        start   size  #ins #dir #sto
+    <default>   00000  0009C    39    0    0
+Symbols
+    name        hex       dec  scope     kind      description
+Literals
+    label   definition
+Relocations
+    address length flag symbol

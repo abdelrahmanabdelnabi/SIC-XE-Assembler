@@ -1,0 +1,6 @@
+00000  C4             FIX         
+00001  C0             FLOAT       
+00002  C8             NORM        
+00003  F0             SIO         
+00004  F4             HIO         
+00005  F8             TIO         
