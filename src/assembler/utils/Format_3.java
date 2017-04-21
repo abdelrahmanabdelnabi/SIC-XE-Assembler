@@ -9,7 +9,7 @@ public class Format_3 extends Format_2 {
 
     private boolean isIndirect;
     private boolean isImmediate;
-    private boolean isIndexed;
+    private boolean isIndexed = false;
     private boolean isBaseRelative;
     private boolean isPCRelative;
 
@@ -37,7 +37,7 @@ public class Format_3 extends Format_2 {
     }
 
     @Override
-    public void setIndexed(boolean isIndexed) {
+    public void setIndexed() {
         this.isIndexed = isIndexed;
 
     }

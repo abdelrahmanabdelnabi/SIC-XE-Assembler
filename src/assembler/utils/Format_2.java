@@ -36,7 +36,7 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    public void setIndexed(boolean isIndexed) {
+    public void setIndexed() {
         throw new UnsupportedOperationException("Format 2 doesn't have flags");
     }
 

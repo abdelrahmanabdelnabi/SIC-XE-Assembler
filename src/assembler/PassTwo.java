@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
@@ -37,28 +38,28 @@ public class PassTwo {
         ObjectBuilder format3 = new Format_3();
         ObjectBuilder format4 = new Format_4();
 
-        for (Instruction curInst : instructions) {
+        for (Instruction inst : instructions) {
             /*
              * If is Instruction
              */
-            if (curInst.getType() == Instruction.InstructionType.Instruction) {
-                Format format = OPTAB.get(curInst.getMnemonic()).getFormat();
+            if (inst.getType() == Instruction.InstructionType.Instruction) {
+                Format format = OPTAB.get(inst.getMnemonic()).getFormat();
                 switch (format) {
                     case FORMAT1:
-                        int opCode = getOpCode(curInst.getMnemonic());
-                        curInst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
+                        int opCode = getOpCode(inst.getMnemonic());
+                        inst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
                         break;
                     case FORMAT2:
-                        handleFormat2(curInst, format2);
-                        curInst.setObjectCode(format2.toString());
+                        handleFormat2(inst, format2);
+                        inst.setObjectCode(format2.toString());
                         break;
                     case FORMAT3:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format3.toString());
+                        inst.setObjectCode(format3.toString());
                         break;
                     case FORMAT4:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format3.toString());
+                        inst.setObjectCode(format3.toString());
                     default:
                         break;
                 }
@@ -66,7 +67,7 @@ public class PassTwo {
             /*
              * if is assembler directive
              */
-            else if (curInst.getType() == Instruction.InstructionType.Directive) {
+            else if (inst.getType() == Instruction.InstructionType.Directive) {
                 // TODO : Handle directives
             }
         }
@@ -93,8 +94,35 @@ public class PassTwo {
 
     }
 
-    private void handleFormat3() {
+    private void handleFormat3(Instruction inst, ObjectBuilder format3) {
+        format3.setOpCode(getOpCode(inst.getMnemonic()));
+        String operand = inst.getOperand();
 
+        // check if immediate or indirect
+        if (operand.startsWith("@")) {
+            format3.setImmediate(false);
+            format3.setIndirect(true);
+            operand = operand.substring(1);
+        } else if (operand.startsWith("#")) {
+            format3.setImmediate(true);
+            format3.setIndirect(false);
+            operand = operand.substring(1);
+        }
+
+        // check if indexed
+        if (operand.contains(",X")) {
+            format3.setIndexed();
+            operand = operand.replace(",X", "");
+        }
+
+        // check is value or symbol
+        if (Pattern.matches("[0-9]+", operand)) {
+
+        } else if (symbolTable.containsKey(operand)) {
+
+        } else {
+            // TODO Error
+        }
     }
 
     private void handleFormat4() {

@@ -29,7 +29,7 @@ public abstract class ObjectBuilder {
 
     public abstract void setImmediate(boolean isImmediate);
 
-    public abstract void setIndexed(boolean isIndirect);
+    public abstract void setIndexed();
 
     public abstract void setBaseRelative(boolean isBaseRelative);
 
