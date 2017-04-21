@@ -5,15 +5,16 @@ import src.assembler.Instruction;
 import java.util.List;
 
 import static src.assembler.datastructures.OpcodeTable.*;
+import static src.assembler.utils.Common.extendToLength;
 
 /**
  * Created by ahmed on 4/19/17.
  */
-public class FormObjectString {
+public class ObjectString implements StringGenerator {
     private List<Instruction> instructions;
     private StringBuilder objectCode;
 
-    public FormObjectString(List<Instruction> instructions) {
+    public ObjectString(List<Instruction> instructions) {
         this.instructions = instructions;
         objectCode = new StringBuilder();
         formHTE();
@@ -28,8 +29,8 @@ public class FormObjectString {
         // H RECORD
         objectCode.append("H");
         objectCode.append(getProgramName()).append(" ");
-        objectCode.append(stretch(Integer.toHexString(getStartAddress()), 6));
-        objectCode.append(stretch(Integer.toHexString(getProgramLength()), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getProgramLength()), 6));
         objectCode.append("\n");
         // END OF H RECORD
 
@@ -46,9 +47,9 @@ public class FormObjectString {
                 // Close current T Record
                 objectCode.append("T");
                 // starting address of the record
-                objectCode.append(stretch(Integer.toHexString(startAddress), 6));
+                objectCode.append(extendToLength(Integer.toHexString(startAddress), 6));
                 // record length
-                objectCode.append(stretch(Integer.toHexString(T.length() / 2), 2));
+                objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2));
                 // the object code
                 objectCode.append(T.toString()).append("\n");
 
@@ -59,19 +60,12 @@ public class FormObjectString {
         }
         // append remaining T
         objectCode.append("T");
-        objectCode.append(stretch(Integer.toHexString(startAddress), 6));
-        objectCode.append(stretch(Integer.toHexString(T.length() / 2), 2));
+        objectCode.append(extendToLength(Integer.toHexString(startAddress), 6));
+        objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2));
         objectCode.append(T.toString()).append("\n");
 
         // Create E
         objectCode.append("E");
-        objectCode.append(stretch(Integer.toHexString(getStartAddress()), 6));
-    }
-
-    private String stretch(String s, int len) {
-        StringBuilder ss = new StringBuilder();
-        for (int i = 0; i < len - s.length(); i++) ss.append('0');
-        ss.append(s);
-        return ss.toString();
+        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
     }
 }

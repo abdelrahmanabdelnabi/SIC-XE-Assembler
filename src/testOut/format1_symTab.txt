@@ -4,6 +4,7 @@
 SYMBOL                         ADDRESS(HEX)
 ===========================================
 BLOQ                           902                 
+CallOfDuty                     900                 
 DAFUQ                          901                 
 FIFO                           906                 
 SLOQ                           905                 

@@ -44,15 +44,15 @@ public class WriterTest {
         Writer writer = new Writer(relativePath + "/src/testOut/");
 
         writer.setFileName("format1.obj");
-        FormObjectString formObjectString = new FormObjectString(assembler.getInstructions());
-        writer.toFile(formObjectString.toString());
+        StringGenerator objectString = new ObjectString(assembler.getInstructions());
+        writer.writeToFile(objectString.toString());
 
         writer.setFileName("format1_symTab.txt");
-        FormSymbolsString formSymbolsString = new FormSymbolsString(assembler.getSymbolTable());
-        writer.toFile(formSymbolsString.toString());
+        StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable());
+        writer.writeToFile(symbolsString.toString());
 
-        writer.setFileName("format1_aboFayezTable.txt");
-        FormAboFayezString aboFayezString = new FormAboFayezString(assembler.getInstructions());
-        writer.toFile(aboFayezString.toString());
+        writer.setFileName("format1_LstFile.txt");
+        StringGenerator aboFayezString = new ListingString(assembler.getInstructions());
+        writer.writeToFile(aboFayezString.toString());
     }
 }

@@ -3,9 +3,9 @@ package src.main;
 import src.assembler.Assembler;
 import src.assembler.AssemblerException;
 import src.assembler.Logger;
-import src.filewriter.FormAboFayezString;
-import src.filewriter.FormObjectString;
-import src.filewriter.FormSymbolsString;
+import src.filewriter.ListingString;
+import src.filewriter.ObjectString;
+import src.filewriter.SymbolsString;
 import src.filewriter.Writer;
 import src.parser.InputReader;
 import src.parser.Parser;
@@ -48,7 +48,7 @@ public class Main {
             Writer writer = new Writer("");
             String errorFile = path.replace(".asm", "_log.txt");
             writer.setFileName(errorFile);
-            writer.toFile(Logger.getLogString());
+            writer.writeToFile(Logger.getLogString());
 
             System.out.println(ae.getMessage());
 
@@ -68,18 +68,18 @@ public class Main {
 
         // Symbols
         writer.setFileName(symTab);
-        writer.toFile(new FormSymbolsString(assembler.getSymbolTable()).toString());
+        writer.writeToFile(new SymbolsString(assembler.getSymbolTable()).toString());
 
         // object
         writer.setFileName(objectFile);
-        writer.toFile(new FormObjectString(assembler.getInstructions()).toString());
+        writer.writeToFile(new ObjectString(assembler.getInstructions()).toString());
 
         // abo fayez table
         writer.setFileName(aboFayezTab);
-        writer.toFile(new FormAboFayezString(assembler.getInstructions()).toString());
+        writer.writeToFile(new ListingString(assembler.getInstructions()).toString());
 
         // Log file
         writer.setFileName(errorFile);
-        writer.toFile(Logger.getLogString());
+        writer.writeToFile(Logger.getLogString());
     }
 }

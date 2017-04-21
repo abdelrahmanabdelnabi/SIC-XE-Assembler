@@ -4,14 +4,16 @@ import src.assembler.Instruction;
 
 import java.util.List;
 
+import static src.assembler.utils.Common.extendToLength;
+
 /**
  * Created by ahmed on 4/19/17.
  */
-public class FormAboFayezString {
+public class ListingString implements StringGenerator {
     private List<Instruction> instructions;
     private StringBuilder data;
 
-    public FormAboFayezString(List<Instruction> instructions) {
+    public ListingString(List<Instruction> instructions) {
         this.instructions = instructions;
         data = new StringBuilder();
         formString();
@@ -38,17 +40,10 @@ public class FormAboFayezString {
 
     private String formInstructionString(Instruction inst) {
         return String.format(" %-3s| %-10s| %-30s| %-10s| %-20s| %-10s\n", Integer.toString(inst.getLineNumber()),
-                stretch(Integer.toHexString(inst.getAddress()), 6),
+                extendToLength(Integer.toHexString(inst.getAddress()), 6),
                 inst.getLabel(),
                 inst.getMnemonic(),
                 inst.getOperand(),
                 inst.getObjectCode());
-    }
-
-    private String stretch(String s, int len) {
-        StringBuilder ss = new StringBuilder();
-        for (int i = 0; i < len - s.length(); i++) ss.append('0');
-        ss.append(s);
-        return ss.toString();
     }
 }

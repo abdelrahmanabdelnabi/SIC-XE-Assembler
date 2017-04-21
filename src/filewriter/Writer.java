@@ -15,7 +15,7 @@ public class Writer {
         this.path = path;
     }
 
-    public void toFile(String data) {
+    public void writeToFile(String data) {
         try {
             FileWriter fileWriter = new FileWriter(path + fileName);
             BufferedWriter writer = new BufferedWriter(fileWriter);

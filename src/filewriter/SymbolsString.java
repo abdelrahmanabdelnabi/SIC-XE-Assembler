@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Created by ahmed on 4/19/17.
  */
-public class FormSymbolsString {
+public class SymbolsString implements StringGenerator {
     private HashMap<String, SymbolProperties> symbolTable;
     private StringBuilder symbols;
 
-    public FormSymbolsString(HashMap<String, SymbolProperties> symbolTable) {
+    public SymbolsString(HashMap<String, SymbolProperties> symbolTable) {
         this.symbolTable = symbolTable;
         symbols = new StringBuilder();
         formString();

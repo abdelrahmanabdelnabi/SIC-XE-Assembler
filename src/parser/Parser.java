@@ -107,6 +107,7 @@ public class Parser {
      * returns the ArrayList of Instructions created by parse()
      */
     public ArrayList<Instruction> getParsedInstuctions() {
+        parse();
         return parsedInstructions;
     }
 
