@@ -15,9 +15,6 @@ public class Format_2 extends ObjectBuilder {
     protected int firstOperand;
     protected int secondOperand;
 
-    public Format_2() {
-    }
-
     @Override
     public String toString() {
         return null;
@@ -25,42 +22,42 @@ public class Format_2 extends ObjectBuilder {
 
     @Override
     void setIndirect(boolean isIndirect) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     void setImmediate(boolean isImmediate) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
-    void setIndexed(boolean isIndirect) {
-
+    void setIndexed(boolean isIndexed) {
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     void setBaseRelative(boolean isBaseRelative) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     void setPCRelative(boolean isPCRelative) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     void setOperand(int operand) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     void setSecondOperand(int secondOperand) {
-
+        throw new UnsupportedOperationException("Format 2 don't have flags");
     }
 
     @Override
     Format getFormat() {
-        return null;
+        return Format.FORMAT2;
     }
 
 }

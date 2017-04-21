@@ -35,6 +35,6 @@ public abstract class ObjectBuilder {
     abstract Format getFormat();
 
     public static final String buildFormatOne(int opCode) {
-        return new String(Integer.toHexString(opCode));
+        return Integer.toHexString(opCode);
     }
 }
