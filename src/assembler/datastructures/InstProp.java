@@ -4,22 +4,24 @@ package src.assembler.datastructures;
  * Created by abdelrahman on 4/7/17.
  */
 public class InstProp {
-    private OperandType FirstOperand;
-    private OperandType SecondOperand;
+    private OperandType firstOperand;
+    private OperandType secondOperand;
     private int opCode;
     private Format format;
 
-    InstProp(int opCode, Format format) {
+    InstProp(int opCode, Format format, OperandType firstOperand, OperandType secondOperand) {
         this.opCode = opCode;
         this.format = format;
+        this.firstOperand = firstOperand;
+        this.secondOperand = secondOperand;
     }
 
     public OperandType getFirstOperand() {
-        return FirstOperand;
+        return firstOperand;
     }
 
     public OperandType getSecondOperand() {
-        return SecondOperand;
+        return secondOperand;
     }
 
     int getOpCode() {
