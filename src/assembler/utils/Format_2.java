@@ -12,12 +12,20 @@ import static src.assembler.datastructures.OpcodeTable.getOpCode;
  * Created by ahmed on 4/12/17.
  */
 public class Format_2 extends ObjectBuilder {
-    protected int firstOperand;
-    protected int secondOperand;
+    protected int operand;
+    private int secondOperand;
 
     @Override
     public String toString() {
-        return null;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("%02X", opCode));
+        builder.append(String.format("%01X", operand));
+        builder.append(String.format("%01X", secondOperand));
+
+        // TODO: reset values to default
+        
+        return builder.toString();
     }
 
     @Override
