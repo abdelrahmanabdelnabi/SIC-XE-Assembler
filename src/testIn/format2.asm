@@ -9,6 +9,6 @@
 	SHIFTL	X,5
 	SHIFTR	S,10
     SHIFTR  T,16
-    CLEAR   S
-    TIXR    T
-    SVC     13
+.    CLEAR   S
+.    TIXR    T
+.   SVC     13
