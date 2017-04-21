@@ -70,4 +70,8 @@ public class PassTwo {
         }
     }
 
+    public List<Instruction> getOutputInstructions() {
+        return instructions;
+    }
+
 }

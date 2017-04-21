@@ -28,11 +28,7 @@ public class PassOne {
         symbolTable = new HashMap<>();
     }
 
-    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
-    }
-
-    public HashMap<String, SymbolProperties> execute() {
+    public void execute() {
         checkForSTART(instructions.get(0));
 
         for (Instruction inst : instructions) {
@@ -46,7 +42,6 @@ public class PassOne {
         } // end for loop
 
         setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
-        return symbolTable;
     }
 
     private void checkForSTART(Instruction inst) {
@@ -173,5 +168,17 @@ public class PassOne {
         }
         // Add inst size to the LOC
         loc.increment(objCodeLength);
+    }
+
+    public List<Instruction> getInstructions() {
+        return instructions;
+    }
+
+    public HashMap<String, SymbolProperties> getSymbolTable() {
+        return symbolTable;
+    }
+
+    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
     }
 }
