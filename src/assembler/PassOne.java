@@ -178,7 +178,7 @@ public class PassOne {
         return symbolTable;
     }
 
-    private static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+    public static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
         return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
     }
 }
