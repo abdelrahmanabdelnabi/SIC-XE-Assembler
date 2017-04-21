@@ -29,12 +29,15 @@ public class PassTwo {
     private Set<String> directives = getAssemblerDirectivesSet();
     private Map<String, InstProp> OPTAB = getOpcodeTable();
 
+    private boolean isBaseSet = false;
+    private int baseAddress = 0;
+
     PassTwo(List<Instruction> instructions, HashMap<String, SymbolProperties> symbolTable) {
         this.instructions = instructions;
         this.symbolTable = symbolTable;
     }
 
-    public void execute() {
+    public void execute() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
         ObjectBuilder format2 = new Format_2();
         ObjectBuilder format3 = new Format_3();
@@ -104,43 +107,71 @@ public class PassTwo {
 
     }
 
-    private void handleFormat3(Instruction inst, ObjectBuilder format3) {
-        format3.setOpCode(getOpCode(inst.getMnemonic()));
+    private String handleFormat3(Instruction inst, ObjectBuilder format3) {
+        int PC = inst.getAddress() + 3;
 
-        // TARGET ADDRESS AND DISPLACEMENT
-        int TA = getOperandTargetAddress(inst), DISPLACEMENT;
-/*
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- * TODO CRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
- */
-        // Check Base Vs Pc relative
-        DISPLACEMENT = TA - inst.getAddress();
-        if (DISPLACEMENT <= 2047) {
-            format3.setBaseRelative();
-            format3.setOperand(DISPLACEMENT);
-        } else {
-            format3.setBaseRelative();
-            // TODO calculate base address IMPORTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            // TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            // TODO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT
-//            DISPLACEMENT = TA - ;
-            format3.setOperand(DISPLACEMENT);
+        int opCode = getOpCode(inst.getMnemonic());
+
+        String operand = inst.getOperand();
+
+        int displacement = 0;
+
+        // Case 1: operand is only letters
+        boolean direct = operand.matches("[a-zA-Z]+");
+        boolean indirect = operand.matches("@[a-zA-Z]+");
+        boolean numbersOnly = operand.matches("[0-9]+") || operand.matches("@[0-9]+");
+
+        if (direct || indirect || numbersOnly) {
+            if(numbersOnly){
+
+                displacement = Integer.parseInt(operand.replace('@', '0'));
+
+            } else if (!symbolTable.containsKey(operand)) {
+                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                        .OPERAND, ErrorStrings.UNDEFINED_LABEL);
+
+                Logger.LogError(error + "\n");
+                throw new AssemblerException(error);
+            } else {
+                int labelAddress = symbolTable.get(operand).getAddress();
+
+                if (isFitPCRelative(labelAddress - PC)) {
+                    displacement = labelAddress - PC;
+                    format3.setPCRelative();
+
+                } else if (isFitBaseRelative(labelAddress - baseAddress)) {
+                    displacement = labelAddress - baseAddress;
+
+                    format3.setBaseRelative();
+                    format3.setOperand(displacement);
+
+                } else {
+                    // error: displacement doesn't fit in instruction
+                    String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                            .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
+
+                    Logger.LogError(error + "\n");
+
+                    throw new AssemblerException(error);
+                }
+            }
+
+            format3.setIndirect();
+
+            if(direct)
+                format3.setImmediate();
+
+            format3.setOpCode(opCode);
+
+            format3.setOperand(displacement);
+
+            return format3.toString();
         }
+
+        // TODO: handle immediate and indexed modes
+
+        return null;
+
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
@@ -175,6 +206,15 @@ public class PassTwo {
         }
         return TA;
     }
+
+    private boolean isFitPCRelative(int displacment) {
+        return displacment >= -2048 && displacment <= 2047;
+    }
+
+    private boolean isFitBaseRelative(int displacement) {
+        return displacement >= 0 && displacement <= 4095;
+    }
+
 
     public List<Instruction> getOutputInstructions() {
         return instructions;

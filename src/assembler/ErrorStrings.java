@@ -11,4 +11,9 @@ public class ErrorStrings {
             " can not be used with Format 1 or 2 instructions";
     public static String UNDEFINED_MNEMONIC = "mnemonic is neither a SIC, SIC/XE or and an " +
             "assembler directive";
+
+    public static String  UNDEFINED_LABEL = "Undefined label";
+
+    public static String DISP_OUT_OF_RANGE = "The displacement relative to the program counter or" +
+            " the base address are out of range";
 }

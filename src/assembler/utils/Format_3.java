@@ -9,11 +9,11 @@ import static src.assembler.utils.Common.extendToLength;
  */
 public class Format_3 extends Format_2 {
 
-    String isIndirect = "0";
-    String isImmediate = "0";
-    String isIndexed = "0";
-    String isBaseRelative = "0";
-    String isPCRelative = "0";
+    private boolean isIndirect;
+    private boolean isImmediate;
+    private boolean isIndexed;
+    private boolean isBaseRelative;
+    private boolean isPCRelative;
 
 //    private StringBuilder builder;
 
@@ -45,31 +45,32 @@ public class Format_3 extends Format_2 {
     }
 
     @Override
-    public void setIndirect() {
-        this.isIndirect = "1";
+    public void setIndirect(boolean isIndirect) {
+        this.isIndirect = isIndirect;
 
     }
 
     @Override
-    public void setImmediate() {
-        this.isImmediate = "1";
+    public void setImmediate(boolean isImmediate) {
+        this.isImmediate = isImmediate;
 
     }
 
     @Override
-    public void setIndexed() {
-        this.isIndexed = "1";
-    }
-
-    @Override
-    public void setBaseRelative() {
-        this.isBaseRelative = "1";
+    public void setIndexed(boolean isIndexed) {
+        this.isIndexed = isIndexed;
 
     }
 
     @Override
-    public void setPCRelative() {
-        this.isPCRelative = "1";
+    public void setBaseRelative(boolean isBaseRelative) {
+        this.isBaseRelative = isBaseRelative;
+
+    }
+
+    @Override
+    public void setPCRelative(boolean isPCRelative) {
+        this.isPCRelative = isPCRelative;
 
     }
 
