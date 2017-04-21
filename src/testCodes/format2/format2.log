@@ -1,8 +1,8 @@
 ***** Section <default> *****
-Stats: size=24  blocks=24  symbols=0  literals=0  relocations=0
+Stats: size=96  blocks=96  symbols=0  literals=0  relocations=0
 Blocks
     name        start   size  #ins #dir #sto
-    <default>   00000  00018    12    0    0
+    <default>   00000  00060    48    0    0
 Symbols
     name        hex       dec  scope     kind      description
 Literals

@@ -41,9 +41,7 @@ public class Main {
 
             assembler.executePassOne();
             assembler.executePassTwo();
-        }
-
-        catch (AssemblerException ae) {
+        } catch (AssemblerException ae) {
             // TODO: output errors to stdout as well as log file
             Writer writer = new Writer("");
             String errorFile = path.replace(".asm", "_log.txt");
@@ -61,7 +59,7 @@ public class Main {
         // check for errors
         String errorFile = path.replace(".asm", "_log.txt");
         String symTab = path.replace(".asm", "_symTab.txt");
-        String aboFayezTab = path.replace(".asm", "_aboFayezTable.txt");
+        String aboFayezTab = path.replace(".asm", "_LstFile.txt");
         String objectFile = path.replace(".asm", ".obj");
 
         Writer writer = new Writer("");

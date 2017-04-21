@@ -2,6 +2,8 @@ package src.assembler.utils;
 
 import src.assembler.datastructures.Format;
 
+import static src.assembler.utils.Common.extendToLength;
+
 /**
  * Created by ahmed on 4/12/17.
  */
@@ -11,12 +13,14 @@ public class Format_2 extends ObjectBuilder {
 
     @Override
     public String toString() {
-
-        String builder = String.format("%02X", opCode) +
-                String.format("%01X", operand) +
-                String.format("%01X", secondOperand);
-
-        // TODO: reset values to default
+        String builder = String.format("%02X", opCode);
+        builder += extendToLength(Integer.toHexString(operand), 1);
+        builder += extendToLength(Integer.toHexString(secondOperand), 1);
+//        String builder = String.format("%02X", opCode) +
+//                String.format("%01X", operand) +
+//                String.format("%01X", secondOperand);
+//
+//        // TODO: reset values to default
 
         return builder;
     }

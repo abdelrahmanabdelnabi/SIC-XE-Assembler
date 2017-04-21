@@ -15,6 +15,7 @@ import java.util.Set;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
+import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -33,8 +34,8 @@ public class PassTwo {
     public void execute() {
         // TODO: format 3, 4 & assembler directives
         ObjectBuilder format2 = new Format_2();
-        ObjectBuilder format_3 = new Format_3();
-        ObjectBuilder format_4 = new Format_4();
+        ObjectBuilder format3 = new Format_3();
+        ObjectBuilder format4 = new Format_4();
 
         for (Instruction curInst : instructions) {
             /*
@@ -44,21 +45,20 @@ public class PassTwo {
                 Format format = OPTAB.get(curInst.getMnemonic()).getFormat();
                 switch (format) {
                     case FORMAT1:
-                        // TODO: Build the object code using the builder
                         int opCode = getOpCode(curInst.getMnemonic());
                         curInst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
                         break;
                     case FORMAT2:
-                        // TODO: build the object code using the builder
+                        handleFormat2(curInst, format2);
                         curInst.setObjectCode(format2.toString());
                         break;
                     case FORMAT3:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format_3.toString());
+                        curInst.setObjectCode(format3.toString());
                         break;
                     case FORMAT4:
                         // TODO: Build the object code using the builder
-                        curInst.setObjectCode(format_3.toString());
+                        curInst.setObjectCode(format3.toString());
                     default:
                         break;
                 }
@@ -72,20 +72,23 @@ public class PassTwo {
         }
     }
 
-    private void handleFormat2(Instruction inst, Format_2 format_2) {
+    private void handleFormat2(Instruction inst, ObjectBuilder format_2) {
         String mnemonic = inst.getMnemonic();
+
+        format_2.setOpCode(getOpCode(mnemonic));
+
         if (getFirstOperandType(mnemonic) == REGISTER) {
-
+            format_2.setOperand(getRegisterNumber(inst.getOperand().split(",")[0]));
         } else if (getFirstOperandType(mnemonic) == VALUE) {
-
+            format_2.setOperand(Integer.parseInt(inst.getOperand().split(",")[0]));
         }
 
         if (getSecondOperandType(mnemonic) == REGISTER) {
-
+            format_2.setSecondOperand(getRegisterNumber(inst.getOperand().split(",")[1]));
         } else if (getSecondOperandType(mnemonic) == VALUE) {
-
+            format_2.setSecondOperand(Integer.parseInt(inst.getOperand().split(",")[1]) - 1);
         } else {
-
+            format_2.setSecondOperand(0);
         }
 
     }
