@@ -5,7 +5,7 @@ import src.assembler.datastructures.Format;
 /**
  * Created by ahmed on 4/12/17.
  */
-public class Format3_4 extends Format_2 {
+public class Format_3 extends Format_2 {
     // TODO: implement ME
     protected int operand;
     private int secondOperand;

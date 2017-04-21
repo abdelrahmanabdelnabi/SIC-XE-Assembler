@@ -3,8 +3,8 @@ package src.assembler;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.OpcodeTable;
-import src.assembler.utils.Format3_4;
 import src.assembler.utils.Format_2;
+import src.assembler.utils.Format_3;
 import src.assembler.utils.ObjectBuilder;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class PassTwo {
     public void execute() {
         // TODO: format 3, 4 & assembler directives
         ObjectBuilder format2 = new Format_2();
-        ObjectBuilder format3_4 = new Format3_4();
+        ObjectBuilder format3_4 = new Format_3();
 
         for (Instruction curInst : instructions) {
             /*
