@@ -18,16 +18,8 @@ public class InstProp {
         return FirstOperand;
     }
 
-    public void setFirstOperand(OperandType firstOperand) {
-        FirstOperand = firstOperand;
-    }
-
     public OperandType getSecondOperand() {
         return SecondOperand;
-    }
-
-    public void setSecondOperand(OperandType secondOperand) {
-        SecondOperand = secondOperand;
     }
 
     int getOpCode() {
