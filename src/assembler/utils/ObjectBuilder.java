@@ -18,21 +18,21 @@ public abstract class ObjectBuilder {
     @Override
     public abstract String toString();
 
-    abstract void setIndirect(boolean isIndirect);
+    public abstract void setIndirect(boolean isIndirect);
 
-    abstract void setImmediate(boolean isImmediate);
+    public abstract void setImmediate(boolean isImmediate);
 
-    abstract void setIndexed(boolean isIndirect);
+    public abstract void setIndexed(boolean isIndirect);
 
-    abstract void setBaseRelative(boolean isBaseRelative);
+    public abstract void setBaseRelative(boolean isBaseRelative);
 
-    abstract void setPCRelative(boolean isPCRelative);
+    public abstract void setPCRelative(boolean isPCRelative);
 
-    abstract void setOperand(int operand);
+    public abstract void setOperand(int operand);
 
-    abstract void setSecondOperand(int secondOperand);
+    public abstract void setSecondOperand(int secondOperand);
 
-    abstract Format getFormat();
+    public abstract Format getFormat();
 
     public static final String buildFormatOne(int opCode) {
         return Integer.toHexString(opCode);
