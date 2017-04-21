@@ -13,4 +13,7 @@ public class ErrorStrings {
             "assembler directive";
 
     public static String  UNDEFINED_LABEL = "Undefined label";
+
+    public static String DISP_OUT_OF_RANGE = "The displacement relative to the program counter or" +
+            " the base address are out of range";
 }
