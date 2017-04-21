@@ -1,12 +1,11 @@
 package src.assembler;
 
 import org.junit.Test;
-import src.assembler.datastructures.OpcodeTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abdelrahman on 4/20/17.
@@ -28,7 +27,7 @@ public class AssemblerTest {
 
         Assembler assembler = new Assembler(tests);
 
-        assembler.executePassOne();
+        assembler.assembleCode();
         List<Instruction> actualOutput = assembler.getInstructions();
 
         List<Instruction> correctOutput = new ArrayList<>(tests);
