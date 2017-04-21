@@ -37,7 +37,7 @@ public class PassTwo {
         this.symbolTable = symbolTable;
     }
 
-    public void execute() throws AssemblerException{
+    public void execute() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
         ObjectBuilder format2 = new Format_2();
         ObjectBuilder format3 = new Format_3();
@@ -110,13 +110,23 @@ public class PassTwo {
     private String handleFormat3(Instruction inst, ObjectBuilder format3) {
         int PC = inst.getAddress() + 3;
 
+        int opCode = getOpCode(inst.getMnemonic());
+
         String operand = inst.getOperand();
 
         int displacement = 0;
 
         // Case 1: operand is only letters
-        if(operand.matches("[a-zA-Z]")) {
-            if(!symbolTable.containsKey(operand)) {
+        boolean direct = operand.matches("[a-zA-Z]+");
+        boolean indirect = operand.matches("@[a-zA-Z]+");
+        boolean numbersOnly = operand.matches("[0-9]+") || operand.matches("@[0-9]+");
+
+        if (direct || indirect || numbersOnly) {
+            if(numbersOnly){
+
+                displacement = Integer.parseInt(operand.replace('@', '0'));
+
+            } else if (!symbolTable.containsKey(operand)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
@@ -125,14 +135,18 @@ public class PassTwo {
             } else {
                 int labelAddress = symbolTable.get(operand).getAddress();
 
-                if(isFitPCRelative(labelAddress - PC)) {
+                if (isFitPCRelative(labelAddress - PC)) {
                     displacement = labelAddress - PC;
+                    format3.setPCRelative();
 
-                    format3.setBaseRelative(false);
-
-                } else if(isFitBaseRelative(labelAddress - baseAddress)) {
+                } else if (isFitBaseRelative(labelAddress - baseAddress)) {
                     displacement = labelAddress - baseAddress;
+
+                    format3.setBaseRelative();
+                    format3.setOperand(displacement);
+
                 } else {
+                    // error: displacement doesn't fit in instruction
                     String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                             .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
@@ -141,25 +155,23 @@ public class PassTwo {
                     throw new AssemblerException(error);
                 }
             }
-        } // Case 2:
 
-        format3.setOpCode(getOpCode(inst.getMnemonic()));
+            format3.setIndirect();
 
-        // TARGET ADDRESS AND DISPLACEMENT
-        int TA = getOperandTargetAddress(inst), DISPLACEMENT;
+            if(direct)
+                format3.setImmediate();
 
+            format3.setOpCode(opCode);
 
-        // Check Base Vs Pc relative
-        DISPLACEMENT = TA - inst.getAddress();
-        if (DISPLACEMENT <= 2047) {
-            format3.setBaseRelative();
-            format3.setOperand(DISPLACEMENT);
-        } else {
-            format3.setBaseRelative();
+            format3.setOperand(displacement);
 
-//            DISPLACEMENT = TA - ;
-            format3.setOperand(DISPLACEMENT);
+            return format3.toString();
         }
+
+        // TODO: handle immediate and indexed modes
+
+        return null;
+
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
@@ -202,7 +214,6 @@ public class PassTwo {
     private boolean isFitBaseRelative(int displacement) {
         return displacement >= 0 && displacement <= 4095;
     }
-
 
 
     public List<Instruction> getOutputInstructions() {
