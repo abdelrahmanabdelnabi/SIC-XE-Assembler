@@ -34,8 +34,9 @@ public class WriterTest {
 
     private void Run() {
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
-        assembler.executePassOne();
-        assembler.executePassTwo();
+
+        assembler.assembleCode();
+
         for (Instruction inst : assembler.getInstructions()) {
             System.out.println(inst.getObjectCode());
         }

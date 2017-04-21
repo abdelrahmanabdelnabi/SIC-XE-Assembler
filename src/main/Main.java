@@ -22,8 +22,7 @@ public class Main {
             Parser parser = new Parser(reader);
             Assembler assembler = new Assembler(parser.getParsedInstuctions());
 
-            assembler.executePassOne();
-            assembler.executePassTwo();
+            assembler.assembleCode();
 
             path = path.replace("testIn", "testOut");
             // check for errors
