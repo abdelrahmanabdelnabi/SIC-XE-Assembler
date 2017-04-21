@@ -12,7 +12,7 @@ public class Instruction {
     private InstructionType type;
     private int lineNumber;
     private int address;
-    private String objectCode;
+    private String objectCode = "";
     private boolean hasError = false;
     private boolean hasObject = false;
     private Format format;

@@ -50,10 +50,11 @@ public class PassTwo {
                         break;
                     case FORMAT2:
                         // TODO: build the object code using the builder
+                        format2.set
                         String operand1 = curInst.getOperand().split(",")[0];
                         format2.setOperand(RegisterTable.getRegisterNumber(operand1));
                         String operand2 = curInst.getOperand().split(",")[1];
-                        if (curInst.getObjectCode().contains("SHIFT")) {
+                        if (curInst.getObjectCode().substring(0, 5).equals("SHIFT")) {
                             format2.setSecondOperand(Integer.parseInt(operand2));
                         } else {
                             format2.setSecondOperand(RegisterTable.getRegisterNumber(operand2));

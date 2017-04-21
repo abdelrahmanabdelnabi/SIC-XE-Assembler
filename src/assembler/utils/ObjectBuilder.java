@@ -1,6 +1,5 @@
 package src.assembler.utils;
 
-import src.assembler.Instruction;
 import src.assembler.datastructures.Format;
 
 /**
@@ -8,7 +7,11 @@ import src.assembler.datastructures.Format;
  */
 public abstract class ObjectBuilder {
     // the op code of the instruction in decimal
-    protected int opCode;
+    int opCode;
+
+    public static String buildFormatOne(int opCode) {
+        return Integer.toHexString(opCode);
+    }
 
     /**
      * Returns a Hexadecimal string representation of the instruction built
@@ -17,6 +20,10 @@ public abstract class ObjectBuilder {
      */
     @Override
     public abstract String toString();
+
+    public void setOpCode(int opCode) {
+        this.opCode = opCode;
+    }
 
     public abstract void setIndirect(boolean isIndirect);
 
@@ -33,8 +40,4 @@ public abstract class ObjectBuilder {
     public abstract void setSecondOperand(int secondOperand);
 
     public abstract Format getFormat();
-
-    public static final String buildFormatOne(int opCode) {
-        return Integer.toHexString(opCode);
-    }
 }
