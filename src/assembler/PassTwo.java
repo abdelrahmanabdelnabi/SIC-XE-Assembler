@@ -128,14 +128,14 @@ public class PassTwo {
 
                 displacement = Integer.parseInt(operand.replace('@', '0'));
 
-            } else if (!symbolTable.containsKey(operand)) {
+            } else if (!symbolTable.containsKey(parseLabel(operand))) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error + "\n");
                 throw new AssemblerException(error);
             } else {
-                int labelAddress = symbolTable.get(operand).getAddress();
+                int labelAddress = symbolTable.get(parseLabel(operand)).getAddress();
 
                 if (isFitPCRelative(labelAddress - PC)) {
                     displacement = labelAddress - PC;
@@ -174,6 +174,10 @@ public class PassTwo {
 
         return null;
 
+    }
+
+    private String parseLabel(String operand) {
+        return operand.replace("@", "").replace("+", "").replace(",X", "");
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {

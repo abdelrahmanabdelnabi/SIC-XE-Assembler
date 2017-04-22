@@ -1,8 +1,8 @@
-2017/04/22_19/12        File path set successfully
-2017/04/22_19/12        Start File Parsing
-2017/04/22_19/12        Parsing Completed Successfully
-2017/04/22_19/12        Start Pass One
-2017/04/22_19/12        End Pass One
-2017/04/22_19/12        error in assembling line 11 in the OPERAND part: Undefined label
+2017/04/22_19/15        File path set successfully
+2017/04/22_19/15        Start File Parsing
+2017/04/22_19/15        Parsing Completed Successfully
+2017/04/22_19/15        Start Pass One
+2017/04/22_19/15        End Pass One
+2017/04/22_19/32        error in assembling line 11 in the OPERAND part: Undefined label
 
-2017/04/22_19/12        1 Errors Found, TERMINATED
+2017/04/22_19/32        1 Errors Found, TERMINATED
