@@ -9,42 +9,60 @@ import static src.assembler.utils.Common.extendToLength;
  */
 public class Format_3 extends ObjectBuilder {
     // TODO : ارحم ميتين اهلي
-    //TODO : DONOT MAKE THME PRIVATE FFS !
+    // TODO : الديزاين ده خره يا حبي
+    // TODO : DONOT MAKE THME PRIVATE FFS !
     boolean isIndirect;
     boolean isImmediate;
     boolean isIndexed;
     boolean isBaseRelative;
     boolean isPCRelative;
 
-//    private StringBuilder builder;
-
     @Override
     public String toString() {
-//        // TODO: implement this method
-//        String objectCode = builder.toString();
-//
-//        builder.setLength(0);
-//        return objectCode;
-        String objectString = "";
-        // Add only first 6 bits of the opCode 'as binary'
-        String BinaryString = Integer.toBinaryString(opCode);
-        String extended = extendToLength(BinaryString, 8);
-        String trimmed = extended.substring(0, 6);
-        objectString += (trimmed);
-        // N I X B P E
-        objectString += (isIndirect);
-        objectString += (isImmediate);
-        objectString += (isIndexed);
-        objectString += (isBaseRelative);
-        objectString += (isPCRelative);
-        objectString += ("0");
-        //
-        objectString = extendToLength(Integer.toHexString(Integer.parseInt(objectString, 2)), 3);
-        objectString += (extendToLength(Integer.toHexString(operand), 3));
+        // Clear the String
+        objectCode = "";
+        // Concat. OpCode
+        objectCode += parseOpCodeBinary();
+        // Concat. Flags N I X B P E
+        objectCode += parseFlags();
+        // Convert First part to 3 HEX
+        objectCode = convertToHex(objectCode);
 
-        return objectString.toUpperCase();
+        // Add 3 HEX Operand
+        objectCode += (extendToLength(Integer.toHexString(operand), 3));
+
+        return objectCode.toUpperCase();
     }
 
+    private String convertToHex(String binary) {
+        return extendToLength(Integer.toHexString(Integer.parseInt(binary, 2)), 3);
+    }
+
+    private String parseOpCodeBinary() {
+        // Parse OpCode as binary String , extend its length to 8, get first 6 bits
+        return extendToLength(Integer.toBinaryString(opCode), 8).substring(0, 6);
+    }
+
+    private String parseFlags() {
+        String flags = "";
+        if (isBaseRelative) flags += "1";
+        else flags += "0";
+
+        if (isImmediate) flags += "1";
+        else flags += "0";
+
+        if (isIndexed) flags += "1";
+        else flags += "0";
+
+        if (isIndirect) flags += "1";
+        else flags += "0";
+
+        if (isPCRelative) flags += "1";
+        else flags += "0";
+
+        // Add E = 0
+        return flags + "0";
+    }
 
     @Override
     public void setIndirect(boolean isIndirect) {
