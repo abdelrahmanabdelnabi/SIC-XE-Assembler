@@ -16,11 +16,10 @@ public class WriterTest {
     private String format3_FilePath = relativePath + "/src/testIn/format3.asm";
     private String format4_FilePath = relativePath + "/src/testIn/format4.asm";
     private Parser parser;
-    private InputReader reader;
 
     @Test
     public void testFormat_1() {
-        reader = new InputReader(InputReader.InputType.File, format1_FilePath);
+        InputReader reader = new InputReader(InputReader.InputType.File, format1_FilePath);
         parser = new Parser(reader);
         Run();
     }

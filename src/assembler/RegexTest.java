@@ -2,9 +2,6 @@ package src.assembler;
 
 import org.junit.Test;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.junit.Assert.assertEquals;
 
 /**
