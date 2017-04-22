@@ -40,7 +40,7 @@ public class ListingString implements StringGenerator {
 
     private String formInstructionString(Instruction inst) {
         return String.format(" %-3s| %-10s| %-20s| %-10s| %-20s| %-10s\n", Integer.toString(inst.getLineNumber()),
-                extendToLength(Integer.toHexString(inst.getAddress()), 6),
+                extendToLength(Integer.toHexString(inst.getAddress()).toUpperCase(), 6),
                 inst.getLabel(),
                 inst.getMnemonic(),
                 inst.getOperand(),

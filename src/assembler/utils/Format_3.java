@@ -45,18 +45,19 @@ public class Format_3 extends ObjectBuilder {
 
     private String parseFlags() {
         String flags = "";
-        if (isBaseRelative) flags += "1";
-        else flags += "0";
-
-        if (isImmediate) flags += "1";
-        else flags += "0";
-
-        if (isIndexed) flags += "1";
-        else flags += "0";
-
+        //n
         if (isIndirect) flags += "1";
         else flags += "0";
-
+        //i
+        if (isImmediate) flags += "1";
+        else flags += "0";
+        //x
+        if (isIndexed) flags += "1";
+        else flags += "0";
+        //b
+        if (isBaseRelative) flags += "1";
+        else flags += "0";
+        //p
         if (isPCRelative) flags += "1";
         else flags += "0";
 

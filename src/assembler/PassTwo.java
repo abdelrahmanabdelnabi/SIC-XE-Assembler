@@ -39,11 +39,12 @@ public class PassTwo {
 
     public void execute() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
-        ObjectBuilder format2 = new Format_2();
-        ObjectBuilder format3 = new Format_3();
-        ObjectBuilder format4 = new Format_4();
+
 
         for (Instruction inst : instructions) {
+            ObjectBuilder format2 = new Format_2();
+            ObjectBuilder format3 = new Format_3();
+            ObjectBuilder format4 = new Format_4();
             /*
              * If is Instruction
              */
@@ -70,6 +71,7 @@ public class PassTwo {
                             // TODO: Build the object code using the builder
                             checkIndexed(inst, format3);
                             checkIndirectImmediate(inst, format3);
+                            handleFormat3(inst, format3);
                             inst.setObjectCode(format3.toString());
                             break;
                     }
@@ -122,7 +124,7 @@ public class PassTwo {
         boolean numbersOnly = operand.matches("[0-9]+") || operand.matches("@[0-9]+");
 
         if (direct || indirect || numbersOnly) {
-            if(numbersOnly){
+            if (numbersOnly) {
 
                 displacement = Integer.parseInt(operand.replace('@', '0'));
 
@@ -158,7 +160,7 @@ public class PassTwo {
 
             format3.setIndirect(false);
 
-            if(direct)
+            if (direct)
                 format3.setImmediate(true);
 
             format3.setOpCode(opCode);

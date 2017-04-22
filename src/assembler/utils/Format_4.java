@@ -37,20 +37,17 @@ public class Format_4 extends Format_3 {
 
     private String parseFlags() {
         String flags = "";
-        if (isBaseRelative) flags += "1";
-        else flags += "0";
-
-        if (isImmediate) flags += "1";
-        else flags += "0";
-
+        //n i
+        if (!isIndirect && !isImmediate) flags += "11";
+        else if (isIndirect) flags += "10";
+        else flags += "01";
+        //x
         if (isIndexed) flags += "1";
         else flags += "0";
-
-        if (isIndirect) flags += "1";
-        else flags += "0";
-
-        if (isPCRelative) flags += "1";
-        else flags += "0";
+        //base
+        flags += "0";
+        //pc
+        flags += "0";
 
         // Add E = 1
         return flags + "1";

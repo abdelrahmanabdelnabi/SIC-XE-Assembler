@@ -47,9 +47,9 @@ public class Parser {
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
-                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t", " ");
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
                 // check if comment line , continue
-                if (newLine.charAt(0) == '.') continue;
+                if (newLine.length() == 0 || newLine.charAt(0) == '.') continue;
 
                 // else split line to tokens
                 String tokens[] = newLine.split(" ");
