@@ -7,8 +7,9 @@ import static src.assembler.utils.Common.extendToLength;
 /**
  * Created by ahmed on 4/12/17.
  */
-public class Format_3 extends Format_2 {
-    // DONOT MAKE THME PRIVATE FFS !
+public class Format_3 extends ObjectBuilder {
+    // TODO : ارحم ميتين اهلي
+    //TODO : DONOT MAKE THME PRIVATE FFS !
     boolean isIndirect;
     boolean isImmediate;
     boolean isIndexed;
@@ -43,6 +44,7 @@ public class Format_3 extends Format_2 {
 
         return objectString.toUpperCase();
     }
+
 
     @Override
     public void setIndirect(boolean isIndirect) {

@@ -8,21 +8,18 @@ import static src.assembler.utils.Common.extendToLength;
  * Created by ahmed on 4/12/17.
  */
 public class Format_2 extends ObjectBuilder {
-    protected int operand;
     private int secondOperand;
 
     @Override
     public String toString() {
-        String builder = String.format("%02X", opCode);
-        builder += extendToLength(Integer.toHexString(operand), 1);
-        builder += extendToLength(Integer.toHexString(secondOperand), 1);
-//        String builder = String.format("%02X", opCode) +
-//                String.format("%01X", operand) +
-//                String.format("%01X", secondOperand);
-//
-//        // TODO: reset values to default
-
-        return builder;
+        // Clear The String
+        objectCode = "";
+        // Insert Object Code
+        objectCode += String.format("%02X", opCode);
+        // Insert Operands
+        objectCode += extendToLength(Integer.toHexString(operand), 1);
+        objectCode += extendToLength(Integer.toHexString(secondOperand), 1);
+        return objectCode.toUpperCase();
     }
 
     @Override

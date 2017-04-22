@@ -8,6 +8,8 @@ import src.assembler.datastructures.Format;
 public abstract class ObjectBuilder {
     // the op code of the instruction in decimal
     int opCode;
+    int operand;
+    String objectCode;
 
     public static String buildFormatOne(int opCode) {
         return Integer.toHexString(opCode);
