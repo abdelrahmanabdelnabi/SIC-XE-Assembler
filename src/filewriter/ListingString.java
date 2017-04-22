@@ -25,16 +25,16 @@ public class ListingString implements StringGenerator {
 
     private void formString() {
         // 90
-        data.append(getSeperator());
+        data.append(getSeparator());
         // 4 line - 10 loc cnt - 30 label - 10 mnemonic - 20 operand-10 object
         data.append(String.format("%-3s| %-10s| %-20s| %-10s| %-20s| %-10s\n", "Line", "LOC_CTR",
                 "LABEL", "MNEMONIC", "OPERAND", "Object Code"));
-        data.append(getSeperator());
+        data.append(getSeparator());
 
         for (Instruction instruction : instructions) {
             data.append(formInstructionString(instruction));
         }
-        data.append(getSeperator());
+        data.append(getSeparator());
 
     }
 
@@ -47,7 +47,7 @@ public class ListingString implements StringGenerator {
                 inst.getObjectCode());
     }
 
-    private String getSeperator() {
+    private String getSeparator() {
         return "======================================================================================\n";
     }
 }
