@@ -107,6 +107,5 @@ public class Format_3 extends ObjectBuilder {
     @Override
     public Format getFormat() {
         return Format.FORMAT3;
-
     }
 }

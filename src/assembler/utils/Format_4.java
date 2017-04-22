@@ -11,24 +11,49 @@ public class Format_4 extends Format_3 {
 
     @Override
     public String toString() {
-        String objectString = "";
-        // Add only first 6 bits of the opCode 'as binary'
-        String BinaryString = Integer.toBinaryString(opCode);
-        String extended = extendToLength(BinaryString, 8);
-        String trimmed = extended.substring(0, 6);
-        objectString += (trimmed);
-        // N I X B P E
-        objectString += (isIndirect);
-        objectString += (isImmediate);
-        objectString += (isIndexed);
-        objectString += (isBaseRelative);
-        objectString += (isPCRelative);
-        objectString += ("1");
-        //
-        objectString = extendToLength(Integer.toHexString(Integer.parseInt(objectString, 2)), 3);
-        objectString += (extendToLength(Integer.toHexString(operand), 5));
+        // Clear the String
+        objectCode = "";
+        // Concat. OpCode
+        objectCode += parseOpCodeBinary();
+        // Concat. Flags N I X B P E
+        objectCode += parseFlags();
+        // Convert First part to 3 HEX
+        objectCode = convertToHex(objectCode);
 
-        return objectString.toUpperCase();
+        // Add 5 HEX Operand
+        objectCode += (extendToLength(Integer.toHexString(operand), 5));
+
+        return objectCode.toUpperCase();
+    }
+
+    private String convertToHex(String binary) {
+        return extendToLength(Integer.toHexString(Integer.parseInt(binary, 2)), 3);
+    }
+
+    private String parseOpCodeBinary() {
+        // Parse OpCode as binary String , extend its length to 8, get first 6 bits
+        return extendToLength(Integer.toBinaryString(opCode), 8).substring(0, 6);
+    }
+
+    private String parseFlags() {
+        String flags = "";
+        if (isBaseRelative) flags += "1";
+        else flags += "0";
+
+        if (isImmediate) flags += "1";
+        else flags += "0";
+
+        if (isIndexed) flags += "1";
+        else flags += "0";
+
+        if (isIndirect) flags += "1";
+        else flags += "0";
+
+        if (isPCRelative) flags += "1";
+        else flags += "0";
+
+        // Add E = 1
+        return flags + "1";
     }
 
     @Override
