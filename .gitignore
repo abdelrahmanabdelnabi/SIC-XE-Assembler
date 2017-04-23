@@ -1,6 +1,7 @@
 .git
 out
 .idea
+src/testOut/*
 .idea/workspace.xml
 SIC-XE-Assembler.iml
 
