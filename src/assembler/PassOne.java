@@ -28,6 +28,10 @@ public class PassOne {
         symbolTable = new HashMap<>();
     }
 
+    public static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
+        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
+    }
+
     public void execute() {
         Logger.Log("Start Pass One");
         checkForSTART(instructions.get(0));
@@ -148,7 +152,7 @@ public class PassOne {
             inst.setType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
                 case "BYTE":
-                    objCodeLength = 1;
+                    objCodeLength = calcByteDirectiveSize(inst.getOperand());
                     break;
                 case "RESB":
                     objCodeLength = Integer.parseInt(inst.getOperand());
@@ -171,15 +175,23 @@ public class PassOne {
         loc.increment(objCodeLength);
     }
 
+    private int calcByteDirectiveSize(String operand) {
+        switch (operand.charAt(0)) {
+            case 'C':
+                return operand.length() - 3;
+            case 'X':
+                return (operand.length() - 2) / 2;
+            default:
+                Logger.Log("Unknown byte directive type !" + operand);
+        }
+        return 0;
+    }
+
     public List<Instruction> getInstructions() {
         return instructions;
     }
 
     public HashMap<String, SymbolProperties> getSymbolTable() {
         return symbolTable;
-    }
-
-    public static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
     }
 }
