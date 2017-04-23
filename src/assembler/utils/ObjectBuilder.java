@@ -37,7 +37,9 @@ public abstract class ObjectBuilder {
 
     public abstract void setPCRelative(boolean isPCRelative);
 
-    public abstract void setOperand(int operand);
+    public void setOperand(int operand) {
+        this.operand = operand;
+    }
 
     public abstract void setSecondOperand(int secondOperand);
 

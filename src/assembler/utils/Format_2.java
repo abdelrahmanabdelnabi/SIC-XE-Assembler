@@ -48,11 +48,6 @@ public class Format_2 extends ObjectBuilder {
     }
 
     @Override
-    public void setOperand(int operand) {
-        this.operand = operand;
-    }
-
-    @Override
     public void setSecondOperand(int secondOperand) {
         this.secondOperand = secondOperand;
     }
