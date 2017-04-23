@@ -6,6 +6,7 @@ import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
+import src.parser.ParsingException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,8 +72,8 @@ public class PassTwo {
                             // TODO: Build the object code using the builder
                             checkIndexed(inst, format3);
                             checkIndirectImmediate(inst, format3);
-                            handleFormat3(inst, format3);
-                            inst.setObjectCode(format3.toString());
+                            String obj = handleFormat3(inst, format3);
+                            inst.setObjectCode(obj);
                             break;
                     }
                 }
@@ -110,70 +111,73 @@ public class PassTwo {
     }
 
     private String handleFormat3(Instruction inst, ObjectBuilder format3) {
+        // prepare needed input
+        // TODO: refactor into a separate function
         int PC = inst.getAddress() + 3;
-
         int opCode = getOpCode(inst.getMnemonic());
-
         String operand = inst.getOperand();
 
         int displacement = 0;
 
-        // Case 1: operand is only letters
-        boolean direct = operand.matches("[a-zA-Z]+");
-        boolean indirect = operand.matches("@[a-zA-Z]+");
+        boolean direct = operand.matches("@[a-zA-Z]+") || operand.matches("@[0-9]+");
         boolean numbersOnly = operand.matches("[0-9]+") || operand.matches("@[0-9]+");
 
-        if (direct || indirect || numbersOnly) {
-            if (numbersOnly) {
+        // Checks if an operand is Valid.. does not account for literals
+        // note also that this does NOT allow spaces in the operand
+        boolean validFormat =
+                operand.matches("([#@]?([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+)))|(([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
-                displacement = Integer.parseInt(operand.replace('@', '0'));
+        if (!validFormat) {
+            throw new ParsingException("Operand is Invalid", inst.getLineNumber());
+        }
 
-            } else if (!symbolTable.containsKey(parseLabel(operand))) {
+        // prepare needed flags
+        boolean indirect = operand.startsWith("@");
+        boolean indexed = operand.endsWith(",X");
+        boolean immediate = operand.startsWith("#");
+        boolean simple = !(indirect || indexed || immediate);
+
+        String rawOperand = operand.replace("#", "")
+                .replace("@", "").replace(",X", "");
+
+        /*
+        TODO: find a correct and convenient way of asserting whether a string is a number or
+        not (decimal or hexadecimal)
+        Integer.pasreInt() would probably work
+        */
+        boolean isNumber = false;
+
+        if (!isNumber) {
+            if (!symbolTable.containsKey(rawOperand)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error + "\n");
                 throw new AssemblerException(error);
-            } else {
-                int labelAddress = symbolTable.get(parseLabel(operand)).getAddress();
-
-                if (isFitPCRelative(labelAddress - PC)) {
-                    displacement = labelAddress - PC;
-                    format3.setPCRelative(true);
-
-                } else if (isFitBaseRelative(labelAddress - baseAddress)) {
-                    displacement = labelAddress - baseAddress;
-
-                    format3.setBaseRelative(true);
-                    format3.setOperand(displacement);
-
-                } else {
-                    // error: displacement doesn't fit in instruction
-                    String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
-                            .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
-
-                    Logger.LogError(error + "\n");
-
-                    throw new AssemblerException(error);
-                }
             }
+        }
+        // TODO: should i check here if the number is 0 <= c<= 4095?
 
-            format3.setIndirect(false);
+        // according to the last page in the reference operand can either be one of simple
+        // or indirect or indexed or immediate
 
-            if (direct)
-                format3.setImmediate(true);
+        // TODO: handle each addressing mode
+        if (simple) {
 
-            format3.setOpCode(opCode);
+        } else if (immediate) {
 
-            format3.setOperand(displacement);
+        } else if (indexed) {
 
-            return format3.toString();
+        } else { // indirect
+
         }
 
-        // TODO: handle immediate and indexed modes
-
         return null;
+    }
 
+    private int calculateDisplacement(boolean isSimple, boolean isIndirect, boolean isImmediate,
+                                      boolean isIndexed, int PC) {
+        return 0;
     }
 
     private String parseLabel(String operand) {
