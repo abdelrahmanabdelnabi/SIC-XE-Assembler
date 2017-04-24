@@ -14,7 +14,7 @@ import static src.assembler.datastructures.OpcodeTable.isMnemonic;
 
 /**
  * Responsible for reading an input assembly file
- * possible containing comments or unexpected characters, parses it an creates
+ * possibly containing comments or unexpected characters, parses it an creates
  * an arrayList of Instruction in the order they appear in the input file.
  * does not know the details of the src.assembler or instructions
  */
@@ -40,10 +40,11 @@ public class Parser {
      * @throws ParsingException
      */
     public void parse() throws ParsingException {
-        try {
             Logger.Log("Start File Parsing");
             String newLine;
             int lineNumber = 0;
+        try {
+
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
@@ -83,10 +84,15 @@ public class Parser {
                  * Error !
                  */
                 else {
-                    Logger.Log("Line " + lineNumber + " is Not a valid SIC-XE instruction !");
-                    throw new ParsingException("Unrecognized line format " + "(" + newLine + ")",
+                    // TODO: print a more descriptive error message (ex: unkown mnemmonic /
+                    // TODO: unexpected token ...
+                    Logger.LogError("Line " + lineNumber + " ( " + newLine + " )" + " is Not a " +
+                            "valid SIC(/XE) instruction !");
+                    throw new ParsingException("Unrecognized line format " + "( " + newLine + " )",
                             lineNumber);
                 }
+
+                
             }
             Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {

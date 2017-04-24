@@ -1,6 +1,9 @@
-package src.assembler;
+package src.assembler.core;
 
+import org.junit.Assert;
 import org.junit.Test;
+import src.assembler.Instruction;
+import src.assembler.SymbolProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,7 @@ public class AssemblerTest {
         assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, assembler
                 .getSymbolTable().size());
 
-        assertEquals( assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
+        Assert.assertEquals( assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
                 (0).getAddress());
         assertEquals(assembler.getSymbolTable().get("FIRST").getAddress(), new SymbolProperties
                 (0).getAddress());

@@ -1,5 +1,6 @@
-package src.assembler;
+package src.assembler.core;
 
+import src.assembler.*;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.LocationCounter;

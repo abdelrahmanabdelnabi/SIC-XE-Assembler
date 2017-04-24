@@ -1,4 +1,7 @@
-package src.assembler;
+package src.assembler.core;
+
+import src.assembler.Instruction;
+import src.assembler.SymbolProperties;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,8 @@
-package src.assembler;
+package src.assembler.utils;
 
 import org.junit.Test;
+import src.assembler.Instruction;
+import src.assembler.core.Assembler;
 import src.parser.InputReader;
 import src.parser.Parser;
 

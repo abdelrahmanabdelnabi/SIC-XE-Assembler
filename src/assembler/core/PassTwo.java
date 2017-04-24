@@ -1,12 +1,12 @@
-package src.assembler;
+package src.assembler.core;
 
+import src.assembler.*;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
-import src.parser.ParsingException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,7 @@ import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
  */
 public class PassTwo {
     private final HashMap<String, SymbolProperties> symbolTable;
-    private List<Instruction> instructions;
+    private List<src.assembler.Instruction> instructions;
     private Set<String> directives = getAssemblerDirectivesSet();
     private Map<String, InstProp> OPTAB = getOpcodeTable();
 
@@ -261,8 +261,7 @@ public class PassTwo {
         return number >= 0 && number <= 4095;
     }
 
-
-    List<Instruction> getOutputInstructions() {
+    public List<Instruction> getOutputInstructions() {
         return instructions;
     }
 

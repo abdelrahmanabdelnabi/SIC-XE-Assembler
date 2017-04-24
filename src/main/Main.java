@@ -1,7 +1,7 @@
 package src.main;
 
-import src.assembler.Assembler;
-import src.assembler.AssemblerException;
+import src.assembler.core.Assembler;
+import src.assembler.core.AssemblerException;
 import src.assembler.Logger;
 import src.filewriter.ListingString;
 import src.filewriter.ObjectString;
@@ -21,7 +21,7 @@ public class Main {
         // String path = args[0];
         String relativePath = System.getProperty("user.dir");
 
-        String path = relativePath + "/src/testCodes/addr-immediate/addr-immediate.asm";
+        String path = relativePath + "/src/testCodes/addr-indirect/addr-indirect.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);
@@ -55,7 +55,7 @@ public class Main {
         String errorFile = path.replace(".asm", "_log.txt");
         String symTab = path.replace(".asm", "_symTab.txt");
         String aboFayezTab = path.replace(".asm", "_LstFile.txt");
-        String objectFile = path.replace(".asm", ".obj");
+        String objectFile = path.replace(".asm", "_obj.obj");
 
         // Symbols
         writer.setFileName(symTab);
