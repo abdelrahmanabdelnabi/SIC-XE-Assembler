@@ -137,8 +137,8 @@ public class PassTwo {
                 .replace("@", "").replace(",X", "");
 
 
-        boolean isDecimal = rawOperand.matches("[0-9]+");
-        boolean isHexaDecimal = rawOperand.matches("0x[0-9A-F]+");
+        boolean isDecimal = rawOperand.matches("-?[0-9]+");
+        boolean isHexaDecimal = rawOperand.matches("0x-?[0-9A-F]+");
 
         int displacement = 0;
 
@@ -148,7 +148,7 @@ public class PassTwo {
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error);
-                throw new AssemblerException(error);
+                throw new AssemblerException(inst.toString() + " " + error);
             }
         } else { // if number
             // check if it fits in the displacement of a fromat 3 instruction
@@ -161,7 +161,7 @@ public class PassTwo {
                 value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
             }
 
-            if(!isFitConstant(value)) {
+            if(!isFitPCRelative(value)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
