@@ -79,7 +79,7 @@ public class PassTwo {
              * if is assembler directive
              */
             else if (inst.getType() == Directive) {
-                // TODO : Handle directives
+                // TODO : Handle directives (also set baseFlag and base address appropriately)
             }
         }
     }
@@ -109,7 +109,6 @@ public class PassTwo {
 
     private String handleFormat3(Instruction inst, ObjectBuilder format3) {
         // prepare needed input
-        // TODO: refactor into a separate function
         int PC = inst.getAddress() + 3;
         int opCode = getOpCode(inst.getMnemonic());
         String operand = inst.getOperand();
@@ -121,7 +120,10 @@ public class PassTwo {
                 operand.matches("([#@]?([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+)))|(([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
         if (!validFormat) {
-            throw new ParsingException("Operand is Invalid", inst.getLineNumber());
+            String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                    .OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
+            Logger.LogError(error);
+            throw new AssemblerException(error);
         }
 
         // prepare needed flags
@@ -131,7 +133,6 @@ public class PassTwo {
         boolean simple = !(indirect || indexed || immediate);
 
         String rawOperand = getRawOperand(operand);
-
 
         boolean isDecimal = rawOperand.matches("-?[0-9]+");
         boolean isHexaDecimal = rawOperand.matches("0x-?[0-9A-F]+");
@@ -255,14 +256,13 @@ public class PassTwo {
         return displacement >= -2048 && displacement <= 2047;
     }
 
-    /*
-    * returns true if the number is between 0 and 4095 inclusive */
+    /* returns true if the number is between 0 and 4095 inclusive */
     private boolean isFitConstant(int number) {
         return number >= 0 && number <= 4095;
     }
 
 
-    public List<Instruction> getOutputInstructions() {
+    List<Instruction> getOutputInstructions() {
         return instructions;
     }
 
