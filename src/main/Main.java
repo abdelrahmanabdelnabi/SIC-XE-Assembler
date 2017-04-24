@@ -19,8 +19,10 @@ public class Main {
 
         // take argument from command line
         // String path = args[0];
+        String relativePath = System.getProperty("user.dir");
+        String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
 
-        String path = "/home/ahmed/Data/Workspace/IdeaProjects/SIC-XE-Assembler/src/testIn/code.asm";
+        String path = relativePath + "/src/testIn/code.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);

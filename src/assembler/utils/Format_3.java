@@ -96,11 +96,6 @@ public class Format_3 extends ObjectBuilder {
     }
 
     @Override
-    public void setOperand(int operand) {
-        this.operand = operand;
-    }
-
-    @Override
     public void setSecondOperand(int secondOperand) {
         throw new UnsupportedOperationException("Format 3 and 4 do not have a second operand");
     }

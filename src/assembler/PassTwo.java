@@ -117,10 +117,6 @@ public class PassTwo {
         int opCode = getOpCode(inst.getMnemonic());
         String operand = inst.getOperand();
 
-        int displacement = 0;
-
-        boolean direct = operand.matches("@[a-zA-Z]+") || operand.matches("@[0-9]+");
-        boolean numbersOnly = operand.matches("[0-9]+") || operand.matches("@[0-9]+");
 
         // Checks if an operand is Valid.. does not account for literals
         // note also that this does NOT allow spaces in the operand
@@ -140,39 +136,84 @@ public class PassTwo {
         String rawOperand = operand.replace("#", "")
                 .replace("@", "").replace(",X", "");
 
-        /*
-        TODO: find a correct and convenient way of asserting whether a string is a number or
-        not (decimal or hexadecimal)
-        Integer.pasreInt() would probably work
-        */
-        boolean isNumber = false;
 
-        if (!isNumber) {
+        boolean isDecimal = rawOperand.matches("[0-9]+");
+        boolean isHexaDecimal = rawOperand.matches("0x[0-9A-F]+");
+
+        int displacement = 0;
+
+        if (!(isDecimal || isHexaDecimal)) {
             if (!symbolTable.containsKey(rawOperand)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
-                Logger.LogError(error + "\n");
+                Logger.LogError(error);
+                throw new AssemblerException(error);
+            }
+        } else { // if number
+            // check if it fits in the displacement of a fromat 3 instruction
+            int value;
+            if(isDecimal) {
+                value = Integer.parseInt(rawOperand);
+            }
+            else // hexadecimal
+            {
+                value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
+            }
+
+            if(!isFitConstant(value)) {
+                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                        .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
+
+                Logger.LogError(error);
+                throw new AssemblerException(error);
+            }
+            displacement = value;
+        }
+
+        // set displacement if not a number
+        if(!(isDecimal || isHexaDecimal)) {
+
+            // check range of operand for base and pc relative
+            int labelAddress = symbolTable.get(rawOperand).getAddress();
+            if(isFitPCRelative(labelAddress - PC)) {
+                displacement = labelAddress - PC;
+            } else if(isBaseSet && isFitConstant(labelAddress - baseAddress)) {
+                displacement = labelAddress - PC;
+            } else {
+                // error
+                // operand address can not fit into a format 3 instruction
+                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                        .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
+
+                Logger.LogError(error);
                 throw new AssemblerException(error);
             }
         }
-        // TODO: should i check here if the number is 0 <= c<= 4095?
+
+        format3.setOperand(displacement);
+        format3.setOpCode(opCode);
 
         // according to the last page in the reference operand can either be one of simple
         // or indirect or indexed or immediate
 
-        // TODO: handle each addressing mode
+        // set flags
         if (simple) {
-
+            format3.setIndirect(true);
+            format3.setImmediate(true);
         } else if (immediate) {
-
+            format3.setIndirect(false);
+            format3.setImmediate(true);
         } else if (indexed) {
-
+            format3.setIndirect(true);
+            format3.setImmediate(true);
+            format3.setIndexed(true);
         } else { // indirect
-
+            format3.setIndirect(true);
+            format3.setImmediate(false);
         }
 
-        return null;
+        return format3.toString();
     }
 
     private int calculateDisplacement(boolean isSimple, boolean isIndirect, boolean isImmediate,
@@ -221,8 +262,10 @@ public class PassTwo {
         return displacement >= -2048 && displacement <= 2047;
     }
 
-    private boolean isFitBaseRelative(int displacement) {
-        return displacement >= 0 && displacement <= 4095;
+    /*
+    * returns true if the number is between 0 and 4095 inclusive */
+    private boolean isFitConstant(int number) {
+        return number >= 0 && number <= 4095;
     }
 
 
