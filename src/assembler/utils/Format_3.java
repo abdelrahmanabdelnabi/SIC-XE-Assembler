@@ -66,37 +66,37 @@ public class Format_3 extends ObjectBuilder {
     }
 
     @Override
-    public void setIndirect(boolean isIndirect) {
+    public ObjectBuilder setIndirect(boolean isIndirect) {
         this.isIndirect = isIndirect;
-
+        return this;
     }
 
     @Override
-    public void setImmediate(boolean isImmediate) {
+    public ObjectBuilder setImmediate(boolean isImmediate) {
         this.isImmediate = isImmediate;
-
+        return this;
     }
 
     @Override
-    public void setIndexed(boolean isIndexed) {
+    public ObjectBuilder setIndexed(boolean isIndexed) {
         this.isIndexed = isIndexed;
-
+        return this;
     }
 
     @Override
-    public void setBaseRelative(boolean isBaseRelative) {
+    public ObjectBuilder setBaseRelative(boolean isBaseRelative) {
         this.isBaseRelative = isBaseRelative;
-
+        return this;
     }
 
     @Override
-    public void setPCRelative(boolean isPCRelative) {
+    public ObjectBuilder setPCRelative(boolean isPCRelative) {
         this.isPCRelative = isPCRelative;
-
+        return this;
     }
 
     @Override
-    public void setSecondOperand(int secondOperand) {
+    public ObjectBuilder setSecondOperand(int secondOperand) {
         throw new UnsupportedOperationException("Format 3 and 4 do not have a second operand");
     }
 

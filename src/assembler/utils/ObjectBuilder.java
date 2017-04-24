@@ -23,25 +23,27 @@ public abstract class ObjectBuilder {
     @Override
     public abstract String toString();
 
-    public void setOpCode(int opCode) {
+    public ObjectBuilder setOpCode(int opCode) {
         this.opCode = opCode;
+        return this;
     }
 
-    public abstract void setIndirect(boolean isIndirect);
+    public abstract ObjectBuilder setIndirect(boolean isIndirect);
 
-    public abstract void setImmediate(boolean isImmediate);
+    public abstract ObjectBuilder setImmediate(boolean isImmediate);
 
-    public abstract void setIndexed(boolean isIndexed);
+    public abstract ObjectBuilder setIndexed(boolean isIndexed);
 
-    public abstract void setBaseRelative(boolean isBaseRelative);
+    public abstract ObjectBuilder setBaseRelative(boolean isBaseRelative);
 
-    public abstract void setPCRelative(boolean isPCRelative);
+    public abstract ObjectBuilder setPCRelative(boolean isPCRelative);
 
-    public void setOperand(int operand) {
+    public ObjectBuilder setOperand(int operand) {
         this.operand = operand;
+        return this;
     }
 
-    public abstract void setSecondOperand(int secondOperand);
+    public abstract ObjectBuilder setSecondOperand(int secondOperand);
 
     public abstract Format getFormat();
 }
