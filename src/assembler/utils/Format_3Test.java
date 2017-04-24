@@ -117,7 +117,7 @@ public class Format_3Test {
         // test inst: LDA #50
         // nixbpe = 010000, disp = 32, expected = 010032
         String obj = builder.setOpCode(LDA).setImmediate(true).setOperand(50).toString();
-        assertEquals("Wrong object code for \"LDA @50\"", "010032", obj);
+        assertEquals("Wrong object code for \"LDA #50\"", "010032", obj);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class Format_3Test {
         // test inst: LDA #LABEL
         // nixbpe = 010010, disp = 32, expected = 012032
         String obj = builder.setOpCode(LDA).setImmediate(true).setPCRelative(true).setOperand(50).toString();
-        assertEquals("Wrong object code for \"LDA @LABEL\" where LABEL - PC = 50", "012032",
+        assertEquals("Wrong object code for \"LDA #LABEL\" where LABEL - PC = 50", "012032",
                 obj);
     }
 
@@ -134,7 +134,7 @@ public class Format_3Test {
         // test inst: LDA #LABEL
         // nixbpe = 010100, disp = 32, expected = 014032
         String obj = builder.setOpCode(LDA).setImmediate(true).setBaseRelative(true).setOperand(50).toString();
-        assertEquals("Wrong object code for \"LDA @LABEL\" where LABEL - BASE = 50", "014032",
+        assertEquals("Wrong object code for \"LDA #LABEL\" where LABEL - BASE = 50", "014032",
                 obj);
     }
 
