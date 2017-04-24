@@ -16,4 +16,6 @@ public class ErrorStrings {
 
     public static String DISP_OUT_OF_RANGE = "The displacement relative to the program counter or" +
             " the base address are out of range";
+
+    public static String INVALID_OPERAND_FORMAT = "Operand format is invalid";
 }

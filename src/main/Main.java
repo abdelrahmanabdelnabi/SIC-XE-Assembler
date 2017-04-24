@@ -20,9 +20,8 @@ public class Main {
         // take argument from command line
         // String path = args[0];
         String relativePath = System.getProperty("user.dir");
-        String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
 
-        String path = relativePath + "/src/testIn/code.asm";
+        String path = relativePath + "/src/testCodes/addr-immediate/addr-immediate.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);
@@ -31,26 +30,24 @@ public class Main {
             parser.parse();
         } catch (ParsingException pe) {
             // TODO: output errors to stdout as well as log file
-            System.out.println(pe.getMessage());
+            System.out.println("Parsing Error: " + pe.getMessage());
         }
+
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
+
         try {
-
-
             assembler.executePassOne();
             assembler.executePassTwo();
+
         } catch (AssemblerException ae) {
             // TODO: output errors to stdout as well as log file
-            Writer writer = new Writer("");
-            String errorFile = path.replace(".asm", "_log.txt");
-            writer.setFileName(errorFile);
-            writer.writeToFile(Logger.getLogString());
-
-            System.out.println(ae.getMessage());
+            System.out.println("Assembling Error: " + ae.getMessage());
 
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
+
+        Writer writer = new Writer("");
 
         path = path.replace("testIn", "testOut");
 
@@ -59,8 +56,6 @@ public class Main {
         String symTab = path.replace(".asm", "_symTab.txt");
         String aboFayezTab = path.replace(".asm", "_LstFile.txt");
         String objectFile = path.replace(".asm", ".obj");
-
-        Writer writer = new Writer("");
 
         // Symbols
         writer.setFileName(symTab);

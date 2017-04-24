@@ -69,9 +69,6 @@ public class PassTwo {
                             inst.setObjectCode(format2.toString());
                             break;
                         case FORMAT3:
-                            // TODO: Build the object code using the builder
-                            checkIndexed(inst, format3);
-                            checkIndirectImmediate(inst, format3);
                             String obj = handleFormat3(inst, format3);
                             inst.setObjectCode(obj);
                             break;
@@ -82,7 +79,7 @@ public class PassTwo {
              * if is assembler directive
              */
             else if (inst.getType() == Directive) {
-                // TODO : Handle directives
+                // TODO : Handle directives (also set baseFlag and base address appropriately)
             }
         }
     }
@@ -112,7 +109,6 @@ public class PassTwo {
 
     private String handleFormat3(Instruction inst, ObjectBuilder format3) {
         // prepare needed input
-        // TODO: refactor into a separate function
         int PC = inst.getAddress() + 3;
         int opCode = getOpCode(inst.getMnemonic());
         String operand = inst.getOperand();
@@ -124,7 +120,10 @@ public class PassTwo {
                 operand.matches("([#@]?([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+)))|(([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
         if (!validFormat) {
-            throw new ParsingException("Operand is Invalid", inst.getLineNumber());
+            String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                    .OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
+            Logger.LogError(error);
+            throw new AssemblerException(error);
         }
 
         // prepare needed flags
@@ -133,12 +132,10 @@ public class PassTwo {
         boolean immediate = operand.startsWith("#");
         boolean simple = !(indirect || indexed || immediate);
 
-        String rawOperand = operand.replace("#", "")
-                .replace("@", "").replace(",X", "");
+        String rawOperand = getRawOperand(operand);
 
-
-        boolean isDecimal = rawOperand.matches("[0-9]+");
-        boolean isHexaDecimal = rawOperand.matches("0x[0-9A-F]+");
+        boolean isDecimal = rawOperand.matches("-?[0-9]+");
+        boolean isHexaDecimal = rawOperand.matches("0x-?[0-9A-F]+");
 
         int displacement = 0;
 
@@ -148,7 +145,7 @@ public class PassTwo {
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error);
-                throw new AssemblerException(error);
+                throw new AssemblerException(inst.toString() + " " + error);
             }
         } else { // if number
             // check if it fits in the displacement of a fromat 3 instruction
@@ -161,7 +158,7 @@ public class PassTwo {
                 value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
             }
 
-            if(!isFitConstant(value)) {
+            if(!isFitPCRelative(value)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
@@ -216,13 +213,10 @@ public class PassTwo {
         return format3.toString();
     }
 
-    private int calculateDisplacement(boolean isSimple, boolean isIndirect, boolean isImmediate,
-                                      boolean isIndexed, int PC) {
-        return 0;
-    }
 
-    private String parseLabel(String operand) {
-        return operand.replace("@", "").replace("+", "").replace(",X", "");
+    private String getRawOperand(String operand) {
+        return operand.replace("#", "")
+                .replace("@", "").replace(",X", "");
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
@@ -262,14 +256,13 @@ public class PassTwo {
         return displacement >= -2048 && displacement <= 2047;
     }
 
-    /*
-    * returns true if the number is between 0 and 4095 inclusive */
+    /* returns true if the number is between 0 and 4095 inclusive */
     private boolean isFitConstant(int number) {
         return number >= 0 && number <= 4095;
     }
 
 
-    public List<Instruction> getOutputInstructions() {
+    List<Instruction> getOutputInstructions() {
         return instructions;
     }
 
