@@ -69,9 +69,6 @@ public class PassTwo {
                             inst.setObjectCode(format2.toString());
                             break;
                         case FORMAT3:
-                            // TODO: Build the object code using the builder
-                            checkIndexed(inst, format3);
-                            checkIndirectImmediate(inst, format3);
                             String obj = handleFormat3(inst, format3);
                             inst.setObjectCode(obj);
                             break;
@@ -133,8 +130,7 @@ public class PassTwo {
         boolean immediate = operand.startsWith("#");
         boolean simple = !(indirect || indexed || immediate);
 
-        String rawOperand = operand.replace("#", "")
-                .replace("@", "").replace(",X", "");
+        String rawOperand = getRawOperand(operand);
 
 
         boolean isDecimal = rawOperand.matches("-?[0-9]+");
@@ -216,13 +212,10 @@ public class PassTwo {
         return format3.toString();
     }
 
-    private int calculateDisplacement(boolean isSimple, boolean isIndirect, boolean isImmediate,
-                                      boolean isIndexed, int PC) {
-        return 0;
-    }
 
-    private String parseLabel(String operand) {
-        return operand.replace("@", "").replace("+", "").replace(",X", "");
+    private String getRawOperand(String operand) {
+        return operand.replace("#", "")
+                .replace("@", "").replace(",X", "");
     }
 
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
