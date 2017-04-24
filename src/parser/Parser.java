@@ -84,7 +84,8 @@ public class Parser {
                  */
                 else {
                     Logger.Log("Line " + lineNumber + " is Not a valid SIC-XE instruction !");
-                    throw new ParsingException("Unrecognized line format", lineNumber);
+                    throw new ParsingException("Unrecognized line format " + "(" + newLine + ")",
+                            lineNumber);
                 }
             }
             Logger.Log("Parsing Completed Successfully");
