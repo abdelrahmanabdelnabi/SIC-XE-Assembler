@@ -67,9 +67,8 @@ public class AssemblerTest {
 
         String actual = assembler.getObjectCode();
 
-        assertEquals("Generated object code does not match the expected code", correctObjectCode1, actual);
+        assertEquals("Generated object code does not match the expected code", correctObjectCode3, actual);
     }
-
     private String readFile(String filePath) {
         String result = "";
         try {
