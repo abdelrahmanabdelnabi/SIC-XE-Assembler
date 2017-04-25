@@ -29,10 +29,10 @@ public class PassOneTest {
 
 
         Assembler assembler = new Assembler(tests);
+        PassOne passOne = new PassOne(tests);
+        passOne.execute();
 
-        assembler.executePassOne();
-
-        List<Instruction> actualOutput = assembler.getInstructions();
+        List<Instruction> actualOutput = passOne.getInstructions();
 
         List<Instruction> correctOutput = new ArrayList<>(tests);
         correctOutput = correctOutput.subList(1, correctOutput.size());

@@ -37,14 +37,12 @@ public class WriterTest {
         assembler.executePassOne();
         assembler.executePassTwo();
 
-        for (Instruction inst : assembler.getInstructions()) {
-            System.out.println(inst.getObjectCode());
-        }
+        System.out.println(assembler.getObjectCode());
+
         Writer writer = new Writer(relativePath + "/src/testOut/");
 
         writer.setFileName("format1.obj");
-        StringGenerator objectString = new ObjectString(assembler.getInstructions());
-        writer.writeToFile(objectString.toString());
+        writer.writeToFile(assembler.getObjectCode());
 
         writer.setFileName("format1_symTab.txt");
         StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable());

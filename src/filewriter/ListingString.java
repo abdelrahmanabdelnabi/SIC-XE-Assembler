@@ -16,10 +16,10 @@ public class ListingString implements StringGenerator {
     public ListingString(List<Instruction> instructions) {
         this.instructions = instructions;
         data = new StringBuilder();
-        formString();
     }
 
     public String toString() {
+        formString();
         return data.toString();
     }
 
