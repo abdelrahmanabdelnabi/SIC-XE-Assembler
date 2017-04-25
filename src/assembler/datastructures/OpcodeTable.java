@@ -128,6 +128,8 @@ public class OpcodeTable {
         assemblerDirectives.add("WORD");
         assemblerDirectives.add("RESW");
         assemblerDirectives.add("START");
+        assemblerDirectives.add("BASE");
+        assemblerDirectives.add("NOBASE");
         assemblerDirectives.add("END");
         assemblerDirectives.add("ORG");
         assemblerDirectives.add("LTORG");
