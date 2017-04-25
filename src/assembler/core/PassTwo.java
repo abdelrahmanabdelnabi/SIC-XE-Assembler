@@ -131,6 +131,10 @@ public class PassTwo {
         int opCode = getOpCode(inst.getMnemonic());
         String operand = inst.getOperand();
 
+        // corner case: RSUB doesn't have operands
+        if(inst.getMnemonic().equals("RSUB"))
+            return format3.setOpCode(opCode).setOperand(0).toString();
+
 
         // Checks if an operand is Valid.. does not account for literals
         // note also that this does NOT allow spaces in the operand
