@@ -270,6 +270,10 @@ public class PassTwo {
         // check is value or symbol
         if (Pattern.matches("[0-9]+", operand)) {
             TA = Integer.parseInt(operand);
+        }
+        // IF Operand is HEX Immediate
+        else if (Pattern.matches("0x[0-9]+", operand)) {
+            TA = Integer.parseInt(operand.substring(2), 16);
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
         } else {
