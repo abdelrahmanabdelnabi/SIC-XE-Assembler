@@ -80,6 +80,24 @@ public class PassTwo {
              */
             else if (inst.getType() == Directive) {
                 // TODO : Handle directives (also set baseFlag and base address appropriately)
+                String directive = inst.getMnemonic();
+                switch (directive) {
+                    case "BASE":
+                        // check if label is defined
+                        String operand = inst.getOperand();
+                        if(!symbolTable.containsKey(operand)) {
+                            // TODO: throw error
+                        } else {
+                            isBaseSet = true;
+                            baseAddress = symbolTable.get(operand).getAddress();
+                        }
+
+                        break;
+                    case "NOBASE":
+                        isBaseSet = false;
+                        baseAddress = 0;
+                        break;
+                }
             }
         }
     }
@@ -176,7 +194,7 @@ public class PassTwo {
             if(isFitPCRelative(labelAddress - PC)) {
                 displacement = labelAddress - PC;
             } else if(isBaseSet && isFitConstant(labelAddress - baseAddress)) {
-                displacement = labelAddress - PC;
+                displacement = labelAddress - baseAddress;
             } else {
                 // error
                 // operand address can not fit into a format 3 instruction
