@@ -14,8 +14,8 @@ public class Format_3 extends ObjectBuilder {
     boolean isIndirect;
     boolean isImmediate;
     boolean isIndexed;
-    boolean isBaseRelative;
-    boolean isPCRelative;
+    private boolean isBaseRelative;
+    private boolean isPCRelative;
 
     @Override
     public String toString() {

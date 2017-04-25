@@ -103,7 +103,9 @@ public class OpcodeTable {
         opCodeTable.put("MULF", new InstProp(96, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("OR", new InstProp(68, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("RD", new InstProp(216, Format.FORMAT3, VALUE, NONE));
-        opCodeTable.put("RSUB", new InstProp(76, Format.FORMAT3, VALUE, NONE));
+
+        //FIX Special case
+        opCodeTable.put("RSUB", new InstProp(76, Format.FORMAT3, NONE, NONE));
         opCodeTable.put("TD", new InstProp(224, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("TIX", new InstProp(44, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("WD", new InstProp(220, Format.FORMAT3, VALUE, NONE));

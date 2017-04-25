@@ -21,7 +21,7 @@ public class ObjectString implements StringGenerator {
 
     public String toString() {
         formHTE();
-        return objectCode.toString().toUpperCase();
+        return objectCode.toString();
     }
 
     private void formHTE() {
@@ -47,9 +47,9 @@ public class ObjectString implements StringGenerator {
                 // Close current T Record
                 objectCode.append("T");
                 // starting address of the record
-                objectCode.append(extendToLength(Integer.toHexString(startAddress), 6));
+                objectCode.append(extendToLength(Integer.toHexString(startAddress), 6).toUpperCase());
                 // record length
-                objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2));
+                objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2).toUpperCase());
                 // the object code
                 objectCode.append(T.toString()).append("\n");
 
@@ -60,12 +60,12 @@ public class ObjectString implements StringGenerator {
         }
         // append remaining T
         objectCode.append("T");
-        objectCode.append(extendToLength(Integer.toHexString(startAddress), 6));
-        objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2));
+        objectCode.append(extendToLength(Integer.toHexString(startAddress).toUpperCase(), 6));
+        objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2).toUpperCase());
         objectCode.append(T.toString()).append("\n");
 
         // Create E
         objectCode.append("E");
-        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6).toUpperCase());
     }
 }

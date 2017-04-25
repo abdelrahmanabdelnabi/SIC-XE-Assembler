@@ -69,8 +69,8 @@ public class PassTwo {
                             inst.setObjectCode(format2.toString());
                             break;
                         case FORMAT3:
-                            String obj = handleFormat3(inst, format3);
-                            inst.setObjectCode(obj);
+                            handleFormat3(inst, format3);
+                            inst.setObjectCode(format3.toString());
                             break;
                     }
                 }
@@ -85,7 +85,7 @@ public class PassTwo {
                     case "BASE":
                         // check if label is defined
                         String operand = inst.getOperand();
-                        if(!symbolTable.containsKey(operand)) {
+                        if (!symbolTable.containsKey(operand)) {
                             // TODO: throw error
                         } else {
                             isBaseSet = true;
@@ -132,9 +132,9 @@ public class PassTwo {
         String operand = inst.getOperand();
 
         // corner case: RSUB doesn't have operands
-        if(inst.getMnemonic().equals("RSUB"))
+        if (inst.getMnemonic().equals("RSUB"))
             return format3.setOpCode(opCode).setIndirect(true).setImmediate(true).setOperand(0)
-                .toString();
+                    .toString();
 
 
         // Checks if an operand is Valid.. does not account for literals
@@ -173,15 +173,14 @@ public class PassTwo {
         } else { // if number
             // check if it fits in the displacement of a fromat 3 instruction
             int value;
-            if(isDecimal) {
+            if (isDecimal) {
                 value = Integer.parseInt(rawOperand);
-            }
-            else // hexadecimal
+            } else // hexadecimal
             {
                 value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
             }
 
-            if(!isFitPCRelative(value)) {
+            if (!isFitPCRelative(value)) {
                 String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
@@ -192,14 +191,14 @@ public class PassTwo {
         }
 
         // set displacement if not a number
-        if(!(isDecimal || isHexaDecimal)) {
+        if (!(isDecimal || isHexaDecimal)) {
 
             // check range of operand for base and pc relative
             int labelAddress = symbolTable.get(rawOperand).getAddress();
-            if(isFitPCRelative(labelAddress - PC)) {
+            if (isFitPCRelative(labelAddress - PC)) {
                 displacement = labelAddress - PC;
                 format3.setPCRelative(true);
-            } else if(isBaseSet && isFitConstant(labelAddress - baseAddress)) {
+            } else if (isBaseSet && isFitConstant(labelAddress - baseAddress)) {
                 displacement = labelAddress - baseAddress;
                 format3.setBaseRelative(true);
             } else {
@@ -261,11 +260,8 @@ public class PassTwo {
     }
 
     private int getOperandTargetAddress(Instruction instruction) {
-        String operand = instruction.getOperand();
+        String operand = getRawOperand(instruction.getOperand());
         int TA = 0;
-        operand = operand.replace(",X", "");
-        operand = operand.replace("@", "");
-        operand = operand.replace("#", "");
         // check is value or symbol
         if (Pattern.matches("[0-9]+", operand)) {
             TA = Integer.parseInt(operand);

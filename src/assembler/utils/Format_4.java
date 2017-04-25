@@ -39,6 +39,7 @@ public class Format_4 extends Format_3 {
 
     private String parseFlags() {
         String flags = "";
+
         //n i
         if (!isIndirect && !isImmediate) flags += "11";
         else if (isIndirect) flags += "10";
@@ -46,9 +47,9 @@ public class Format_4 extends Format_3 {
         //x
         if (isIndexed) flags += "1";
         else flags += "0";
-        //base
-        flags += "0";
-        //pc
+
+        //base  && PC
+        flags += "00";
         flags += "0";
 
         // Add E = 1

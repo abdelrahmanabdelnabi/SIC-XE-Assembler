@@ -129,7 +129,7 @@ public class PassOne {
             }
             inst.setFormat(Format.FORMAT4);
             inst.setType(Instruction.InstructionType.Instruction);
-            inst.setHasObject(true);
+            inst.setHasObject();
 
         } else if (OPTAB.containsKey(mnemonic)) {
             inst.setType(Instruction.InstructionType.Instruction);
@@ -146,7 +146,7 @@ public class PassOne {
                     objCodeLength = 3;
                     inst.setFormat(Format.FORMAT3);
             }
-            inst.setHasObject(true);
+            inst.setHasObject();
         } else if (directives.contains(mnemonic)) {
             // TODO : Handle directives
             // handle only the Directives that affect the instruction addresses

@@ -89,8 +89,8 @@ public class Instruction {
         return hasObject;
     }
 
-    public void setHasObject(boolean hasObject) {
-        this.hasObject = hasObject;
+    public void setHasObject() {
+        this.hasObject = true;
     }
 
     public enum InstructionType {
