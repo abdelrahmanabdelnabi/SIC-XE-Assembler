@@ -1,6 +1,9 @@
 package src.assembler.core;
 
-import src.assembler.*;
+import src.assembler.ErrorStrings;
+import src.assembler.Instruction;
+import src.assembler.Logger;
+import src.assembler.SymbolProperties;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.LocationCounter;
@@ -13,6 +16,7 @@ import java.util.Set;
 
 import static src.assembler.InstructionPart.*;
 import static src.assembler.datastructures.OpcodeTable.*;
+import static src.assembler.utils.Common.buildErrorString;
 
 /*
  * Created by ahmed on 4/21/17.
@@ -29,11 +33,8 @@ public class PassOne {
         symbolTable = new HashMap<>();
     }
 
-    public static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
-    }
 
-    public void execute() {
+    void execute() {
         Logger.Log("Start Pass One");
         checkForSTART(instructions.get(0));
 

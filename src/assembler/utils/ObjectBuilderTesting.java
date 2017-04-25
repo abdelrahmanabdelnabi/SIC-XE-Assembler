@@ -1,7 +1,6 @@
 package src.assembler.utils;
 
 import org.junit.Test;
-import src.assembler.Instruction;
 import src.assembler.core.Assembler;
 import src.assembler.datastructures.OpcodeTable;
 import src.parser.InputReader;
@@ -75,5 +74,17 @@ public class ObjectBuilderTesting {
     public void testHIO() {
         String obj = ObjectBuilder.buildFormatOne(OpcodeTable.getOpCode("HIO"));
         assertEquals("F4", obj);
+    }
+
+    @Test
+    public void testDirectivesChar() {
+        String obj = ObjectBuilder.buildDirectives("C'ABCDEFGH12'");
+        assertEquals("65666768697071724950", obj);
+    }
+
+    @Test
+    public void testDirectiveHEX() {
+        String obj = ObjectBuilder.buildDirectives("X'CEF12'");
+        assertEquals("CEF12", obj);
     }
 }

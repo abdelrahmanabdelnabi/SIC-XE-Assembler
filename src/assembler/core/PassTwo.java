@@ -20,6 +20,7 @@ import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
+import static src.assembler.utils.Common.buildErrorString;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -38,7 +39,7 @@ public class PassTwo {
         this.symbolTable = symbolTable;
     }
 
-    public void execute() throws AssemblerException {
+    void execute() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
 
 
@@ -69,8 +70,7 @@ public class PassTwo {
                             inst.setObjectCode(format2.toString());
                             break;
                         case FORMAT3:
-                            handleFormat3(inst, format3);
-                            inst.setObjectCode(format3.toString());
+                            inst.setObjectCode(handleFormat3(inst, format3));
                             break;
                     }
                 }
@@ -96,6 +96,12 @@ public class PassTwo {
                     case "NOBASE":
                         isBaseSet = false;
                         baseAddress = 0;
+                        break;
+                    case "BYTE":
+                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
+                        break;
+                    case "WORD":
+                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
                         break;
                 }
             }
@@ -133,8 +139,7 @@ public class PassTwo {
 
         // corner case: RSUB doesn't have operands
         if (inst.getMnemonic().equals("RSUB"))
-            return format3.setOpCode(opCode).setIndirect(true).setImmediate(true).setOperand(0)
-                    .toString();
+            return format3.setOpCode(opCode).setIndirect(true).setImmediate(true).setOperand(0).toString();
 
 
         // Checks if an operand is Valid.. does not account for literals
@@ -143,7 +148,7 @@ public class PassTwo {
                 operand.matches("([#@]?([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+)))|(([a-zA-Z]+|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
         if (!validFormat) {
-            String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+            String error = buildErrorString(inst.getLineNumber(), InstructionPart
                     .OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
             Logger.LogError(error);
             throw new AssemblerException(error);
@@ -164,7 +169,7 @@ public class PassTwo {
 
         if (!(isDecimal || isHexaDecimal)) {
             if (!symbolTable.containsKey(rawOperand)) {
-                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error);
@@ -181,7 +186,7 @@ public class PassTwo {
             }
 
             if (!isFitPCRelative(value)) {
-                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
                 Logger.LogError(error);
@@ -204,7 +209,7 @@ public class PassTwo {
             } else {
                 // error
                 // operand address can not fit into a format 3 instruction
-                String error = PassOne.buildErrorString(inst.getLineNumber(), InstructionPart
+                String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
                 Logger.LogError(error);

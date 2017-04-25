@@ -15,6 +15,22 @@ public abstract class ObjectBuilder {
         return Integer.toHexString(opCode);
     }
 
+    public static String buildDirectives(String operand) {
+        switch (operand.charAt(0)) {
+            case 'X':
+                return operand.substring(1).replace("'", "");
+            case 'C':
+                String objectCode = "";
+                operand = operand.substring(1).replace("'", "");
+                for (int i = 0; i < operand.length(); i++) {
+                    objectCode += Integer.toString(operand.charAt(i));
+                }
+                return objectCode;
+            default:
+                return "";
+        }
+    }
+
     /**
      * Returns a Hexadecimal string representation of the instruction built
      *
