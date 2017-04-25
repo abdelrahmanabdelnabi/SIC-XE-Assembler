@@ -15,8 +15,7 @@ first	LDA		@0xAB
 
 . ********** symbols **********
 . absolute
-five	RESB		5
-        LDA		@five
+        LDA		@5
 . pc-relative
 		LDA		@a
 a       LDA		@a

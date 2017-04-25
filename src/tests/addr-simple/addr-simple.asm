@@ -7,36 +7,51 @@ simple		START	0
 . ******* numbers *********
 . absolute/direct
 first	LDA		0xAB
-		LDA		0xAB, X			+ indexed
-		LDA		0				min displacement
-        LDA		4095			max displacement
+		.+ indexed
+		LDA		0xAB,X
+		.min displacement
+		LDA		0
+        .max displacement
+        LDA		4095
+
 . extended format, absolute
 		+LDA	0x012345
-		+LDA	0				min address
-		+LDA	1048575			max address
+		.min address
+		+LDA	0
+		.max address
+		+LDA	1048575
 
 . ********** symbols **********
 . absolute
-five	EQU		5
-        LDA		five		if absolute symbol then absolute addressing
+        .if absolute symbol then absolute addressing
+        LDA		5
 . pc-relative
-		LDA		a			(PC)+0
-a       LDA		a			(PC)-3
-		LDA		a, X		+ indexed
+        .(PC)+0
+		LDA		a
+		.(PC)-3
+a       LDA		a
+		.+ indexed
+		LDA		a,X
 . base-relative
 		+LDB	#b
+		.(B)+0
         BASE	b
-        LDA		b			(B)+0
-		LDA		b, X		+ indexed
-        LDA		b			but pc-relative prefered: (PC)+2047
+        LDA		b
+        .+ indexed
+		LDA		b,X
+		.but pc-relative prefered: (PC)+2047
+        LDA		b
         RESB    2047
-b       BYTE    C'FOO'         b displaced by 2048 bytes
+        ..b displaced by 2048 bytes
+b       BYTE    C'FOO'
 
 . careful: start address may be too large
-		LDA		first		direct: pc-rel fail, base-rel fail
+        .direct: pc-rel fail, base-rel fail
+		LDA		first
 		ORG		0x1000
 c		FIX
 		RESB	2084
 		NOBASE
-		LDA		c			fallback to old SIC
+		.fallback to old SIC
+		LDA		c
 

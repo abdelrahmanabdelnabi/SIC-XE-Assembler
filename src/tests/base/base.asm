@@ -5,15 +5,19 @@ base	START	0xA000
 . load B register and notify assembler
 		+LDB	#b
         BASE	b
-
-        LDA		#b			base-relative addressing: (B)+0
-        LDA		#b			but pc-relative addressing prefered: (PC)+2047
+        .base-relative addressing: (B)+0
+        LDA		#b
+        .but pc-relative addressing prefered: (PC)+2047
+        LDA		#b
         RESB    2047
-b       BYTE    C'FOO'         b displaced by 2048 bytes
+        .b displaced by 2048 bytes
+b       BYTE    C'FOO'
 
 . ********** other **********
-        LDA		#c			base-relative (since c-b < 4096)
+        .base-relative (since c-b < 4096)
+        LDA		#c
         NOBASE
-       +LDA		#c			direct extended, LDA #c would fail here
+       .direct extended, LDA #c would fail here
+       +LDA		#c
         RESB    2048
 c       BYTE    C'BAR'

@@ -21,7 +21,7 @@ public class Main {
         String relativePath = System.getProperty("user.dir");
 
         // change file path to change test file
-        String path = relativePath + "/src/tests/addr-indirect/addr-indirect.asm";
+        String path = relativePath + "/src/tests/addr-immediate/addr-immediate.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);

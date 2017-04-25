@@ -7,27 +7,37 @@ imm		START	0
 . absolute/direct
 first	LDA		#0xAB
 		LDA		#-1
-		LDA		#-2048			min displacement
-        LDA		#2047			max displacement
+		.min displacement
+		LDA		#-2048
+		.max displacement
+        LDA		#2047
 . extended format, absolute
        +LDA		#0x012345
-	   +LDA		#0				min address
-       +LDA		#1048575		max address
+	  .min address
+       +LDA		#0
+      .max address
+       +LDA		#1048575
 
 . ********** symbols **********
 . absolute
-five	EQU		5
-        LDA		#five		if absolute symbol then absolute addressing
+.if absolute symbol then absolute addressing
+        LDA		#5
 . pc-relative
-		LDA		#a			pc-relative: (PC)+0
-a       LDA		#a			pc-relative: (PC)-3
+.pc-relative: (PC)+0
+		LDA		#a
+		.pc-relative: (PC)-3
+a       LDA		#a
 . base-relative
 		+LDB	#b
         BASE	b
-        LDA		#b			base-relative: (B)+0
-        LDA		#b			but pc-relative prefered: (PC)+2047
+        .base-relative: (B)+0
+        LDA		#b
+        .but pc-relative prefered: (PC)+2047
+        LDA		#b
         RESB    2047
-b       BYTE    C'FOO'         b displaced by 2048 bytes
+        .b displaced by 2048 bytes
+b       BYTE    C'FOO'
 
 . careful: start address may be too large
-		LDA		#first		direct: pc-rel fail, base-rel fail
+.direct: pc-rel fail, base-rel fail
+		LDA		#first

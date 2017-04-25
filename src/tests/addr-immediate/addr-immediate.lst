@@ -7,28 +7,37 @@
                   . absolute/direct
 00000  0100AB    first  LDA     #171    
 00003  010FFF           LDA     #-1    
-00006  010800           LDA     #-2048    . min displacement
-00009  0107FF           LDA     #2047    . max displacement
+                  . min displacement
+00006  010800           LDA     #-2048    
+                  . max displacement
+00009  0107FF           LDA     #2047    
                   . extended format, absolute
 0000C  01112345        +LDA     #74565    
-00010  01100000        +LDA     #0    . min address
-00014  011FFFFF        +LDA     #1048575    . max address
+                  . min address
+00010  01100000        +LDA     #0    
+                  . max address
+00014  011FFFFF        +LDA     #1048575    
                   
                   . ********** symbols **********
                   . absolute
-00018            five   EQU     5    
-00018  010005           LDA     #five    . if absolute symbol then absolute addressing
+                  . if absolute symbol then absolute addressing
+00018  010005           LDA     #5    
                   . pc-relative
-0001B  012000           LDA     #a    . pc-relative: (PC)+0
-0001E  012FFD    a      LDA     #a    . pc-relative: (PC)-3
+                  . pc-relative: (PC)+0
+0001B  012000           LDA     #a    
+                  . pc-relative: (PC)-3
+0001E  012FFD    a      LDA     #a    
                   . base-relative
 00021  6910082A        +LDB     #b    
 00021                   BASE    b    
-00025  014000           LDA     #b    . base-relative: (B)+0
-00028  0127FF           LDA     #b    . but pc-relative prefered: (PC)+2047
+                  . base-relative: (B)+0
+00025  014000           LDA     #b    
+                  . but pc-relative prefered: (PC)+2047
+00028  0127FF           LDA     #b    
 0002B  00....00         RESB    2047    
-0082A  464F4F    b      BYTE    C'FOO'    . b displaced by 2048 bytes
+                  . b displaced by 2048 bytes
+0082A  464F4F    b      BYTE    C'FOO'    
                   
                   . careful: start address may be too large
-0082D  010000           LDA     #first    . direct: pc-rel fail, base-rel fail
-                  
+                  . direct: pc-rel fail, base-rel fail
+0082D  010000           LDA     #first    

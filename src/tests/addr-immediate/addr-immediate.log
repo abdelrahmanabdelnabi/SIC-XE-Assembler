@@ -1,14 +1,13 @@
 ***** Section <default> *****
-Stats: size=2096  blocks=2096  symbols=5  literals=0  relocations=2
+Stats: size=2096  blocks=2096  symbols=4  literals=0  relocations=2
 Blocks
     name        start   size  #ins #dir #sto
-    <default>   00000  00830    14    4    1
+    <default>   00000  00830    14    3    1
 Symbols
     name        hex       dec  scope     kind      description
     a        00001E        30  local     relative  label
     b        00082A      2090  local     relative  label
     first    000000         0  local     relative  label
-    five     000005         5  local     absolute  5
     imm      000000         0  exported  relative  label
 Literals
     label   definition

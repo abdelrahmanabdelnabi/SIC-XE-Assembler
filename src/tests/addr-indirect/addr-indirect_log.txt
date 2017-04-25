@@ -1,7 +1,7 @@
-2017/04/25_14/38        File path set successfully
-2017/04/25_14/38        Start File Parsing
-2017/04/25_14/38        Parsing Completed Successfully
-2017/04/25_14/38        Start Pass One
-2017/04/25_14/38        End Pass One
-2017/04/25_14/38        error in assembling line 10 in the OPERAND part: The displacement relative to the program counter or the base address are out of range
-2017/04/25_14/38        1 Errors Found, TERMINATED
+2017/04/25_18/33        File path set successfully
+2017/04/25_18/33        Start File Parsing
+2017/04/25_18/33        Parsing Completed Successfully
+2017/04/25_18/33        Start Pass One
+2017/04/25_18/33        End Pass One
+2017/04/25_18/33        error in assembling line 10 in the OPERAND part: The displacement relative to the program counter or the base address are out of range
+2017/04/25_18/33        1 Errors Found, TERMINATED
