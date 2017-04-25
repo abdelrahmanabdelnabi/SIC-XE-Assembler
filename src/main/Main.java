@@ -1,10 +1,9 @@
 package src.main;
 
+import src.assembler.Logger;
 import src.assembler.core.Assembler;
 import src.assembler.core.AssemblerException;
-import src.assembler.Logger;
 import src.filewriter.ListingString;
-import src.filewriter.ObjectString;
 import src.filewriter.SymbolsString;
 import src.filewriter.Writer;
 import src.parser.InputReader;
@@ -21,7 +20,8 @@ public class Main {
         // String path = args[0];
         String relativePath = System.getProperty("user.dir");
 
-        String path = relativePath + "/src/testCodes/addr-indirect/addr-indirect.asm";
+        // change file path to change test file
+        String path = relativePath + "/src/tests/addr-indirect/addr-indirect.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);
@@ -49,12 +49,10 @@ public class Main {
 
         Writer writer = new Writer("");
 
-        path = path.replace("testIn", "testOut");
-
         // check for errors
         String errorFile = path.replace(".asm", "_log.txt");
         String symTab = path.replace(".asm", "_symTab.txt");
-        String aboFayezTab = path.replace(".asm", "_LstFile.txt");
+        String lstTab = path.replace(".asm", "_LstFile.txt");
         String objectFile = path.replace(".asm", "_obj.obj");
 
         // Symbols
@@ -66,7 +64,7 @@ public class Main {
         writer.writeToFile(assembler.getObjectCode());
 
         // abo fayez table
-        writer.setFileName(aboFayezTab);
+        writer.setFileName(lstTab);
         writer.writeToFile(new ListingString(assembler.getInstructions()).toString());
 
         // Log file
