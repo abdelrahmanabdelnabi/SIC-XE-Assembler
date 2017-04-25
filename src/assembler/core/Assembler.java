@@ -2,6 +2,7 @@ package src.assembler.core;
 
 import src.assembler.Instruction;
 import src.assembler.SymbolProperties;
+import src.filewriter.ObjectString;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,11 @@ public class Assembler {
     private List<Instruction> inputInstructions;
     private PassOne passOne;
     private PassTwo passTwo;
+    private ObjectString objectCodeGenerator;
 
     public Assembler(List<Instruction> inputInstructions) {
         this.inputInstructions = inputInstructions;
+        this.objectCodeGenerator = new ObjectString(inputInstructions);
     }
 
     public void executePassOne() throws AssemblerException {
@@ -28,6 +31,10 @@ public class Assembler {
     public void executePassTwo() throws AssemblerException {
         passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable());
         passTwo.execute();
+    }
+
+    public String getObjectCode() {
+        return objectCodeGenerator.toString();
     }
 
     public HashMap<String, SymbolProperties> getSymbolTable() {
