@@ -17,10 +17,10 @@ public class ObjectString implements StringGenerator {
     public ObjectString(List<Instruction> instructions) {
         this.instructions = instructions;
         objectCode = new StringBuilder();
-        formHTE();
     }
 
     public String toString() {
+        formHTE();
         return objectCode.toString().toUpperCase();
     }
 
