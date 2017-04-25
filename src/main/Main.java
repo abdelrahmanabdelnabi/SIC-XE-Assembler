@@ -63,7 +63,7 @@ public class Main {
 
         // object
         writer.setFileName(objectFile);
-        writer.writeToFile(new ObjectString(assembler.getInstructions()).toString());
+        writer.writeToFile(assembler.getObjectCode());
 
         // abo fayez table
         writer.setFileName(aboFayezTab);
