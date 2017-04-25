@@ -57,6 +57,19 @@ public class AssemblerTest {
         assertEquals("Generated object code does not match the expected code", correctObjectCode1, actual);
     }
 
+    @Test
+    public void testCode3() {
+        reader.setInputString(code3);
+        parser.parse();
+        assembler = new Assembler(parser.getParsedInstuctions());
+        assembler.executePassOne();
+        assembler.executePassTwo();
+
+        String actual = assembler.getObjectCode();
+
+        assertEquals("Generated object code does not match the expected code", correctObjectCode1, actual);
+    }
+
     private String readFile(String filePath) {
         String result = "";
         try {
