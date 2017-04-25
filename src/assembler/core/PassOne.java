@@ -149,17 +149,18 @@ public class PassOne {
             }
             inst.setHasObject();
         } else if (directives.contains(mnemonic)) {
-            // TODO : Handle directives
             // handle only the Directives that affect the instruction addresses
             inst.setType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
                 case "BYTE":
+                    inst.setHasObject();
                     objCodeLength = calcByteDirectiveSize(inst.getOperand());
                     break;
                 case "RESB":
                     objCodeLength = Integer.parseInt(inst.getOperand());
                     break;
                 case "WORD":
+                    inst.setHasObject();
                     objCodeLength = 3;
                     break;
                 case "RESW":

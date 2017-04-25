@@ -38,34 +38,53 @@ public class ObjectString implements StringGenerator {
         // T RECORD
         StringBuilder T = new StringBuilder();
         int startAddress = instructions.get(0).getAddress();
+        boolean addressFlag = false;
+        // Loop all the instructions
         for (Instruction inst : instructions) {
-            if (!inst.getHasObject()) continue;
+            if (addressFlag) {
+                addressFlag = false;
+                startAddress = inst.getAddress();
+            }
+
+            if (!inst.getHasObject()) {
+                String mnemonic = inst.getMnemonic();
+                // if RESW or RESB found close current T and open new one
+                if (mnemonic.equals("RESW") || mnemonic.equals("RESB")) {
+                    form_T_Record(T, startAddress);
+                    T = new StringBuilder();
+                    // set the flag to set the address just after the reserved block
+                    addressFlag = true;
+                } else {
+                    continue;
+                }
+            }
 
             if (inst.getObjectCode().length() + T.length() <= 60) {
                 T.append(inst.getObjectCode());
             } else {
-                // Close current T Record
-                objectCode.append("T");
-                // starting address of the record
-                objectCode.append(extendToLength(Integer.toHexString(startAddress), 6).toUpperCase());
-                // record length
-                objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2).toUpperCase());
-                // the object code
-                objectCode.append(T.toString()).append("\n");
+                form_T_Record(T, startAddress);
 
-                // Create to T record
+                // Create new T record
                 T = new StringBuilder(inst.getObjectCode());
                 startAddress = inst.getAddress();
             }
         }
         // append remaining T
-        objectCode.append("T");
-        objectCode.append(extendToLength(Integer.toHexString(startAddress).toUpperCase(), 6));
-        objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2).toUpperCase());
-        objectCode.append(T.toString()).append("\n");
+        form_T_Record(T, startAddress);
 
         // Create E
         objectCode.append("E");
         objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6).toUpperCase());
+    }
+
+    private void form_T_Record(StringBuilder T, int startAddress) {
+        // Close current T Record
+        objectCode.append("T");
+        // starting address of the record
+        objectCode.append(extendToLength(Integer.toHexString(startAddress), 6).toUpperCase());
+        // record length
+        objectCode.append(extendToLength(Integer.toHexString(T.length() / 2), 2).toUpperCase());
+        // the object code
+        objectCode.append(T.toString()).append("\n");
     }
 }
