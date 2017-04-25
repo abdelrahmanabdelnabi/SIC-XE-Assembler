@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import src.parser.InputReader;
 import src.parser.Parser;
-import sun.misc.IOUtils;
 
 import java.io.*;
 
@@ -20,7 +19,7 @@ public class AssemblerTest {
     private InputReader reader;
     private Assembler assembler;
 
-    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/testCodes";
+    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
 
     private String code1;
     private String code2;
