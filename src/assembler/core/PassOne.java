@@ -42,7 +42,7 @@ public class PassOne {
             inst.setAddress(loc.getCurrentCounterValue());
 
             // if END, stop
-            if (inst.getMnemonic().equals("end"))
+            if (inst.getMnemonic().toUpperCase().equals("END"))
                 break;
             handleLabel(inst);
             handleMnemonic(inst);

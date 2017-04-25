@@ -24,7 +24,7 @@ public class Format_4 extends Format_3 {
         objectCode += (extendToLength(Integer.toHexString(operand), 5));
 
         // reset defaults
-        super.resetFields();
+//        super.resetFields();
         return objectCode.toUpperCase();
     }
 
@@ -50,7 +50,6 @@ public class Format_4 extends Format_3 {
 
         //base  && PC
         flags += "00";
-        flags += "0";
 
         // Add E = 1
         return flags + "1";

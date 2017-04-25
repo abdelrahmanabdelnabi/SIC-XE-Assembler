@@ -23,7 +23,7 @@ public abstract class ObjectBuilder {
                 String objectCode = "";
                 operand = operand.substring(1).replace("'", "");
                 for (int i = 0; i < operand.length(); i++) {
-                    objectCode += Integer.toString(operand.charAt(i));
+                    objectCode += Integer.toHexString(operand.charAt(i));
                 }
                 return objectCode;
             default:
