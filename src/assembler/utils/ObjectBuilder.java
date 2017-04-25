@@ -46,4 +46,9 @@ public abstract class ObjectBuilder {
     public abstract ObjectBuilder setSecondOperand(int secondOperand);
 
     public abstract Format getFormat();
+
+    void resetFields() {
+        opCode = 0;
+        operand = 0;
+    }
 }

@@ -23,6 +23,8 @@ public class Format_4 extends Format_3 {
         // Add 5 HEX Operand
         objectCode += (extendToLength(Integer.toHexString(operand), 5));
 
+        // reset defaults
+        super.resetFields();
         return objectCode.toUpperCase();
     }
 

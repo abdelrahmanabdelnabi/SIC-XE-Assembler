@@ -31,6 +31,9 @@ public class Format_3 extends ObjectBuilder {
         // Add 3 HEX Operand
         objectCode += (extendToLength(Integer.toHexString(operand), 3));
 
+        // reset defaults
+        resetFields();
+
         return objectCode.toUpperCase();
     }
 
@@ -103,5 +106,11 @@ public class Format_3 extends ObjectBuilder {
     @Override
     public Format getFormat() {
         return Format.FORMAT3;
+    }
+
+    @Override
+    void resetFields() {
+        super.resetFields();
+        isIndirect = isImmediate = isIndexed = isBaseRelative = isPCRelative = false;
     }
 }

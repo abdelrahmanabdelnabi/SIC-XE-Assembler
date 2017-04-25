@@ -19,7 +19,16 @@ public class Format_2 extends ObjectBuilder {
         // Insert Operands
         objectCode += extendToLength(Integer.toHexString(operand), 1);
         objectCode += extendToLength(Integer.toHexString(secondOperand), 1);
+
+        // reset defaults
+        resetFields();
         return objectCode.toUpperCase();
+    }
+
+    @Override
+    void resetFields() {
+        super.resetFields();
+        secondOperand = 0;
     }
 
     @Override
