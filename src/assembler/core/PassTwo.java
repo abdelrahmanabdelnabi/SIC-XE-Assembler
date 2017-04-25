@@ -133,7 +133,8 @@ public class PassTwo {
 
         // corner case: RSUB doesn't have operands
         if(inst.getMnemonic().equals("RSUB"))
-            return format3.setOpCode(opCode).setOperand(0).toString();
+            return format3.setOpCode(opCode).setIndirect(true).setImmediate(true).setOperand(0)
+                .toString();
 
 
         // Checks if an operand is Valid.. does not account for literals
@@ -197,8 +198,10 @@ public class PassTwo {
             int labelAddress = symbolTable.get(rawOperand).getAddress();
             if(isFitPCRelative(labelAddress - PC)) {
                 displacement = labelAddress - PC;
+                format3.setPCRelative(true);
             } else if(isBaseSet && isFitConstant(labelAddress - baseAddress)) {
                 displacement = labelAddress - baseAddress;
+                format3.setBaseRelative(true);
             } else {
                 // error
                 // operand address can not fit into a format 3 instruction
