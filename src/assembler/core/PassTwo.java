@@ -204,7 +204,7 @@ public class PassTwo {
                 value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
             }
 
-            if (!isFitPCRelative(value)) {
+            if (!isFitConstant(value)) {
                 String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
@@ -295,26 +295,13 @@ public class PassTwo {
         return TA;
     }
 
-
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-// TODO :DISPLACEMENT !
-
     private boolean isFitPCRelative(int displacement) {
-        // CONVERTED TO DECIMAL VALUE AS DISP IS GIVEN AS HEX
-        return displacement >= -4095 && displacement <= 4096;
-//        return displacement >= -8264 && displacement <= 8263;
+        return displacement >= -2048 && displacement <= 2047;
     }
 
     /* returns true if the number is between 0 and 4095 inclusive */
     private boolean isFitConstant(int number) {
-        // CONVERTED TO DECIMAL VALUES AS DISP IS GICEN AS HEX
         return number >= 0 && number <= 4095;
-//        return number >= 0 && number <= 16533;
     }
 
     public List<Instruction> getOutputInstructions() {
