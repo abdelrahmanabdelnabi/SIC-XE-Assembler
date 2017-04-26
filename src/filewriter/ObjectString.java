@@ -41,6 +41,10 @@ public class ObjectString implements StringGenerator {
         boolean addressFlag = false;
         // Loop all the instructions
         for (Instruction inst : instructions) {
+
+            // If found multiple data-storage then continue;
+            if (addressFlag && !inst.getHasObject()) continue;
+
             if (addressFlag) {
                 addressFlag = false;
                 startAddress = inst.getAddress();
