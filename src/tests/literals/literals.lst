@@ -13,13 +13,7 @@
 0001E                   LTORG       
 0001E  123456    *2     WORD    X'123456'    
 00021  ABCDEF    *3     WORD    X'ABCDEF'    
-00024  03200C    next2  LDA     *4 (WORD 65535)    
-00027  03200C           LDA     *5 (WORD 1193046)    
-0002A  03200C           LDA     *6 (WORD 42798)    
-0002D  03200C           LDA     *7 (WORD 11184810)    
-00030  3F2FFD    halt   J       halt    
-00033  00FFFF    *4     WORD    65535    
-00036  123456    *5     WORD    1193046    
-00039  00A72E    *6     WORD    42798    
-0003C  AAAAAA    *7     WORD    11184810    
-0003F                   END     first    
+00024  032003    next2  LDA     *4 (WORD C'WUTWUT')    
+00027  3F2FFD    halt   J       halt    
+0002A  57....54  *4     WORD    C'WUTWUT'    
+00030                   END     first    

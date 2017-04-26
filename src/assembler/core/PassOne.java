@@ -4,10 +4,7 @@ import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
 import src.assembler.SymbolProperties;
-import src.assembler.datastructures.Format;
-import src.assembler.datastructures.InstProp;
-import src.assembler.datastructures.LocationCounter;
-import src.assembler.datastructures.OpcodeTable;
+import src.assembler.datastructures.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +24,12 @@ public class PassOne {
     private HashMap<String, SymbolProperties> symbolTable;
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
+    private HashMap<String, LiteralProp> literalTable;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
         symbolTable = new HashMap<>();
+        literalTable = new HashMap<>();
     }
 
 
@@ -53,8 +52,38 @@ public class PassOne {
         Logger.Log("End Pass One");
     }
 
+    /**
+     * This Method validates operand part of the instruction
+     *
+     * @param inst , the current fetched instruction
+     */
     private void handleOperand(Instruction inst) {
+        String operand = inst.getOperand();
 
+        // if no operand found
+        if (operand.length() == 0) return;
+
+        // if literal
+        if (operand.startsWith("=")) {
+            if (isDuplicateLiteral(operand))
+                return;
+            literalTable.put(operand, new LiteralProp(operand));
+        }
+
+    }
+
+    /**
+     * @param literal operand
+     * @return true if is dup. else, false
+     */
+    private boolean isDuplicateLiteral(String literal) {
+        int literalValue = LiteralProp.calcLiteralValue(literal);
+        // Search by value
+        for (Map.Entry<String, LiteralProp> cur : literalTable.entrySet())
+            if (cur.getValue().getValue() == literalValue)
+                return true;
+
+        return false;
     }
 
     private void checkForSTART(Instruction inst) {
@@ -62,8 +91,6 @@ public class PassOne {
         int startAddress = 0;
 
         if (inst.getMnemonic().equals("START")) {
-
-
             try {
                 startAddress = Integer.parseInt(inst.getOperand(), 16);
             } catch (NumberFormatException e) {
@@ -72,7 +99,6 @@ public class PassOne {
                 Logger.Log(error);
                 throw new AssemblerException(error);
             }
-
             loc.setCurrentCounterValue(startAddress);
 
             // if START found then remove it (without changing the original list)
@@ -171,6 +197,18 @@ public class PassOne {
                 case "RESW":
                     objCodeLength = Integer.parseInt(inst.getOperand()) * 3;
                     break;
+                /*
+                 * Handle LTORG, create literals if found
+                 */
+                case "LTORG":
+                    // For all literals
+                    for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
+                        // If Not Built !, then build it and increment loc
+                        if (!literal.getValue().isBuilt()) {
+                            literal.getValue().buildLiteral(loc.getCurrentCounterValue());
+                            loc.increment(literal.getValue().getLength());
+                        }
+                    }
             }
         } else {
             // neither instruction nor assembler directive
