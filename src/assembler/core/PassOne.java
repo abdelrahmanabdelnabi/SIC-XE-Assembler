@@ -48,6 +48,12 @@ public class PassOne {
             handleOperand(inst);
         } // end for loop
 
+        /*
+        Handling Remaining Literals
+         */
+        buildLiterals();
+
+        // Set Program Length
         setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
         Logger.Log("End Pass One");
     }
@@ -201,14 +207,8 @@ public class PassOne {
                  * Handle LTORG, create literals if found
                  */
                 case "LTORG":
-                    // For all literals
-                    for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
-                        // If Not Built !, then build it and increment loc
-                        if (!literal.getValue().isBuilt()) {
-                            literal.getValue().buildLiteral(loc.getCurrentCounterValue());
-                            loc.increment(literal.getValue().getLength());
-                        }
-                    }
+                    // check for un-build literals
+                    buildLiterals();
             }
         } else {
             // neither instruction nor assembler directive
@@ -219,6 +219,17 @@ public class PassOne {
         }
         // Add inst size to the LOC
         loc.increment(objCodeLength);
+    }
+
+    private void buildLiterals() {
+        // For all literals
+        for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
+            // If Not Built !, then build it and increment loc
+            if (!literal.getValue().isBuilt()) {
+                literal.getValue().buildLiteral(loc.getCurrentCounterValue());
+                loc.increment(literal.getValue().getLength());
+            }
+        }
     }
 
     private int calcByteDirectiveSize(String operand) {
@@ -239,5 +250,9 @@ public class PassOne {
 
     public HashMap<String, SymbolProperties> getSymbolTable() {
         return symbolTable;
+    }
+
+    public HashMap<String, LiteralProp> getLiteralTable() {
+        return literalTable;
     }
 }

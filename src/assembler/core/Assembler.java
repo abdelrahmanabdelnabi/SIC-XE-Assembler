@@ -2,6 +2,7 @@ package src.assembler.core;
 
 import src.assembler.Instruction;
 import src.assembler.SymbolProperties;
+import src.assembler.datastructures.LiteralProp;
 import src.filewriter.ObjectString;
 
 import java.util.HashMap;
@@ -39,6 +40,10 @@ public class Assembler {
 
     public HashMap<String, SymbolProperties> getSymbolTable() {
         return passOne.getSymbolTable();
+    }
+
+    public HashMap<String, LiteralProp> getLiteralsTable() {
+        return passOne.getLiteralTable();
     }
 
     public List<Instruction> getInstructions() {

@@ -9,6 +9,6 @@ next1   LDB    =X'123456'
         LDT    =X'123456'
         J       next2
         LTORG
-next2   LDA    =C'WUTWUT'
+next2   LDA    =C'WTWT'
 halt    J       halt
         END     first

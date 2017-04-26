@@ -7,7 +7,6 @@ import static src.assembler.Common.parseDataOperand;
  */
 public class LiteralProp {
     private String name;
-    private String object = "";
     private int value;
     private int length;
     private int address;
@@ -25,12 +24,12 @@ public class LiteralProp {
 
 
     private void calcLength() {
-        switch (name.charAt(0)) {
+        switch (name.substring(1).charAt(0)) {
             case 'X':
-                length = (name.length() - 2) / 2;
+                length = (name.length() - 3) / 2;
                 break;
             case 'C':
-                length = name.length() - 3;
+                length = name.length() - 4;
         }
     }
 
@@ -53,6 +52,10 @@ public class LiteralProp {
 
     public boolean isBuilt() {
         return isBuilt;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
 

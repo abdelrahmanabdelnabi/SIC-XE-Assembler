@@ -4,9 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import src.assembler.Instruction;
 import src.assembler.SymbolProperties;
+import src.assembler.datastructures.LiteralProp;
+import src.parser.InputReader;
+import src.parser.Parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,28 +50,45 @@ public class PassOneTest {
 
         assertEquals("Incorrect number of output instructions", correctOutput.size(),
                 actualOutput.size
-                ());
+                        ());
 
-        for(int i = 0; i < correctOutput.size(); i++) {
+        for (int i = 0; i < correctOutput.size(); i++) {
             assertEquals(correctOutput.get(i).getAddress(), actualOutput.get(i).getAddress());
         }
 
         for (String s : assembler.getSymbolTable().keySet())
-                System.out.println(s);
+            System.out.println(s);
 
         assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, assembler
                 .getSymbolTable().size());
 
-        Assert.assertEquals( assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
+        Assert.assertEquals(assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
                 (0).getAddress());
         assertEquals(assembler.getSymbolTable().get("FIRST").getAddress(), new SymbolProperties
                 (0).getAddress());
-        assertEquals( assembler.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
+        assertEquals(assembler.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
                 (3).getAddress());
-        assertEquals( assembler.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
+        assertEquals(assembler.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
                 (10).getAddress());
 
     }
 
+    @Test
+    public void testLiterals() {
+        String literalsFile = System.getProperty("user.dir") + "/src/tests/literals/literals.asm";
+
+        InputReader inputReader = new InputReader(InputReader.InputType.File, literalsFile);
+
+        Parser parser = new Parser(inputReader);
+        parser.parse();
+
+        Assembler assembler = new Assembler(parser.getParsedInstuctions());
+        assembler.executePassOne();
+
+        HashMap<String, LiteralProp> literalTable = assembler.getLiteralsTable();
+        for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
+            System.out.println(String.format("%-15s %-5s", literal.getKey(), literal.getValue().getAddress()));
+        }
+    }
 
 }

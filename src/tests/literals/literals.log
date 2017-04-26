@@ -21,6 +21,6 @@ Literals
     *1      WORD C'BAR'
     *2      WORD X'123456'
     *3      WORD X'ABCDEF'
-    *4      WORD C'WUTWUT'
+    *4      WORD C'WTWT'
 Relocations
     address length flag symbol
