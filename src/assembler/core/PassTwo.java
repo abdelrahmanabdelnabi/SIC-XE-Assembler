@@ -42,7 +42,6 @@ public class PassTwo {
     void execute() throws AssemblerException {
         // TODO: format 3, 4 & assembler directives
 
-
         for (Instruction inst : instructions) {
             ObjectBuilder format2 = new Format_2();
             ObjectBuilder format3 = new Format_3();
@@ -186,7 +185,7 @@ public class PassTwo {
                 value = Integer.parseInt(rawOperand.replace("0x", ""), 16);
             }
 
-            if (!isFitPCRelative(value)) {
+            if (!isFitConstant(value)) {
                 String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
@@ -284,16 +283,12 @@ public class PassTwo {
     }
 
     private boolean isFitPCRelative(int displacement) {
-        // CONVERTED TO DECIMAL VALUE AS DISP IS GIVEN AS HEX
-//        return displacement >= -2048 && displacement <= 2047;
-        return displacement >= -8264 && displacement <= 8263;
+        return displacement >= -2048 && displacement <= 2047;
     }
 
     /* returns true if the number is between 0 and 4095 inclusive */
     private boolean isFitConstant(int number) {
-        // CONVERTED TO DECIMAL VALUES AS DISP IS GICEN AS HEX
-//        return number >= 0 && number <= 4095;
-        return number >= 0 && number <= 16533;
+        return number >= 0 && number <= 4095;
     }
 
     public List<Instruction> getOutputInstructions() {
