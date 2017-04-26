@@ -3,6 +3,7 @@ package src.assembler.core;
 import src.assembler.*;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
+import src.assembler.datastructures.LiteralProp;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static src.assembler.Common.buildErrorString;
+import static src.assembler.Common.*;
 import static src.assembler.Instruction.InstructionType.Directive;
 import static src.assembler.Instruction.InstructionType.Instruction;
 import static src.assembler.datastructures.OpcodeTable.*;
@@ -30,13 +31,15 @@ public class PassTwo {
     private List<src.assembler.Instruction> instructions;
     private Set<String> directives = getAssemblerDirectivesSet();
     private Map<String, InstProp> OPTAB = getOpcodeTable();
-
+    private HashMap<String, LiteralProp> literalsTable;
     private boolean isBaseSet = false;
     private int baseAddress = 0;
 
-    PassTwo(List<Instruction> instructions, HashMap<String, SymbolProperties> symbolTable) {
+    PassTwo(List<Instruction> instructions, HashMap<String, SymbolProperties> symbolTable
+            , HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
         this.symbolTable = symbolTable;
+        this.literalsTable = literalsTable;
     }
 
     void execute() throws AssemblerException {
@@ -84,9 +87,22 @@ public class PassTwo {
                 switch (directive) {
                     case "BASE":
                         // check if label is defined
+                        // TODO : REVIEW THIS ! it's non-sense to me
                         String operand = inst.getOperand();
                         if (!symbolTable.containsKey(operand)) {
-                            // TODO: throw error
+                            // if is number
+                            if (Pattern.matches("[0-9]+", getRawOperand(operand))) {
+                                isBaseSet = true;
+                                baseAddress = parseNumOperand(getRawOperand(operand));
+                            }
+                            // else if not symbol nor umuber
+                            else {
+                                String Error = buildErrorString(inst.getLineNumber(),
+                                        InstructionPart.OPERAND,
+                                        "Base Value is undefined label or invalid number format");
+                                Logger.Log(Error);
+                                throw new AssemblerException(Error);
+                            }
                         } else {
                             isBaseSet = true;
                             baseAddress = symbolTable.get(operand).getAddress();
@@ -103,6 +119,8 @@ public class PassTwo {
                     case "WORD":
                         inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
                         break;
+                    case "LTORG":
+                        //do nothing ?
                 }
             }
         }
@@ -243,12 +261,6 @@ public class PassTwo {
         return format3.toString();
     }
 
-
-    private String getRawOperand(String operand) {
-        return operand.replace("#", "")
-                .replace("@", "").replace(",X", "");
-    }
-
     private void handleFormat4(Instruction inst, ObjectBuilder format4) {
         format4.setOpCode(getOpCode(inst.getMnemonic().substring(1)));
         int TA = getOperandTargetAddress(inst);
@@ -283,7 +295,8 @@ public class PassTwo {
         return TA;
     }
 
-    // TODO :DISPLACEMENT !
+
+// TODO :DISPLACEMENT !
 // TODO :DISPLACEMENT !
 // TODO :DISPLACEMENT !
 // TODO :DISPLACEMENT !

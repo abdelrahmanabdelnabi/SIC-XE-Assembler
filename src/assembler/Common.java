@@ -48,4 +48,20 @@ public class Common {
         }
         return Integer.parseInt(obj, 16);
     }
+
+    /**
+     * @param operand "crude"
+     * @return RawOperand
+     */
+    public static String getRawOperand(String operand) {
+        // TODO : Add More If Needed
+        return operand.replace("C", "").
+                replace("X", "").
+                replace(",X", "").
+                replace("@", "").
+                replace("#", "").
+                replace("'", "").
+                replace("=", "").
+                replace("", "");
+    }
 }

@@ -30,7 +30,7 @@ public class Assembler {
     }
 
     public void executePassTwo() throws AssemblerException {
-        passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable());
+        passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable(), passOne.getLiteralTable());
         passTwo.execute();
     }
 
