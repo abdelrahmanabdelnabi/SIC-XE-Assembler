@@ -2,7 +2,6 @@ package src.filewriter;
 
 import org.junit.Test;
 import src.assembler.core.Assembler;
-import src.assembler.Instruction;
 import src.parser.InputReader;
 import src.parser.Parser;
 
