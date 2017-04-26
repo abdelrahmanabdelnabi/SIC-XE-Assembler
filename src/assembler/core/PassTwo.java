@@ -131,9 +131,28 @@ public class PassTwo {
 
     }
 
+    // TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+// TODO DIS IS CALCULATED FROM THE STARTING ADDRESS IN THE PROGRAM NOT CURRENT PC
+    // TODO LOGIC JUST COMMITTED SUICIDE !
+    // TODO LOGIC JUST COMMITTED SUICIDE !
+    // TODO LOGIC JUST COMMITTED SUICIDE !
+    // TODO LOGIC JUST COMMITTED SUICIDE !
+    // TODO LOGIC JUST COMMITTED SUICIDE !
     private String handleFormat3(Instruction inst, ObjectBuilder format3) {
         // prepare needed input
-        int PC = inst.getAddress() + 3;
+
+        // WE DO NOT SUBTRACT 3 OR ADD 3 TO THE PC
+        int PC = inst.getAddress();
         int opCode = getOpCode(inst.getMnemonic());
         String operand = inst.getOperand();
 
@@ -166,6 +185,8 @@ public class PassTwo {
         boolean isHexaDecimal = rawOperand.matches("0x-?[0-9A-F]+");
 
         int displacement = 0;
+        // TESTING
+        int relativeAddress = 0;
 
         if (!(isDecimal || isHexaDecimal)) {
             if (!symbolTable.containsKey(rawOperand)) {
@@ -176,7 +197,7 @@ public class PassTwo {
                 throw new AssemblerException(inst.toString() + " " + error);
             }
         } else { // if number
-            // check if it fits in the displacement of a fromat 3 instruction
+            // check if it fits in the displacement of a format 3 instruction
             int value;
             if (isDecimal) {
                 value = Integer.parseInt(rawOperand);
@@ -193,6 +214,7 @@ public class PassTwo {
                 throw new AssemblerException(error);
             }
             displacement = value;
+            relativeAddress = value;
         }
 
         // set displacement if not a number
@@ -202,9 +224,11 @@ public class PassTwo {
             int labelAddress = symbolTable.get(rawOperand).getAddress();
             if (isFitPCRelative(labelAddress - PC)) {
                 displacement = labelAddress - PC;
+                relativeAddress = labelAddress;
                 format3.setPCRelative(true);
             } else if (isBaseSet && isFitConstant(labelAddress - baseAddress)) {
                 displacement = labelAddress - baseAddress;
+                relativeAddress = displacement;
                 format3.setBaseRelative(true);
             } else {
                 // error
@@ -217,7 +241,7 @@ public class PassTwo {
             }
         }
 
-        format3.setOperand(displacement);
+        format3.setOperand(relativeAddress);
         format3.setOpCode(opCode);
 
         // according to the last page in the reference operand can either be one of simple
@@ -225,8 +249,13 @@ public class PassTwo {
 
         // set flags
         if (simple) {
-            format3.setIndirect(true);
-            format3.setImmediate(true);
+            // !!! todo : WDF IS THIS :D
+            // todo ; fi codes btala3 dah sa6 lma tkono both false we codes tania el 3aks :D
+            // todo ; shall we suicide ? :D
+            format3.setIndirect(false);
+            format3.setImmediate(false);
+//            format3.setIndirect(true);
+//            format3.setImmediate(true);
         } else if (immediate) {
             format3.setIndirect(false);
             format3.setImmediate(true);
@@ -283,12 +312,16 @@ public class PassTwo {
     }
 
     private boolean isFitPCRelative(int displacement) {
-        return displacement >= -2048 && displacement <= 2047;
+        // CONVERTED TO DECIMAL VALUE AS DISP IS GIVEN AS HEX
+//        return displacement >= -2048 && displacement <= 2047;
+        return displacement >= -8264 && displacement <= 8263;
     }
 
     /* returns true if the number is between 0 and 4095 inclusive */
     private boolean isFitConstant(int number) {
-        return number >= 0 && number <= 4095;
+        // CONVERTED TO DECIMAL VALUES AS DISP IS GICEN AS HEX
+//        return number >= 0 && number <= 4095;
+        return number >= 0 && number <= 16533;
     }
 
     public List<Instruction> getOutputInstructions() {

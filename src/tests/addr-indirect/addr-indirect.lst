@@ -15,8 +15,7 @@
                   
                   . ********** symbols **********
                   . absolute
-00015            five   EQU     5    
-00015  020005           LDA     @five    . if absolute symbol then absolute addressing
+00015  020005           LDA     @5    . if absolute symbol then absolute addressing
                   . pc-relative
 00018  022000           LDA     @a    . pc-relative: (PC)+0
 0001B  022FFD    a      LDA     @a    . pc-relative: (PC)-3
