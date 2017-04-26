@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static src.assembler.Common.buildErrorString;
 import static src.assembler.InstructionPart.*;
 import static src.assembler.datastructures.OpcodeTable.*;
-import static src.assembler.utils.Common.buildErrorString;
 
 /*
  * Created by ahmed on 4/21/17.
@@ -46,10 +46,15 @@ public class PassOne {
                 break;
             handleLabel(inst);
             handleMnemonic(inst);
+            handleOperand(inst);
         } // end for loop
 
         setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
         Logger.Log("End Pass One");
+    }
+
+    private void handleOperand(Instruction inst) {
+
     }
 
     private void checkForSTART(Instruction inst) {

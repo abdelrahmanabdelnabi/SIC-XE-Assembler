@@ -1,6 +1,4 @@
-package src.assembler.utils;
-
-import src.assembler.InstructionPart;
+package src.assembler;
 
 import java.util.regex.Pattern;
 
@@ -31,5 +29,23 @@ public class Common {
         if (Pattern.matches("[0-9]+", operand))
             value = Integer.parseInt(operand);
         return value;
+    }
+
+    /**
+     * @param operand , takes data Operand  C'EOF'  ||  X'F1'
+     * @return its integer value
+     */
+    public static int parseDataOperand(String operand) {
+        String obj = "";
+        switch (operand.charAt(0)) {
+            case 'X':
+                obj = operand.substring(1).replace("'", "");
+                break;
+            case 'C':
+                for (int i = 2; i < operand.length() - 1; i++) {
+                    obj += Integer.toHexString(operand.charAt(i));
+                }
+        }
+        return Integer.parseInt(obj, 16);
     }
 }

@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static src.assembler.Common.buildErrorString;
 import static src.assembler.Instruction.InstructionType.Directive;
 import static src.assembler.Instruction.InstructionType.Instruction;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
-import static src.assembler.utils.Common.buildErrorString;
 
 /**
  * Created by ahmed on 4/21/17.

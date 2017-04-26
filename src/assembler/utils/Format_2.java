@@ -2,7 +2,7 @@ package src.assembler.utils;
 
 import src.assembler.datastructures.Format;
 
-import static src.assembler.utils.Common.extendToLength;
+import static src.assembler.Common.extendToLength;
 
 /**
  * Created by ahmed on 4/12/17.

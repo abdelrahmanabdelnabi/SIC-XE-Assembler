@@ -4,8 +4,8 @@ import src.assembler.Instruction;
 
 import java.util.List;
 
+import static src.assembler.Common.extendToLength;
 import static src.assembler.datastructures.OpcodeTable.*;
-import static src.assembler.utils.Common.extendToLength;
 
 /**
  * Created by ahmed on 4/19/17.
