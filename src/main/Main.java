@@ -13,6 +13,25 @@ import src.parser.ParsingException;
 /*
  * Created by abdelrahman on 4/9/17.
  */
+/*
+    TODO : Test addr-immediate  Passed
+    TODO : Test addr-indirect   Failed // Base/Pc Issue
+    TODO : Test addr-simple     Failed // Base Relative Issue
+    TODO : Test base
+    TODO : Test Code1
+    TODO : Test Code2
+    TODO : Test Code3
+    TODO : Test Code4
+    TODO : Test Code5
+    TODO : Test Code6
+    TODO : Test Code7
+    TODO : Test Format1
+    TODO : Test Format2
+    TODO : Test Format3
+    TODO : Test Format4
+    TODO : Test Literals
+    TODO : Test-Storage
+ */
 public class Main {
     public static void main(String[] args) {
 
@@ -21,7 +40,7 @@ public class Main {
         String relativePath = System.getProperty("user.dir");
 
         // change file path to change test file
-        String path = relativePath + "/src/tests/code3/code3.asm";
+        String path = relativePath + "/src/tests/base/base.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);

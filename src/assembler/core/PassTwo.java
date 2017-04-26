@@ -285,7 +285,7 @@ public class PassTwo {
 
     private boolean isFitPCRelative(int displacement) {
         // CONVERTED TO DECIMAL VALUE AS DISP IS GIVEN AS HEX
-        return displacement >= -2048 && displacement <= 2047;
+        return displacement >= -4095 && displacement <= 4096;
 //        return displacement >= -8264 && displacement <= 8263;
     }
 
