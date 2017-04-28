@@ -19,8 +19,8 @@ import static src.assembler.Common.*;
 import static src.assembler.Instruction.InstructionType.Directive;
 import static src.assembler.Instruction.InstructionType.Instruction;
 import static src.assembler.datastructures.OpcodeTable.*;
-import static src.assembler.datastructures.OperandType.NUM;
 import static src.assembler.datastructures.OperandType.REGISTER;
+import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 
 /**
@@ -134,14 +134,14 @@ public class PassTwo {
         // 1st Operand
         if (getFirstOperandType(mnemonic) == REGISTER) {
             format_2.setOperand(getRegisterNumber(inst.getOperand().split(",")[0]));
-        } else if (getFirstOperandType(mnemonic) == NUM) {
+        } else if (getFirstOperandType(mnemonic) == VALUE) {
             format_2.setOperand(Integer.parseInt(inst.getOperand().split(",")[0]));
         }
 
         // 2nd Operand
         if (getSecondOperandType(mnemonic) == REGISTER) {
             format_2.setSecondOperand(getRegisterNumber(inst.getOperand().split(",")[1]));
-        } else if (getSecondOperandType(mnemonic) == NUM) {
+        } else if (getSecondOperandType(mnemonic) == VALUE) {
             format_2.setSecondOperand(Integer.parseInt(inst.getOperand().split(",")[1]) - 1);
         } else {
             format_2.setSecondOperand(0);

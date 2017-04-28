@@ -62,6 +62,14 @@ public class Common {
                 replace("#", "").
                 replace("'", "").
                 replace("=", "").
-                replace("", "");
+                replace(" ", "");
+    }
+
+    public static String getOperandWithoutModeFlags(String operand) {
+        return operand.replace(" ", "").
+                replace("#", "").
+                replace("@", "").
+                replace("=", "").
+                replace(",X", "");
     }
 }

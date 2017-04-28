@@ -64,10 +64,10 @@ public class OpcodeTable {
         opCodeTable.put("CLEAR", new InstProp(180, Format.FORMAT2, REGISTER, NONE));
         opCodeTable.put("TIXR", new InstProp(184, Format.FORMAT2, REGISTER, NONE));
 
-        opCodeTable.put("SVC", new InstProp(176, Format.FORMAT2, NUM, NONE));
+        opCodeTable.put("SVC", new InstProp(176, Format.FORMAT2, VALUE, NONE));
 
-        opCodeTable.put("SHIFTL", new InstProp(164, Format.FORMAT2, REGISTER, NUM));
-        opCodeTable.put("SHIFTR", new InstProp(168, Format.FORMAT2, REGISTER, NUM));
+        opCodeTable.put("SHIFTL", new InstProp(164, Format.FORMAT2, REGISTER, VALUE));
+        opCodeTable.put("SHIFTR", new InstProp(168, Format.FORMAT2, REGISTER, VALUE));
 
         opCodeTable.put("ADDR", new InstProp(144, Format.FORMAT2, REGISTER, REGISTER));
         opCodeTable.put("COMPR", new InstProp(160, Format.FORMAT2, REGISTER, REGISTER));
@@ -78,50 +78,50 @@ public class OpcodeTable {
 
 
         // FORMAT 3 & 4
-        opCodeTable.put("ADD", new InstProp(24, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("ADDF", new InstProp(88, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("AND", new InstProp(64, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("COMP", new InstProp(40, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("COMPF", new InstProp(136, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("DIV", new InstProp(36, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("DIVF", new InstProp(100, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("J", new InstProp(60, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("JEQ", new InstProp(48, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("JGT", new InstProp(52, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("JLT", new InstProp(56, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("JSUB", new InstProp(72, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDA", new InstProp(0, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDB", new InstProp(104, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDCH", new InstProp(80, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDF", new InstProp(112, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDL", new InstProp(8, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDS", new InstProp(108, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDT", new InstProp(116, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LDX", new InstProp(4, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("LPS", new InstProp(208, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("MUL", new InstProp(32, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("MULF", new InstProp(96, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("OR", new InstProp(68, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("RD", new InstProp(216, Format.FORMAT3, NUM, NONE));
+        opCodeTable.put("ADD", new InstProp(24, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("ADDF", new InstProp(88, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("AND", new InstProp(64, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("COMP", new InstProp(40, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("COMPF", new InstProp(136, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("DIV", new InstProp(36, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("DIVF", new InstProp(100, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("J", new InstProp(60, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("JEQ", new InstProp(48, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("JGT", new InstProp(52, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("JLT", new InstProp(56, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("JSUB", new InstProp(72, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDA", new InstProp(0, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDB", new InstProp(104, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDCH", new InstProp(80, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDF", new InstProp(112, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDL", new InstProp(8, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDS", new InstProp(108, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDT", new InstProp(116, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LDX", new InstProp(4, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("LPS", new InstProp(208, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("MUL", new InstProp(32, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("MULF", new InstProp(96, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("OR", new InstProp(68, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("RD", new InstProp(216, Format.FORMAT3, VALUE, NONE));
 
         //FIX Special case
         opCodeTable.put("RSUB", new InstProp(76, Format.FORMAT3, NONE, NONE));
-        opCodeTable.put("TD", new InstProp(224, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("TIX", new InstProp(44, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("WD", new InstProp(220, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("SSK", new InstProp(236, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STA", new InstProp(12, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STB", new InstProp(120, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STCH", new InstProp(84, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STF", new InstProp(128, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STI", new InstProp(212, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STL", new InstProp(20, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STS", new InstProp(124, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STSW", new InstProp(232, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STT", new InstProp(132, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("STX", new InstProp(16, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("SUB", new InstProp(28, Format.FORMAT3, NUM, NONE));
-        opCodeTable.put("SUBF", new InstProp(92, Format.FORMAT3, NUM, NONE));
+        opCodeTable.put("TD", new InstProp(224, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("TIX", new InstProp(44, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("WD", new InstProp(220, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("SSK", new InstProp(236, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STA", new InstProp(12, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STB", new InstProp(120, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STCH", new InstProp(84, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STF", new InstProp(128, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STI", new InstProp(212, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STL", new InstProp(20, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STS", new InstProp(124, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STSW", new InstProp(232, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STT", new InstProp(132, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("STX", new InstProp(16, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("SUB", new InstProp(28, Format.FORMAT3, VALUE, NONE));
+        opCodeTable.put("SUBF", new InstProp(92, Format.FORMAT3, VALUE, NONE));
     }
 
     private static void fillAssemblerDirectives() {

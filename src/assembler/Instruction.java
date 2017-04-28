@@ -14,6 +14,7 @@ public class Instruction {
     private InstructionType instructionType;
     private Format format;
     private OperandType operandType;
+    private OperandType.VALUE valueType;
     // Place
     private int lineNumber;
     private int address;
@@ -95,6 +96,14 @@ public class Instruction {
 
     public void setOperandType(OperandType operandType) {
         this.operandType = operandType;
+    }
+
+    public OperandType.VALUE getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(OperandType.VALUE valueType) {
+        this.valueType = valueType;
     }
 
     public enum InstructionType {
