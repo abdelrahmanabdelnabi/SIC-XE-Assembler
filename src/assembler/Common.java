@@ -55,13 +55,10 @@ public class Common {
      */
     public static String getRawOperand(String operand) {
         // TODO : Add More If Needed
-        return operand.replace("C", "").
-                replace("X", "").
+        return operand.replace(" ", "").
                 replace(",X", "").
                 replace("@", "").
                 replace("#", "").
-                replace("'", "").
-                replace("=", "").
-                replace("", "");
+                replace("=", "");
     }
 }

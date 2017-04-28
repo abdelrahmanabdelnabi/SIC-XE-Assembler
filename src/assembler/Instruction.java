@@ -1,6 +1,7 @@
 package src.assembler;
 
 import src.assembler.datastructures.Format;
+import src.assembler.datastructures.OperandType;
 
 /**
  * Created by abdelrahman on 3/22/17.
@@ -9,13 +10,17 @@ public class Instruction {
     private String label;
     private String mnemonic;
     private String operand;
-    private InstructionType type;
+    // Classification
+    private InstructionType instructionType;
+    private Format format;
+    private OperandType operandType;
+    private OperandType.VALUE valueType;
+    // Place
     private int lineNumber;
     private int address;
-    private String objectCode = "";
-    private boolean hasError = false;
+    // ObjectCode
     private boolean hasObject = false;
-    private Format format;
+    private String objectCode = "";
 
     public Instruction(String label, String mnemonic, String operand, int lineNumber) {
         this.label = label;
@@ -44,12 +49,12 @@ public class Instruction {
         return operand;
     }
 
-    public InstructionType getType() {
-        return type;
+    public InstructionType getInstructionType() {
+        return instructionType;
     }
 
-    public void setType(InstructionType type) {
-        this.type = type;
+    public void setInstructionType(InstructionType instructionType) {
+        this.instructionType = instructionType;
     }
 
     public int getLineNumber() {
@@ -69,14 +74,6 @@ public class Instruction {
         this.objectCode = objectCode;
     }
 
-    public boolean HasError() {
-        return hasError;
-    }
-
-    public void setHasError(boolean hasError) {
-        this.hasError = hasError;
-    }
-
     public Format getFormat() {
         return format;
     }
@@ -91,6 +88,22 @@ public class Instruction {
 
     public void setHasObject() {
         this.hasObject = true;
+    }
+
+    public OperandType getOperandType() {
+        return operandType;
+    }
+
+    public void setOperandType(OperandType operandType) {
+        this.operandType = operandType;
+    }
+
+    public OperandType.VALUE getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(OperandType.VALUE valueType) {
+        this.valueType = valueType;
     }
 
     public enum InstructionType {

@@ -53,7 +53,7 @@ public class PassTwo {
             /*
              * If is Instruction
              */
-            if (inst.getType() == Instruction) {
+            if (inst.getInstructionType() == Instruction) {
                 String mnemonic = inst.getMnemonic();
                 // FORMAT 4
                 if (mnemonic.startsWith("+")) {
@@ -81,7 +81,7 @@ public class PassTwo {
             /*
              * if is assembler directive
              */
-            else if (inst.getType() == Directive) {
+            else if (inst.getInstructionType() == Directive) {
                 // TODO : Handle directives (also set baseFlag and base address appropriately)
                 String directive = inst.getMnemonic();
                 switch (directive) {
@@ -281,12 +281,8 @@ public class PassTwo {
         String operand = getRawOperand(instruction.getOperand());
         int TA = 0;
         // check is value or symbol
-        if (Pattern.matches("[0-9]+", operand)) {
-            TA = Integer.parseInt(operand);
-        }
-        // IF Operand is HEX Immediate
-        else if (Pattern.matches("0x[0-9]+", operand)) {
-            TA = Integer.parseInt(operand.substring(2), 16);
+        if (Pattern.matches("[0-9]+|0x[0-9]+", operand)) {
+            TA = parseNumOperand(operand);
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
         } else {
@@ -295,6 +291,7 @@ public class PassTwo {
         return TA;
     }
 
+    // TODO : Y3ny men el a5ir a3milha kam ? xD
     private boolean isFitPCRelative(int displacement) {
         return displacement >= -2048 && displacement <= 2047;
     }

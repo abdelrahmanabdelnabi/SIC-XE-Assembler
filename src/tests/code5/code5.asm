@@ -16,14 +16,14 @@ ENDFIL  LDA    =C'EOF'
 
 RETADR  RESW    1
 LENGTH  RESW    1
-		USE		CBLKS
+		.USE		CBLKS
 BUFFER  RESB    4096
-BUFFEND EQU     *
-MAXLEN  EQU     BUFFEND-BUFFER
+BUFFEND RESW    X'F1'
+MAXLEN  RESW     C'BUF'
 .
 .       Subroutine to read record into buffer
 .
-		USE
+		.USE
 RDREC   CLEAR   X
         CLEAR   A
         CLEAR   S

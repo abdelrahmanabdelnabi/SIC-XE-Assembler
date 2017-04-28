@@ -2,6 +2,8 @@ package src.assembler.utils;
 
 import src.assembler.datastructures.Format;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by ahmed on 4/12/17.
  */
@@ -16,19 +18,36 @@ public abstract class ObjectBuilder {
     }
 
     public static String buildDirectives(String operand) {
-        switch (operand.charAt(0)) {
-            case 'X':
-                return operand.substring(1).replace("'", "");
-            case 'C':
-                String objectCode = "";
-                operand = operand.substring(1).replace("'", "");
-                for (int i = 0; i < operand.length(); i++) {
-                    objectCode += Integer.toHexString(operand.charAt(i));
-                }
-                return objectCode;
-            default:
-                return "";
+        String objectCode = "";
+        if (Pattern.matches("C'[a-zA-Z0-9]+'", operand)) {
+            operand = operand.substring(1).replace("'", "");
+            StringBuilder objectCodeBuilder = new StringBuilder();
+            for (int i = 0; i < operand.length(); i++) {
+                objectCodeBuilder.append(Integer.toHexString(operand.charAt(i)));
+            }
+            objectCode = objectCodeBuilder.toString();
+        } else if (Pattern.matches("X'[A-F0-9]+'", operand)) {
+            objectCode = operand.substring(1).replace("'", "");
+        } else if (Pattern.matches("0x[0-9A-F]+", operand)) {
+            objectCode = operand.replace("0x", "");
+        } else if (Pattern.matches("[0-9]+", operand)) {
+            objectCode = Integer.toHexString(Integer.parseInt(operand));
         }
+
+//        switch (operand.charAt(0)) {
+//            case 'X':
+//                return operand.substring(1).replace("'", "");
+//            case 'C':
+//                String objectCode = "";
+//                operand = operand.substring(1).replace("'", "");
+//                for (int i = 0; i < operand.length(); i++) {
+//                    objectCode += Integer.toHexString(operand.charAt(i));
+//                }
+//                return objectCode;
+//            default:
+//                return "";
+//        }
+        return objectCode;
     }
 
     /**
