@@ -25,11 +25,11 @@ import static src.assembler.datastructures.OperandType.VALUE.*;
  * Takes an ArrayList of Instructions, analyze it, then sets the Error Flag at
  * Logger Class, Using Logger.LogError(msg);
  */
-public class LexicalAnalyser {
+public class LexicalAnalyzer {
     private ArrayList<Instruction> srcCode;
     private String errorStr;
 
-    public LexicalAnalyser(ArrayList<Instruction> srcCode) {
+    public LexicalAnalyzer(ArrayList<Instruction> srcCode) {
         this.srcCode = srcCode;
     }
 

@@ -11,7 +11,7 @@ import static src.parser.InputReader.InputType.File;
 /*
  * Created by ahmed on 4/28/17.
  */
-public class LexicalAnalyserTest {
+public class LexicalAnalyzerTest {
     private String relativePath = System.getProperty("user.dir");
     private String testFilePath = "/src/tests/format4/format4.asm";
     private Parser parser;
@@ -25,7 +25,7 @@ public class LexicalAnalyserTest {
 
     @Test
     public void testAnalyser() {
-        LexicalAnalyser analyser = new LexicalAnalyser(parser.getParsedInstuctions());
+        LexicalAnalyzer analyser = new LexicalAnalyzer(parser.getParsedInstuctions());
         analyser.inspectCode();
         Writer writer = new Writer(relativePath);
         writer.setFileName(testFilePath.replace(".asm", "_log.txt"));

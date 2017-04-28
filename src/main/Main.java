@@ -11,7 +11,7 @@ import src.filewriter.ListingString;
 import src.filewriter.SymbolsString;
 import src.filewriter.Writer;
 import src.parser.InputReader;
-import src.parser.LexicalAnalyser;
+import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 import src.parser.ParsingException;
 
@@ -38,7 +38,7 @@ public class Main {
         /*
             Validate Syntax Check
          */
-        LexicalAnalyser analyser = new LexicalAnalyser(parser.getParsedInstuctions());
+        LexicalAnalyzer analyser = new LexicalAnalyzer(parser.getParsedInstuctions());
         analyser.inspectCode();
 
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
