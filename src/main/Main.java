@@ -23,7 +23,7 @@ public class Main {
         String relativePath = System.getProperty("user.dir");
 
         // change file path to change test file
-        String path = relativePath + "/src/tests/code2/code2.asm";
+        String path = relativePath + "/src/tests/code1/code1.asm";
 
         InputReader reader = new InputReader(InputReader.InputType.File, path);
         Parser parser = new Parser(reader);
