@@ -166,11 +166,11 @@ public class PassOne {
                 throw new AssemblerException(error);
             }
             inst.setFormat(Format.FORMAT4);
-            inst.setType(Instruction.InstructionType.Instruction);
+            inst.setInstructionType(Instruction.InstructionType.Instruction);
             inst.setHasObject();
 
         } else if (OPTAB.containsKey(mnemonic)) {
-            inst.setType(Instruction.InstructionType.Instruction);
+            inst.setInstructionType(Instruction.InstructionType.Instruction);
             switch (OPTAB.get(mnemonic).getFormat()) {
                 case FORMAT1:
                     objCodeLength = 1;
@@ -187,7 +187,7 @@ public class PassOne {
             inst.setHasObject();
         } else if (directives.contains(mnemonic)) {
             // handle only the Directives that affect the instruction addresses
-            inst.setType(Instruction.InstructionType.Directive);
+            inst.setInstructionType(Instruction.InstructionType.Directive);
             switch (mnemonic) {
                 case "BYTE":
                     inst.setHasObject();

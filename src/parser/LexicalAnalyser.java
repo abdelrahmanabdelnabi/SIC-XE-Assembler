@@ -21,6 +21,9 @@ public class LexicalAnalyser {
         this.srcCode = srcCode;
     }
 
+    /**
+     * For each instruction validate its syntax
+     */
     public void inspectCode() {
         for (Instruction inst : srcCode) {
             validateSyntax(inst);
