@@ -1,4 +1,3 @@
-
         LDA     a
         COMP    b
         JGT     grt

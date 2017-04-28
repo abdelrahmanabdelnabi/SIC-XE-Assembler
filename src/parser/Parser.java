@@ -40,11 +40,10 @@ public class Parser {
      * @throws ParsingException
      */
     public void parse() throws ParsingException {
-            Logger.Log("Start File Parsing");
-            String newLine;
-            int lineNumber = 0;
+        Logger.Log("Start File Parsing");
+        String newLine;
+        int lineNumber = 0;
         try {
-
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
@@ -86,13 +85,14 @@ public class Parser {
                 else {
                     // TODO: print a more descriptive error message (ex: unknown mnemonic /
                     // TODO: unexpected token ...
+                    // TODO : THIS IS DESCRIPTIVE ENOUGH FOR A PARSER
                     Logger.LogError("Line " + lineNumber + " ( " + newLine + " )" + " is Not a " +
                             "valid SIC(/XE) instruction !");
                     throw new ParsingException("Unrecognized line format " + "( " + newLine + " )",
                             lineNumber);
                 }
 
-                
+
             }
             Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {
