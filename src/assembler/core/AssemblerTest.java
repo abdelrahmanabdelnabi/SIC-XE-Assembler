@@ -5,34 +5,35 @@ import org.junit.Test;
 import src.parser.InputReader;
 import src.parser.Parser;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abdelrahman on 4/25/17.
  * <p>
  * Integration Tests
- *
+ * <p>
  * code1: WORD directives, format 2 and 3, SHIFT, no literals
  * code2:
  * code3: Lecture code (has format 4, modification records, and no literals)
  * code4: Same as code3 but uses literals
- * code5: Uses Literals, expressions, and code blocks
+ * code7: Uses Literals, expressions, and code blocks
  * code6: Literals only
  * code7: SIC program -- should not test
  */
 public class AssemblerTest {
+    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
     private Parser parser;
     private InputReader reader;
-
-    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
-
     private String code1;
     private String code2;
     private String code3;
     private String code4;
-    private String code5;
+    private String code7;
     private String code6;
     private String addrImm;
     private String addrIndirect;
@@ -41,7 +42,7 @@ public class AssemblerTest {
     private String correctObjectCode2;
     private String correctObjectCode3;
     private String correctObjectCode4;
-    private String correctObjectCode5;
+    private String correctObjectCode7;
     private String correctObjectCode6;
     private String correctAddrImm;
     private String correctAddrIndirect;
@@ -56,7 +57,7 @@ public class AssemblerTest {
         code2 = readFile(TESTS_DIRECTORY + "/code2/code2.asm");
         code3 = readFile(TESTS_DIRECTORY + "/code3/code3.asm");
         code4 = readFile(TESTS_DIRECTORY + "/code4/code4.asm");
-        code5 = readFile(TESTS_DIRECTORY + "/code5/code5.asm");
+        code7 = readFile(TESTS_DIRECTORY + "/code7/code7.asm");
         code6 = readFile(TESTS_DIRECTORY + "/code6/code6.asm");
         addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
         addrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
@@ -64,14 +65,17 @@ public class AssemblerTest {
         correctObjectCode2 = readFile(TESTS_DIRECTORY + "/code2/code2.obj");
         correctObjectCode3 = readFile(TESTS_DIRECTORY + "/code3/code3.obj");
         correctObjectCode4 = readFile(TESTS_DIRECTORY + "/code4/code4.obj");
-        correctObjectCode5 = readFile(TESTS_DIRECTORY + "/code5/code5.obj");
+        correctObjectCode7 = readFile(TESTS_DIRECTORY + "/code7/code7.obj");
         correctObjectCode6 = readFile(TESTS_DIRECTORY + "/code6/code6.obj");
         correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
         correctAddrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
     }
 
+
     @Test
     public void testCode1() {
+        // TODO : TEST PASSED !
+        // ORIGINAL CODE IS FAULTY
         reader.setInputString(code1);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode1, actual);
@@ -79,6 +83,7 @@ public class AssemblerTest {
 
     @Test
     public void TestCode2() throws Exception {
+        // TODO : TEST PASSED !
         reader.setInputString(code2);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode2, actual);
@@ -86,6 +91,7 @@ public class AssemblerTest {
 
     @Test
     public void testCode3() {
+        // M records
         reader.setInputString(code3);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode3, actual);
@@ -93,6 +99,7 @@ public class AssemblerTest {
 
     @Test
     public void TestCode4() throws Exception {
+        // TODO - Literals format 3
         reader.setInputString(code4);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode4, actual);
@@ -101,9 +108,9 @@ public class AssemblerTest {
 
     @Test
     public void TestCode5() throws Exception {
-        reader.setInputString(code5);
+        reader.setInputString(code7);
         String actual = runAssembler();
-        assertEquals("Generated object code does not match the expected code", correctObjectCode5, actual);
+        assertEquals("Generated object code does not match the expected code", correctObjectCode7, actual);
     }
 
     @Test
