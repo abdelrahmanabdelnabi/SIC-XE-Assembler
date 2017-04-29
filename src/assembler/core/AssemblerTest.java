@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  * code3: Lecture code (has format 4, modification records, and no literals)
  * code4: Same as code3 but uses literals
  * code7: Uses Literals, expressions, and code blocks
- * code6: Literals only
+ * code5: Literals only
  * code7: SIC program -- should not test
  */
 public class AssemblerTest {
@@ -33,7 +33,7 @@ public class AssemblerTest {
     private String code2;
     private String code3;
     private String code4;
-    private String code6;
+    private String code5;
     private String addrImm;
     private String addrIndirect;
 
@@ -41,7 +41,7 @@ public class AssemblerTest {
     private String correctObjectCode2;
     private String correctObjectCode3;
     private String correctObjectCode4;
-    private String correctObjectCode6;
+    private String correctObjectCode5;
     private String correctAddrImm;
     private String correctAddrIndirect;
 
@@ -55,14 +55,14 @@ public class AssemblerTest {
         code2 = readFile(TESTS_DIRECTORY + "/code2/code2.asm");
         code3 = readFile(TESTS_DIRECTORY + "/code3/code3.asm");
         code4 = readFile(TESTS_DIRECTORY + "/code4/code4.asm");
-        code6 = readFile(TESTS_DIRECTORY + "/code6/code6.asm");
+        code5 = readFile(TESTS_DIRECTORY + "/code5/code5.asm");
         addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
         addrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
         correctObjectCode1 = readFile(TESTS_DIRECTORY + "/code1/code1.obj");
         correctObjectCode2 = readFile(TESTS_DIRECTORY + "/code2/code2.obj");
         correctObjectCode3 = readFile(TESTS_DIRECTORY + "/code3/code3.obj");
         correctObjectCode4 = readFile(TESTS_DIRECTORY + "/code4/code4.obj");
-        correctObjectCode6 = readFile(TESTS_DIRECTORY + "/code6/code6.obj");
+        correctObjectCode5 = readFile(TESTS_DIRECTORY + "/code5/code5.obj");
         correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
         correctAddrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
     }
@@ -77,7 +77,7 @@ public class AssemblerTest {
     }
 
     @Test
-    public void TestCode2() throws Exception {
+    public void testCode2() throws Exception {
         reader.setInputString(code2);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode2, actual);
@@ -92,7 +92,7 @@ public class AssemblerTest {
     }
 
     @Test
-    public void TestCode4() throws Exception {
+    public void testCode4() throws Exception {
         // TODO - Literals format 3
         reader.setInputString(code4);
         String actual = runAssembler();
@@ -101,11 +101,11 @@ public class AssemblerTest {
     }
 
     @Test
-    public void TestCode6() throws Exception {
-        reader.setInputString(code6);
+    public void testCode5() throws Exception {
+        reader.setInputString(code5);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code",
-                correctObjectCode6, actual);
+                correctObjectCode5, actual);
     }
 
     @Test
