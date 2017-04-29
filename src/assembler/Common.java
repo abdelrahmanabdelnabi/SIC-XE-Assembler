@@ -37,17 +37,19 @@ public class Common {
      */
     public static int parseDataOperand(String operand) {
         String obj = "";
-        switch (operand.charAt(0)) {
-            case 'X':
-                obj = operand.substring(1).replace("'", "");
-                break;
-            case 'C':
-                for (int i = 2; i < operand.length() - 1; i++) {
-                    obj += Integer.toHexString(operand.charAt(i));
-                }
-        }
+        if (operand.startsWith("X"))
+            obj = operand.substring(1).replace("'", "");
+
+        else if (operand.startsWith("C"))
+            for (int i = 2; i < operand.length() - 1; i++)
+                obj += Integer.toHexString(operand.charAt(i));
+
+        else if (Pattern.matches("0x[0-9A-F]+", operand))
+            obj = operand.substring(2);
+
         return Integer.parseInt(obj, 16);
     }
+
 
     /**
      * @param operand "crude"

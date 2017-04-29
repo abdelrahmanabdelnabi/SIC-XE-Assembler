@@ -161,7 +161,7 @@ public class PassTwo {
 
         // Checks if an operand is Valid.. does not account for literals
         // note also that this does NOT allow spaces in the operand
-        boolean validLiteral = operand.matches("=X'[A-F0-9]+'|=C'[a-zA-Z0-9]+'");
+        boolean validLiteral = operand.startsWith("=");//operand.matches("=X'[A-F0-9]+'|=C'[a-zA-Z0-9]+'");
         boolean validOperand =
                 operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)))|" +
                         "(([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
