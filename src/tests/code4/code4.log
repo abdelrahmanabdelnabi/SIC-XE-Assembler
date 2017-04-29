@@ -2,25 +2,25 @@
 Stats: size=4222  blocks=4222  symbols=16  literals=3  relocations=4
 Blocks
     name        start   size  #ins #dir #sto
-    <default>   00000  0107E    37    6    4
+    <default>   00000  0107E    37    7    4
 Symbols
     name        hex       dec  scope     kind      description
-    *0       001075      4213  local     relative  label
+    *0       00002D        45  local     relative  label
     *1       001078      4216  local     relative  label
     *2       00107B      4219  local     relative  label
-    BUFFER   000033        51  local     relative  label
+    BUFFER   000036        54  local     relative  label
     CLOOP    000006         6  local     relative  label
     COPY     000000         0  exported  relative  label
     ENDFIL   00001A        26  local     relative  label
-    EXIT     001053      4179  local     relative  label
+    EXIT     001056      4182  local     relative  label
     FIRST    000000         0  local     relative  label
-    LENGTH   000030        48  local     relative  label
-    MAXLEN   001059      4185  local     relative  label
-    RDREC    001033      4147  local     relative  label
-    RETADR   00002D        45  local     relative  label
-    RLOOP    00103D      4157  local     relative  label
-    WLOOP    001061      4193  local     relative  label
-    WRREC    00105C      4188  local     relative  label
+    LENGTH   000033        51  local     relative  label
+    MAXLEN   00105C      4188  local     relative  label
+    RDREC    001036      4150  local     relative  label
+    RETADR   000030        48  local     relative  label
+    RLOOP    001040      4160  local     relative  label
+    WLOOP    001064      4196  local     relative  label
+    WRREC    00105F      4191  local     relative  label
 Literals
     label   definition
     *0      WORD C'EOF'
@@ -31,4 +31,4 @@ Relocations
     00007        5
     00014        5
     00027        5
-    0103A        5
+    0103D        5
