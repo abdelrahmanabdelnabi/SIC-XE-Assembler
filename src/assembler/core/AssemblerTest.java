@@ -33,7 +33,6 @@ public class AssemblerTest {
     private String code2;
     private String code3;
     private String code4;
-    private String code7;
     private String code6;
     private String addrImm;
     private String addrIndirect;
@@ -42,7 +41,6 @@ public class AssemblerTest {
     private String correctObjectCode2;
     private String correctObjectCode3;
     private String correctObjectCode4;
-    private String correctObjectCode7;
     private String correctObjectCode6;
     private String correctAddrImm;
     private String correctAddrIndirect;
@@ -57,7 +55,6 @@ public class AssemblerTest {
         code2 = readFile(TESTS_DIRECTORY + "/code2/code2.asm");
         code3 = readFile(TESTS_DIRECTORY + "/code3/code3.asm");
         code4 = readFile(TESTS_DIRECTORY + "/code4/code4.asm");
-        code7 = readFile(TESTS_DIRECTORY + "/code7/code7.asm");
         code6 = readFile(TESTS_DIRECTORY + "/code6/code6.asm");
         addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
         addrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
@@ -65,7 +62,6 @@ public class AssemblerTest {
         correctObjectCode2 = readFile(TESTS_DIRECTORY + "/code2/code2.obj");
         correctObjectCode3 = readFile(TESTS_DIRECTORY + "/code3/code3.obj");
         correctObjectCode4 = readFile(TESTS_DIRECTORY + "/code4/code4.obj");
-        correctObjectCode7 = readFile(TESTS_DIRECTORY + "/code7/code7.obj");
         correctObjectCode6 = readFile(TESTS_DIRECTORY + "/code6/code6.obj");
         correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
         correctAddrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
@@ -74,7 +70,6 @@ public class AssemblerTest {
 
     @Test
     public void testCode1() {
-        // TODO : TEST PASSED !
         // ORIGINAL CODE IS FAULTY
         reader.setInputString(code1);
         String actual = runAssembler();
@@ -83,7 +78,6 @@ public class AssemblerTest {
 
     @Test
     public void TestCode2() throws Exception {
-        // TODO : TEST PASSED !
         reader.setInputString(code2);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode2, actual);
@@ -104,13 +98,6 @@ public class AssemblerTest {
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode4, actual);
 
-    }
-
-    @Test
-    public void TestCode5() throws Exception {
-        reader.setInputString(code7);
-        String actual = runAssembler();
-        assertEquals("Generated object code does not match the expected code", correctObjectCode7, actual);
     }
 
     @Test
