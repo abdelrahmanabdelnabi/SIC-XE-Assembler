@@ -87,7 +87,6 @@ public class PassTwo {
                 switch (directive) {
                     case "BASE":
                         // check if label is defined
-                        // TODO : REVIEW THIS ! it's non-sense to me
                         String operand = inst.getOperand();
                         if (!symbolTable.containsKey(operand)) {
                             // if is number
@@ -162,9 +161,12 @@ public class PassTwo {
 
         // Checks if an operand is Valid.. does not account for literals
         // note also that this does NOT allow spaces in the operand
-        boolean validFormat =
+        boolean validLiteral = operand.matches("=X'[A-F0-9]+'|=C'[a-zA-Z0-9]+'");
+        boolean validOperand =
                 operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)))|" +
                         "(([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
+
+        boolean validFormat = validLiteral || validOperand;
 
         if (!validFormat) {
             String error = buildErrorString(inst.getLineNumber(), InstructionPart
@@ -187,7 +189,7 @@ public class PassTwo {
         int displacement = 0;
 
         if (!(isDecimal || isHexaDecimal)) {
-            if (!symbolTable.containsKey(rawOperand)) {
+            if (validOperand && !symbolTable.containsKey(rawOperand)) {
                 String error = buildErrorString(inst.getLineNumber(), InstructionPart
                         .OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
@@ -195,7 +197,7 @@ public class PassTwo {
                 throw new AssemblerException(inst.toString() + " " + error);
             }
         } else { // if number
-            // check if it fits in the displacement of a fromat 3 instruction
+            // check if it fits in the displacement of a format 3 instruction
             int value;
             if (isDecimal) {
                 value = Integer.parseInt(rawOperand);
@@ -217,13 +219,22 @@ public class PassTwo {
         // set displacement if not a number
         if (!(isDecimal || isHexaDecimal)) {
 
+            int targetAddress;
+            if(validLiteral) {
+                // get literal address from literal table
+                targetAddress = literalsTable.get(operand).getAddress();
+
+
+            } else { // symbol
+                targetAddress = symbolTable.get(rawOperand).getAddress();
+            }
+
             // check range of operand for base and pc relative
-            int labelAddress = symbolTable.get(rawOperand).getAddress();
-            if (isFitPCRelative(labelAddress - PC)) {
-                displacement = labelAddress - PC;
+            if (isFitPCRelative(targetAddress - PC)) {
+                displacement = targetAddress - PC;
                 format3.setPCRelative(true);
-            } else if (isBaseSet && isFitConstant(labelAddress - baseAddress)) {
-                displacement = labelAddress - baseAddress;
+            } else if (isBaseSet && isFitConstant(targetAddress - baseAddress)) {
+                displacement = targetAddress - baseAddress;
                 format3.setBaseRelative(true);
             } else {
                 // error
