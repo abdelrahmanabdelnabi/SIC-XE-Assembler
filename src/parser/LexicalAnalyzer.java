@@ -92,7 +92,7 @@ public class LexicalAnalyzer {
                     inst.setValueType(NUM);
                     break;
                 case "WORD":
-                    if (!Pattern.matches("X'[0-9]{1,6}'|C'[a-zA-Z0-9]{1,3}'", operand)) {
+                    if (!Pattern.matches("0x[0-9A-F]{1,6}|X'[0-9]{1,6}'|C'[a-zA-Z0-9]{1,3}'", operand)) {
                         errorStr = buildErrorString(inst.getLineNumber(),
                                 OPERAND, "Invalid WORD Operand");
                         Logger.LogError(errorStr);

@@ -34,7 +34,7 @@ public class ObjectString implements StringGenerator {
     private void form_H() {
         // H RECORD
         objectCode.append("H");
-        objectCode.append(getProgramName()).append(" ");
+        objectCode.append(String.format("%-6s", getProgramName()));
         objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
         objectCode.append(extendToLength(Integer.toHexString(getProgramLength()), 6));
         objectCode.append("\n");

@@ -108,16 +108,6 @@ public class AssemblerTest {
                 correctObjectCode6, actual);
     }
 
-    // Ignore This test as the source program has errors: negative numbers are not allowed
-//    @Test
-//    public void testImmediateAddressing() throws Exception {
-//        reader.setInputString(addrImm);
-//        String actual = runAssembler();
-//        assertEquals("Generated object code does not match the expected code",
-//                correctAddrImm, actual);
-//
-//    }
-
     @Test
     public void testIndirectAddressing() throws Exception {
         reader.setInputString(addrIndirect);
