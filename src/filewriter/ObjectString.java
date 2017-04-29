@@ -5,7 +5,9 @@ import src.assembler.Instruction;
 import java.util.List;
 
 import static src.assembler.Common.extendToLength;
+import static src.assembler.datastructures.Format.FORMAT4;
 import static src.assembler.datastructures.OpcodeTable.*;
+import static src.assembler.datastructures.OperandType.VALUE.NUM;
 
 /**
  * Created by ahmed on 4/19/17.
@@ -13,16 +15,17 @@ import static src.assembler.datastructures.OpcodeTable.*;
 public class ObjectString implements StringGenerator {
     private List<Instruction> instructions;
     private StringBuilder objectCode;
+    private StringBuilder Mrecords;
 
     public ObjectString(List<Instruction> instructions) {
         this.instructions = instructions;
         objectCode = new StringBuilder();
+        Mrecords = new StringBuilder();
     }
 
     public String toString() {
         form_H();
         form_T();
-        form_M();
         form_E();
         return objectCode.toString();
     }
@@ -76,9 +79,14 @@ public class ObjectString implements StringGenerator {
                 T = new StringBuilder(inst.getObjectCode());
                 startAddress = inst.getAddress();
             }
+
+            if (inst.getFormat() == FORMAT4 && inst.getValueType() != NUM)
+                form_M(inst);
         }
         // append remaining T
         makeSingle_T(T, startAddress);
+        objectCode.append(Mrecords.toString());
+
     }
 
 
@@ -93,8 +101,10 @@ public class ObjectString implements StringGenerator {
         objectCode.append(T.toString()).append("\n");
     }
 
-    private void form_M() {
-
+    private void form_M(Instruction inst) {
+        Mrecords.append("M");
+        Mrecords.append(extendToLength(Integer.toHexString(inst.getAddress() + 1), 6).toUpperCase());
+        Mrecords.append("05\n");
     }
 
     private void form_E() {

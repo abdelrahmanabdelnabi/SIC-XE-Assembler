@@ -27,7 +27,6 @@ import static src.assembler.datastructures.OperandType.VALUE.*;
  */
 public class LexicalAnalyzer {
     private ArrayList<Instruction> srcCode;
-    private String errorStr;
 
     public LexicalAnalyzer(ArrayList<Instruction> srcCode) {
         this.srcCode = srcCode;
@@ -45,6 +44,7 @@ public class LexicalAnalyzer {
     private void validateSyntax(Instruction inst) {
         String mnemonic = inst.getMnemonic().replace("+", "");
         String operand = inst.getOperand();
+        String errorStr;
 
         // if is valid opCode
         if (isOpcode(mnemonic)) {
@@ -73,7 +73,41 @@ public class LexicalAnalyzer {
                 }
             }
         } else if (isDirective(mnemonic)) {
-
+            inst.setOperandType(VALUE);
+            switch (mnemonic) {
+                case "RESW":
+                    if (!Pattern.matches("[0-9]+", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(),
+                                OPERAND, "Invalid RESW Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    inst.setValueType(NUM);
+                    break;
+                case "RESB":
+                    if (!Pattern.matches("[0-9]+", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(),
+                                OPERAND, "Invalid RESB Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    inst.setValueType(NUM);
+                    break;
+                case "WORD":
+                    if (!Pattern.matches("X'[0-9]{1,6}'|C'[a-zA-Z0-9]{1,3}'", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(),
+                                OPERAND, "Invalid WORD Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    inst.setValueType(DATA);
+                    break;
+                case "BYTE"://
+                    if (!Pattern.matches("X'[0-9]+'|C'[a-zA-Z0-9]+'", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(),
+                                OPERAND, "Invalid RESB Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    inst.setValueType(NUM);
+                    break;
+            }
         } else {
             // if invalid mnemonic
             errorStr = buildErrorString(inst.getLineNumber(), MNEMONIC, "Undefined Mnemonic");
