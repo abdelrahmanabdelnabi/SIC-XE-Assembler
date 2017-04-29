@@ -100,9 +100,9 @@ public class LexicalAnalyzer {
                     inst.setValueType(DATA);
                     break;
                 case "BYTE"://
-                    if (!Pattern.matches("X'[0-9]+'|C'[a-zA-Z0-9]+'", operand)) {
+                    if (!Pattern.matches("X'[0-9A-F]+'|C'[a-zA-Z0-9]+'", operand)) {
                         errorStr = buildErrorString(inst.getLineNumber(),
-                                OPERAND, "Invalid RESB Operand");
+                                OPERAND, "Invalid BYTE Operand");
                         Logger.LogError(errorStr);
                     }
                     inst.setValueType(NUM);
