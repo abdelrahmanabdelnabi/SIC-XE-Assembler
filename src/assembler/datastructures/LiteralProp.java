@@ -11,6 +11,7 @@ public class LiteralProp {
     private int length;
     private int address;
     private boolean isBuilt = false;
+    private String objectCode;
 
     public LiteralProp(String name) {
         this.name = name;
@@ -36,6 +37,7 @@ public class LiteralProp {
     public void buildLiteral(int address) {
         isBuilt = true;
         this.address = address;
+        objectCode = Integer.toHexString(value).toUpperCase();
     }
 
     public int getLength() {
@@ -56,6 +58,10 @@ public class LiteralProp {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getObjectCode() {
+        return objectCode;
     }
 }
 

@@ -97,24 +97,20 @@ public class AssemblerTest {
         reader.setInputString(code4);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode4, actual);
-
     }
 
     @Test
     public void testCode5() throws Exception {
         reader.setInputString(code5);
         String actual = runAssembler();
-        assertEquals("Generated object code does not match the expected code",
-                correctObjectCode5, actual);
+        assertEquals("Generated object code does not match the expected code", correctObjectCode5, actual);
     }
 
     @Test
     public void testIndirectAddressing() throws Exception {
         reader.setInputString(addrIndirect);
         String actual = runAssembler();
-        assertEquals("Generated object code does not match the expected code",
-                correctAddrIndirect, actual);
-
+        assertEquals("Generated object code does not match the expected code", correctAddrIndirect, actual);
     }
 
     private String runAssembler() {
@@ -130,20 +126,17 @@ public class AssemblerTest {
         String result = "";
         try {
             File file = new File(filePath);
-
             FileInputStream fis = new FileInputStream(file);
             byte[] data = new byte[(int) file.length()];
             fis.read(data);
             fis.close();
 
             result = new String(data, "UTF-8");
-
         } catch (FileNotFoundException e) {
             System.err.println("Can not find file: " + (filePath));
         } catch (IOException e) {
             System.err.println("Can not read file: " + filePath);
         }
-
         return result;
     }
 

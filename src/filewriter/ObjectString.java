@@ -1,8 +1,11 @@
 package src.filewriter;
 
 import src.assembler.Instruction;
+import src.assembler.datastructures.LiteralProp;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static src.assembler.Common.extendToLength;
 import static src.assembler.datastructures.Format.FORMAT4;
@@ -14,11 +17,13 @@ import static src.assembler.datastructures.OperandType.VALUE.NUM;
  */
 public class ObjectString implements StringGenerator {
     private List<Instruction> instructions;
+    private HashMap<String, LiteralProp> literalsTable;
     private StringBuilder objectCode;
     private StringBuilder Mrecords;
 
-    public ObjectString(List<Instruction> instructions) {
+    public ObjectString(List<Instruction> instructions, HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
+        this.literalsTable = literalsTable;
         objectCode = new StringBuilder();
         Mrecords = new StringBuilder();
     }
@@ -47,7 +52,8 @@ public class ObjectString implements StringGenerator {
         int startAddress = instructions.get(0).getAddress();
         boolean addressFlag = false;
         // Loop all the instructions
-        for (Instruction inst : instructions) {
+        for (int i = 0; i < instructions.size(); i++) {
+            Instruction inst = instructions.get(i);
 
             // If found multiple data-storage then continue;
             if (addressFlag && !inst.getHasObject()) continue;
@@ -55,6 +61,29 @@ public class ObjectString implements StringGenerator {
             if (addressFlag) {
                 addressFlag = false;
                 startAddress = inst.getAddress();
+            }
+
+            // Literals Insertion
+            if (inst.getMnemonic().equals("LTORG")) {
+                int expectedAddress = inst.getAddress();
+                for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
+                    if (literal.getValue().getAddress() == expectedAddress) {
+
+                        if (objectCode.length() + literal.getValue().getObjectCode().length() <= 30) {
+                            T.append(literal.getValue().getObjectCode());
+                        } else {
+                            makeSingle_T(T, startAddress);
+
+                            // Create new T record
+                            T = new StringBuilder(literal.getValue().getObjectCode());
+                            startAddress = literal.getValue().getAddress();
+                        }
+
+                        expectedAddress = expectedAddress + literal.getValue().getLength();
+                        literalsTable.remove(literal.getKey());
+                    } else
+                        break;
+                }
             }
 
             if (!inst.getHasObject()) {

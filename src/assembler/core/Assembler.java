@@ -21,7 +21,6 @@ public class Assembler {
 
     public Assembler(List<Instruction> inputInstructions) {
         this.inputInstructions = inputInstructions;
-        this.objectCodeGenerator = new ObjectString(inputInstructions);
     }
 
     public void executePassOne() throws AssemblerException {
@@ -32,6 +31,9 @@ public class Assembler {
     public void executePassTwo() throws AssemblerException {
         passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable(), passOne.getLiteralTable());
         passTwo.execute();
+        // Bug fix , literals at start is null
+        // moved this from constructor
+        this.objectCodeGenerator = new ObjectString(inputInstructions, getLiteralsTable());
     }
 
     public String getObjectCode() {
