@@ -66,7 +66,7 @@ public class Main {
         if (Logger.getErrorsCnt() == 0) {
             // Symbols
             writer.setFileName(symTabFile);
-            writer.writeToFile(new SymbolsString(assembler.getSymbolTable()).toString());
+            writer.writeToFile(new SymbolsString(assembler.getSymbolTable(), assembler.getLiteralsTable()).toString());
 
             // object
             writer.setFileName(objectFile);

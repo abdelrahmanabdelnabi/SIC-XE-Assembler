@@ -3,10 +3,10 @@ package src.assembler;
 /**
  * Created by abdelrahman on 4/8/17.
  */
-public class SymbolProperties {
+public class SymbolProp {
     private int address;
 
-    public SymbolProperties(int address) {
+    public SymbolProp(int address) {
         this.address = address;
     }
 

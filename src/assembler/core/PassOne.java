@@ -3,7 +3,7 @@ package src.assembler.core;
 import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
-import src.assembler.SymbolProperties;
+import src.assembler.SymbolProp;
 import src.assembler.datastructures.*;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import static src.assembler.datastructures.OpcodeTable.*;
 public class PassOne {
     private List<Instruction> instructions;
     private LocationCounter loc = new LocationCounter();
-    private HashMap<String, SymbolProperties> symbolTable;
+    private HashMap<String, SymbolProp> symbolTable;
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
     private HashMap<String, LiteralProp> literalTable;
@@ -112,7 +112,7 @@ public class PassOne {
 
             // if program has a name, then put it in the symbol table
             if (!inst.getLabel().isEmpty())
-                symbolTable.put(inst.getLabel(), new SymbolProperties(startAddress));
+                symbolTable.put(inst.getLabel(), new SymbolProp(startAddress));
             setProgramName(inst.getLabel());
             setStartAddress(loc.getCurrentCounterValue());
         }
@@ -134,7 +134,7 @@ public class PassOne {
                 throw new AssemblerException(error);
             } else {
                 // insert label in symbol table
-                symbolTable.put(label, new SymbolProperties(loc.getCurrentCounterValue()));
+                symbolTable.put(label, new SymbolProp(loc.getCurrentCounterValue()));
             }
         }
     }
@@ -248,7 +248,7 @@ public class PassOne {
         return instructions;
     }
 
-    public HashMap<String, SymbolProperties> getSymbolTable() {
+    public HashMap<String, SymbolProp> getSymbolTable() {
         return symbolTable;
     }
 

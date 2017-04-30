@@ -44,7 +44,8 @@ public class WriterTest {
         writer.writeToFile(assembler.getObjectCode());
 
         writer.setFileName("format1_symTab.txt");
-        StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable());
+        StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable()
+                , assembler.getLiteralsTable());
         writer.writeToFile(symbolsString.toString());
 
         writer.setFileName("format1_LstFile.txt");

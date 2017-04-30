@@ -3,7 +3,7 @@ package src.assembler.core;
 import org.junit.Assert;
 import org.junit.Test;
 import src.assembler.Instruction;
-import src.assembler.SymbolProperties;
+import src.assembler.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
 import src.parser.InputReader;
 import src.parser.Parser;
@@ -61,13 +61,13 @@ public class PassOneTest {
         assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, passOne
                 .getSymbolTable().size());
 
-        Assert.assertEquals(passOne.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
+        Assert.assertEquals(passOne.getSymbolTable().get("COPY").getAddress(), new SymbolProp
                 (0).getAddress());
-        assertEquals(passOne.getSymbolTable().get("FIRST").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("FIRST").getAddress(), new SymbolProp
                 (0).getAddress());
-        assertEquals(passOne.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("CLOOP").getAddress(), new SymbolProp
                 (3).getAddress());
-        assertEquals(passOne.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("RETADR").getAddress(), new SymbolProp
                 (10).getAddress());
 
     }

@@ -1,7 +1,7 @@
 package src.assembler.core;
 
 import src.assembler.Instruction;
-import src.assembler.SymbolProperties;
+import src.assembler.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
 import src.filewriter.ObjectString;
 
@@ -38,7 +38,7 @@ public class Assembler {
         return objectCodeGenerator.toString();
     }
 
-    public HashMap<String, SymbolProperties> getSymbolTable() {
+    public HashMap<String, SymbolProp> getSymbolTable() {
         return passOne.getSymbolTable();
     }
 
