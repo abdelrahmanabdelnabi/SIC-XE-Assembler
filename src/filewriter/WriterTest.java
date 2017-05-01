@@ -11,9 +11,9 @@ import src.parser.Parser;
 public class WriterTest {
     private final String relativePath = System.getProperty("user.dir");
     private final String format1_FilePath = relativePath + "/src/testIn/format1.asm";
-    private String format2_FilePath = relativePath + "/src/testIn/format2.asm";
-    private String format3_FilePath = relativePath + "/src/testIn/format3.asm";
-    private String format4_FilePath = relativePath + "/src/testIn/format4.asm";
+    // --Commented out by Inspection (5/1/17 3:49 AM):private String format2_FilePath = relativePath + "/src/testIn/format2.asm";
+    // --Commented out by Inspection (5/1/17 3:49 AM):private String format3_FilePath = relativePath + "/src/testIn/format3.asm";
+    // --Commented out by Inspection (5/1/17 3:49 AM):private String format4_FilePath = relativePath + "/src/testIn/format4.asm";
     private Parser parser;
 
     @Test

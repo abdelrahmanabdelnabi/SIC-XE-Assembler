@@ -43,9 +43,11 @@ public class LiteralProp {
         return isBuilt;
     }
 
-    public String getName() {
-        return this.name;
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public String getName() {
+//        return this.name;
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     public String getObjectCode() {
         return objectCode;
@@ -66,8 +68,5 @@ public class LiteralProp {
         return literalNumber;
     }
 
-    public void setLiteralNumber(int literalNumber) {
-        this.literalNumber = literalNumber;
-    }
 }
 

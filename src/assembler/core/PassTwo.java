@@ -12,7 +12,6 @@ import src.assembler.utils.ObjectBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import static src.assembler.Common.*;
@@ -31,7 +30,7 @@ class PassTwo {
     private final List<src.assembler.Instruction> instructions;
     private final Map<String, InstProp> OPTAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
-    private Set<String> directives = getAssemblerDirectivesSet();
+    // --Commented out by Inspection (5/1/17 3:49 AM):private Set<String> directives = getAssemblerDirectivesSet();
     private boolean isBaseSet = false;
     private int baseAddress = 0;
 

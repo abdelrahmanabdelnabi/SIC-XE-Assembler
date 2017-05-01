@@ -16,7 +16,9 @@ public class ParsingException extends RuntimeException {
         this.lineNumber = lineNumber;
     }
 
-    public int getLineNumber() {
-        return lineNumber;
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public int getLineNumber() {
+//        return lineNumber;
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 }

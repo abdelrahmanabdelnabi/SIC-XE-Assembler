@@ -44,9 +44,11 @@ public class OpcodeTable {
         return opCodeTable.get(mnemonic).getOpCode();
     }
 
-    public static Format getFormat(String instruction) {
-        return opCodeTable.get(instruction).getFormat();
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public static Format getFormat(String instruction) {
+//        return opCodeTable.get(instruction).getFormat();
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     private static void fillOpcodeTable() {
         // TODO: to be reviewed

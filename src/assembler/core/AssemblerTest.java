@@ -34,7 +34,7 @@ public class AssemblerTest {
     private String code3;
     private String code4;
     private String code5;
-    private String addrImm;
+    // --Commented out by Inspection (5/1/17 3:49 AM):private String addrImm;
     private String addrIndirect;
 
     private String correctObjectCode1;
@@ -42,7 +42,7 @@ public class AssemblerTest {
     private String correctObjectCode3;
     private String correctObjectCode4;
     private String correctObjectCode5;
-    private String correctAddrImm;
+    // --Commented out by Inspection (5/1/17 3:49 AM):private String correctAddrImm;
     private String correctAddrIndirect;
 
     @Before

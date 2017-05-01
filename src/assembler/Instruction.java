@@ -90,9 +90,11 @@ public class Instruction {
         this.hasObject = true;
     }
 
-    public OperandType getOperandType() {
-        return operandType;
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public OperandType getOperandType() {
+//        return operandType;
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     public void setOperandType(OperandType operandType) {
         this.operandType = operandType;

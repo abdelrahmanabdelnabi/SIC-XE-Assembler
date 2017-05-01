@@ -16,35 +16,36 @@ public class LocationCounter {
      * @param offset the offset to add to the current value of the current counter
      * @returns the new value of the current counter
      */
-    public int increment(int offset) {
+    public void increment(int offset) {
         switch (currentCounter) {
             case CODE:
                 codeCounter += offset;
-                return codeCounter;
+                return;
             case DATA:
                 dataCounter += offset;
-                return dataCounter;
+                return;
             case BLOCKS:
                 blockCounter += offset;
-                return blockCounter;
+                return;
             default:
-                return 0;
         }
     }
 
-    public int setCurrentCounter(Counter c) {
-        currentCounter = c;
-        switch (currentCounter) {
-            case CODE:
-                return codeCounter;
-            case DATA:
-                return dataCounter;
-            case BLOCKS:
-                return blockCounter;
-            default:
-                return 0;
-        }
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public int setCurrentCounter(Counter c) {
+//        currentCounter = c;
+//        switch (currentCounter) {
+//            case CODE:
+//                return codeCounter;
+//            case DATA:
+//                return dataCounter;
+//            case BLOCKS:
+//                return blockCounter;
+//            default:
+//                return 0;
+//        }
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     public int getCurrentCounterValue() {
         switch (currentCounter) {

@@ -52,9 +52,11 @@ public class InputReader {
             reader = new BufferedReader(new StringReader(input));
     }
 
-    public String getPath() {
-        return path;
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public String getPath() {
+//        return path;
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     public enum InputType {
         File, String
