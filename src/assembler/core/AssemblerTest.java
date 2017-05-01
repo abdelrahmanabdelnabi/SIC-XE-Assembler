@@ -56,14 +56,14 @@ public class AssemblerTest {
         code3 = readFile(TESTS_DIRECTORY + "/code3/code3.asm");
         code4 = readFile(TESTS_DIRECTORY + "/code4/code4.asm");
         code5 = readFile(TESTS_DIRECTORY + "/code5/code5.asm");
-        addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
+//        addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
         addrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
         correctObjectCode1 = readFile(TESTS_DIRECTORY + "/code1/code1.obj");
         correctObjectCode2 = readFile(TESTS_DIRECTORY + "/code2/code2.obj");
         correctObjectCode3 = readFile(TESTS_DIRECTORY + "/code3/code3.obj");
         correctObjectCode4 = readFile(TESTS_DIRECTORY + "/code4/code4.obj");
         correctObjectCode5 = readFile(TESTS_DIRECTORY + "/code5/code5.obj");
-        correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
+//        correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
         correctAddrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
     }
 

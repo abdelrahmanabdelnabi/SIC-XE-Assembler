@@ -1,5 +1,7 @@
 package src.assembler.utils;
 
+import src.assembler.datastructures.Format;
+
 import java.util.regex.Pattern;
 
 /**
@@ -78,7 +80,7 @@ public abstract class ObjectBuilder {
 
     public abstract ObjectBuilder setSecondOperand(int secondOperand);
 
-    // --Commented out by Inspection (5/1/17 3:49 AM):public abstract Format getFormat();
+    public abstract Format getFormat();
 
     void resetFields() {
         opCode = 0;
