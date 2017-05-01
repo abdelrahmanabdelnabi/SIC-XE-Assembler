@@ -227,7 +227,9 @@ public class PassOne {
             // If Not Built !, then build it and increment loc
             if (!literal.getValue().isBuilt()) {
                 literal.getValue().buildLiteral(loc.getCurrentCounterValue());
-                loc.increment(literal.getValue().getLength());
+                // FIX
+                // Always Handle Literals as Word
+                loc.increment(3);
             }
         }
     }

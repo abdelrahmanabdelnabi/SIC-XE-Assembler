@@ -82,7 +82,8 @@ public class ObjectString implements StringGenerator {
                                 startAddress = literal.getValue().getAddress();
                             }
                             found = true;
-                            expectedAddress = expectedAddress + literal.getValue().getLength();
+                            // FIX AS ANY LITERAL NOW IS A WORD
+                            expectedAddress = expectedAddress + 3;
 //                        literalsTable.remove(literal.getKey());
                         }
                     }
@@ -131,7 +132,8 @@ public class ObjectString implements StringGenerator {
                         startAddress = literal.getValue().getAddress();
                     }
                     found = true;
-                    expectedAddress = expectedAddress + literal.getValue().getLength();
+                    // FIX AS LITERAL IS A WORD
+                    expectedAddress = expectedAddress + 3;
 //                        literalsTable.remove(literal.getKey());
                 }
             }

@@ -8,15 +8,14 @@ import static src.assembler.Common.parseDataOperand;
 public class LiteralProp {
     private String name;
     private int value;
-    private int length;
     private int address;
     private boolean isBuilt = false;
-    private String objectCode;
+    private String objectCode = "";
 
     public LiteralProp(String name) {
         this.name = name;
         value = parseDataOperand(name.substring(1));
-        calcLength();
+        buildObjectCode();
     }
 
     public static int calcLiteralValue(String literal) {
@@ -24,25 +23,11 @@ public class LiteralProp {
     }
 
 
-    private void calcLength() {
-        switch (name.substring(1).charAt(0)) {
-            case 'X':
-                length = (name.length() - 3) / 2;
-                break;
-            case 'C':
-                length = name.length() - 4;
-        }
-    }
-
     public void buildLiteral(int address) {
         isBuilt = true;
         this.address = address;
-        objectCode = Integer.toHexString(value).toUpperCase();
     }
 
-    public int getLength() {
-        return length;
-    }
 
     public int getAddress() {
         return address;
@@ -62,6 +47,17 @@ public class LiteralProp {
 
     public String getObjectCode() {
         return objectCode;
+    }
+
+    private void buildObjectCode() {
+        if (name.startsWith("=C")) {
+            for (int i = 3; i < name.length() - 1; i++)
+                objectCode += Integer.toHexString(name.charAt(i));
+        }
+        if (name.startsWith("=X")) {
+            objectCode += name.substring(3, name.lastIndexOf('\''));
+        }
+        objectCode = (objectCode + "000000").substring(0, 6).toUpperCase();
     }
 }
 
