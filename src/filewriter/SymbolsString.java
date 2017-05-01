@@ -10,9 +10,9 @@ import java.util.Map;
  * Created by ahmed on 4/19/17.
  */
 public class SymbolsString implements StringGenerator {
-    private HashMap<String, SymbolProp> symbolTable;
-    private HashMap<String, LiteralProp> literalsTable;
-    private StringBuilder builder;
+    private final HashMap<String, SymbolProp> symbolTable;
+    private final HashMap<String, LiteralProp> literalsTable;
+    private final StringBuilder builder;
 
     public SymbolsString(HashMap<String, SymbolProp> symbolTable, HashMap<String, LiteralProp> literalsTable) {
         this.symbolTable = symbolTable;

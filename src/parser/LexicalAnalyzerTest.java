@@ -12,8 +12,8 @@ import static src.parser.InputReader.InputType.File;
  * Created by ahmed on 4/28/17.
  */
 public class LexicalAnalyzerTest {
-    private String relativePath = System.getProperty("user.dir");
-    private String testFilePath = "/src/tests/format4/format4.asm";
+    private final String relativePath = System.getProperty("user.dir");
+    private final String testFilePath = "/src/tests/format4/format4.asm";
     private Parser parser;
 
     @Before

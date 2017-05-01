@@ -8,8 +8,8 @@ import static src.assembler.datastructures.OperandType.*;
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
-    private static Map<String, InstProp> opCodeTable = new HashMap<>();
-    private static Set<String> assemblerDirectives = new HashSet<>();
+    private static final Map<String, InstProp> opCodeTable = new HashMap<>();
+    private static final Set<String> assemblerDirectives = new HashSet<>();
     private static String programName = "";
     private static int startAddress = 0;
     private static int programLength;

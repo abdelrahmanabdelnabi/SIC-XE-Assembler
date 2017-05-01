@@ -9,10 +9,10 @@ import java.util.Calendar;
 
 // This Class is just used for logging and error messages
 public class Logger {
+    private static final Logger logger = new Logger();
     private static StringBuilder logString;
     private static int errorsCnt = 0;
-    private static Logger logger = new Logger();
-    private SimpleDateFormat simpleDateFormat;
+    private final SimpleDateFormat simpleDateFormat;
 
     private Logger() {
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH/mm");

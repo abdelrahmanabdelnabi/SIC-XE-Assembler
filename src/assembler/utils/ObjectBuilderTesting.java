@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
  * Created by ahmed on 4/12/17.
  */
 public class ObjectBuilderTesting {
-    private String relativePath = System.getProperty("user.dir");
-    private String format1_FilePath = relativePath + "/src/testIn/format1.asm";
-    private String format2_FilePath = relativePath + "/src/testIn/format2.asm";
-    private String format3_FilePath = relativePath + "/src/testIn/format3.asm";
-    private String format4_FilePath = relativePath + "/src/testIn/format4.asm";
+    private final String relativePath = System.getProperty("user.dir");
+    private final String format1_FilePath = relativePath + "/src/testIn/format1.asm";
+    private final String format2_FilePath = relativePath + "/src/testIn/format2.asm";
+    private final String format3_FilePath = relativePath + "/src/testIn/format3.asm";
+    private final String format4_FilePath = relativePath + "/src/testIn/format4.asm";
     private Parser parser;
     private InputReader reader;
 

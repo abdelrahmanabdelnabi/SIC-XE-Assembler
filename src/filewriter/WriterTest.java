@@ -9,8 +9,8 @@ import src.parser.Parser;
  * Created by ahmed on 4/19/17.
  */
 public class WriterTest {
-    private String relativePath = System.getProperty("user.dir");
-    private String format1_FilePath = relativePath + "/src/testIn/format1.asm";
+    private final String relativePath = System.getProperty("user.dir");
+    private final String format1_FilePath = relativePath + "/src/testIn/format1.asm";
     private String format2_FilePath = relativePath + "/src/testIn/format2.asm";
     private String format3_FilePath = relativePath + "/src/testIn/format3.asm";
     private String format4_FilePath = relativePath + "/src/testIn/format4.asm";

@@ -16,10 +16,10 @@ import static src.assembler.datastructures.OperandType.VALUE.NUM;
  * Created by ahmed on 4/19/17.
  */
 public class ObjectString implements StringGenerator {
-    private List<Instruction> instructions;
-    private HashMap<String, LiteralProp> literalsTable;
-    private StringBuilder objectCode;
-    private StringBuilder Mrecords;
+    private final List<Instruction> instructions;
+    private final HashMap<String, LiteralProp> literalsTable;
+    private final StringBuilder objectCode;
+    private final StringBuilder Mrecords;
 
     public ObjectString(List<Instruction> instructions, HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
@@ -59,7 +59,7 @@ public class ObjectString implements StringGenerator {
             expectedAddress = inst.getAddress();
 
             // If found multiple data-storage then continue;
-            if (addressFlag && !inst.getHasObject() && !inst.getMnemonic().equals("END")) continue;
+            if (addressFlag && inst.getHasObject() && !inst.getMnemonic().equals("END")) continue;
 
             if (addressFlag) {
                 addressFlag = false;
@@ -90,7 +90,7 @@ public class ObjectString implements StringGenerator {
                 }
             }
 
-            if (!inst.getHasObject()) {
+            if (inst.getHasObject()) {
                 String mnemonic = inst.getMnemonic();
                 // if RESW or RESB found close current T and open new one
                 if (mnemonic.equals("RESW") || mnemonic.equals("RESB")) {

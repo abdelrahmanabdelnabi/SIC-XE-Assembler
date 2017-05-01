@@ -15,7 +15,7 @@ import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 import src.parser.ParsingException;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
 
         // take argument from command line

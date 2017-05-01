@@ -26,12 +26,12 @@ import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 /**
  * Created by ahmed on 4/21/17.
  */
-public class PassTwo {
+class PassTwo {
     private final HashMap<String, SymbolProp> symbolTable;
-    private List<src.assembler.Instruction> instructions;
+    private final List<src.assembler.Instruction> instructions;
+    private final Map<String, InstProp> OPTAB = getOpcodeTable();
+    private final HashMap<String, LiteralProp> literalsTable;
     private Set<String> directives = getAssemblerDirectivesSet();
-    private Map<String, InstProp> OPTAB = getOpcodeTable();
-    private HashMap<String, LiteralProp> literalsTable;
     private boolean isBaseSet = false;
     private int baseAddress = 0;
 

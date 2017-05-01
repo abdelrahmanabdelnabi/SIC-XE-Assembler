@@ -7,16 +7,16 @@ import src.assembler.datastructures.OperandType;
  * Created by abdelrahman on 3/22/17.
  */
 public class Instruction {
-    private String label;
-    private String mnemonic;
-    private String operand;
+    private final String label;
+    private final String mnemonic;
+    private final String operand;
+    // Place
+    private final int lineNumber;
     // Classification
     private InstructionType instructionType;
     private Format format;
     private OperandType operandType;
     private OperandType.VALUE valueType;
-    // Place
-    private int lineNumber;
     private int address;
     // ObjectCode
     private boolean hasObject = false;
@@ -83,7 +83,7 @@ public class Instruction {
     }
 
     public boolean getHasObject() {
-        return hasObject;
+        return !hasObject;
     }
 
     public void setHasObject() {

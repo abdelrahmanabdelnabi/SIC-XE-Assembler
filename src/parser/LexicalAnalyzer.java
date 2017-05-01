@@ -26,7 +26,7 @@ import static src.assembler.datastructures.OperandType.VALUE.*;
  * Logger Class, Using Logger.LogError(msg);
  */
 public class LexicalAnalyzer {
-    private ArrayList<Instruction> srcCode;
+    private final ArrayList<Instruction> srcCode;
 
     public LexicalAnalyzer(ArrayList<Instruction> srcCode) {
         this.srcCode = srcCode;

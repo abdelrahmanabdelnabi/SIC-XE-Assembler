@@ -18,13 +18,13 @@ import static src.assembler.datastructures.OpcodeTable.*;
 /*
  * Created by ahmed on 4/21/17.
  */
-public class PassOne {
+class PassOne {
+    private final LocationCounter loc = new LocationCounter();
+    private final HashMap<String, SymbolProp> symbolTable;
+    private final Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
+    private final Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
+    private final HashMap<String, LiteralProp> literalTable;
     private List<Instruction> instructions;
-    private LocationCounter loc = new LocationCounter();
-    private HashMap<String, SymbolProp> symbolTable;
-    private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
-    private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
-    private HashMap<String, LiteralProp> literalTable;
     private int literalCount = 1;
     private int builtLiterals = 1;
 

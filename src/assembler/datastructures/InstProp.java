@@ -4,10 +4,10 @@ package src.assembler.datastructures;
  * Created by abdelrahman on 4/7/17.
  */
 public class InstProp {
-    private OperandType firstOperand;
-    private OperandType secondOperand;
-    private int opCode;
-    private Format format;
+    private final OperandType firstOperand;
+    private final OperandType secondOperand;
+    private final int opCode;
+    private final Format format;
 
     InstProp(int opCode, Format format, OperandType firstOperand, OperandType secondOperand) {
         this.opCode = opCode;

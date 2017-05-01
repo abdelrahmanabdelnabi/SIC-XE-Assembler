@@ -11,8 +11,8 @@ import static src.parser.InputReader.InputType;
  * Created by abdelrahman on 4/9/17.
  */
 public class ParserTest {
-    private String relativePath = System.getProperty("user.dir");
-    private String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
+    private final String relativePath = System.getProperty("user.dir");
+    private final String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
     private Parser parser;
     private InputReader reader;
 

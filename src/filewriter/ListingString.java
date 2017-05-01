@@ -10,8 +10,8 @@ import static src.assembler.Common.extendToLength;
  * Created by ahmed on 4/19/17.
  */
 public class ListingString implements StringGenerator {
-    private List<Instruction> instructions;
-    private StringBuilder data;
+    private final List<Instruction> instructions;
+    private final StringBuilder data;
 
     public ListingString(List<Instruction> instructions) {
         this.instructions = instructions;

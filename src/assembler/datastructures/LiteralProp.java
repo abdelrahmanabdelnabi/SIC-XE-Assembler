@@ -6,9 +6,9 @@ import static src.assembler.Common.parseDataOperand;
  * Created by ahmed on 4/26/17.
  */
 public class LiteralProp {
+    private final String name;
+    private final int value;
     private int literalNumber;
-    private String name;
-    private int value;
     private int address;
     private boolean isBuilt = false;
     private String objectCode = "";

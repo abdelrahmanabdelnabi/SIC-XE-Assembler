@@ -13,8 +13,8 @@ import java.io.*;
  * the input stream is either a file or a string
  */
 public class InputReader {
+    private final InputType inputType;
     private BufferedReader reader;
-    private InputType inputType;
     private String path;
 
     /**

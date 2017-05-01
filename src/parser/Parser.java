@@ -19,8 +19,8 @@ import static src.assembler.datastructures.OpcodeTable.isMnemonic;
  * does not know the details of the src.assembler or instructions
  */
 public class Parser {
-    private ArrayList<Instruction> parsedInstructions;
-    private InputReader reader;
+    private final ArrayList<Instruction> parsedInstructions;
+    private final InputReader reader;
 
     public Parser(InputReader reader) {
         this.reader = reader;

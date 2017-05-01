@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Assembler {
     // Instructions
-    private List<Instruction> inputInstructions;
+    private final List<Instruction> inputInstructions;
     private PassOne passOne;
     private PassTwo passTwo;
     private ObjectString objectCodeGenerator;

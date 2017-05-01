@@ -9,7 +9,7 @@ package src.parser;
  * causes of the exception could be illegal instruction format
  */
 public class ParsingException extends RuntimeException {
-    int lineNumber;
+    private final int lineNumber;
 
     public ParsingException(String message, int lineNumber) {
         super(message);
