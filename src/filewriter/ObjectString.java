@@ -40,23 +40,26 @@ public class ObjectString implements StringGenerator {
         // H RECORD
         objectCode.append("H");
         objectCode.append(String.format("%-6s", getProgramName()));
-        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
-        objectCode.append(extendToLength(Integer.toHexString(getProgramLength()), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()).toUpperCase(), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getProgramLength()).toUpperCase(), 6));
         objectCode.append("\n");
         // END OF H RECORD
     }
 
     private void form_T() {
         // T RECORD
+        int expectedAddress = 0;
         StringBuilder T = new StringBuilder();
         int startAddress = instructions.get(0).getAddress();
         boolean addressFlag = false;
         // Loop all the instructions
         for (int i = 0; i < instructions.size(); i++) {
+
             Instruction inst = instructions.get(i);
+            expectedAddress = inst.getAddress();
 
             // If found multiple data-storage then continue;
-            if (addressFlag && !inst.getHasObject()) continue;
+            if (addressFlag && !inst.getHasObject() && !inst.getMnemonic().equals("END")) continue;
 
             if (addressFlag) {
                 addressFlag = false;
@@ -65,24 +68,24 @@ public class ObjectString implements StringGenerator {
 
             // Literals Insertion
             if (inst.getMnemonic().equals("LTORG")) {
-                int expectedAddress = inst.getAddress();
-                for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
-                    if (literal.getValue().getAddress() == expectedAddress) {
-
-                        if (objectCode.length() + literal.getValue().getObjectCode().length() <= 30) {
-                            T.append(literal.getValue().getObjectCode());
-                        } else {
-                            makeSingle_T(T, startAddress);
-
-                            // Create new T record
-                            T = new StringBuilder(literal.getValue().getObjectCode());
-                            startAddress = literal.getValue().getAddress();
+                boolean found = true;
+                while (found) {
+                    found = false;
+                    for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
+                        if (literal.getValue().getAddress() == expectedAddress) {
+                            if (T.length() + literal.getValue().getObjectCode().length() <= 60) {
+                                T.append(literal.getValue().getObjectCode());
+                            } else {
+                                makeSingle_T(T, startAddress);
+                                // Create new T record
+                                T = new StringBuilder(literal.getValue().getObjectCode());
+                                startAddress = literal.getValue().getAddress();
+                            }
+                            found = true;
+                            expectedAddress = expectedAddress + literal.getValue().getLength();
+//                        literalsTable.remove(literal.getKey());
                         }
-
-                        expectedAddress = expectedAddress + literal.getValue().getLength();
-                        literalsTable.remove(literal.getKey());
-                    } else
-                        break;
+                    }
                 }
             }
 
@@ -112,6 +115,28 @@ public class ObjectString implements StringGenerator {
             if (inst.getFormat() == FORMAT4 && inst.getValueType() != NUM)
                 form_M(inst);
         }
+
+        // append remaining literals
+        boolean found = true;
+        while (found) {
+            found = false;
+            for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
+                if (literal.getValue().getAddress() == expectedAddress) {
+                    if (T.length() + literal.getValue().getObjectCode().length() <= 60) {
+                        T.append(literal.getValue().getObjectCode());
+                    } else {
+                        makeSingle_T(T, startAddress);
+                        // Create new T record
+                        T = new StringBuilder(literal.getValue().getObjectCode());
+                        startAddress = literal.getValue().getAddress();
+                    }
+                    found = true;
+                    expectedAddress = expectedAddress + literal.getValue().getLength();
+//                        literalsTable.remove(literal.getKey());
+                }
+            }
+        }
+
         // append remaining T
         makeSingle_T(T, startAddress);
         objectCode.append(Mrecords.toString());
