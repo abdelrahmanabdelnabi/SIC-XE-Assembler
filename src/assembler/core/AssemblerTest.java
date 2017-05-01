@@ -85,7 +85,6 @@ public class AssemblerTest {
 
     @Test
     public void testCode3() {
-        // M records
         reader.setInputString(code3);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode3, actual);
@@ -93,7 +92,6 @@ public class AssemblerTest {
 
     @Test
     public void testCode4() throws Exception {
-        // TODO - Literals format 3
         reader.setInputString(code4);
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code", correctObjectCode4, actual);

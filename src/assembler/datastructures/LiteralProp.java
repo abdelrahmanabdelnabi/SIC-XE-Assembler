@@ -6,14 +6,16 @@ import static src.assembler.Common.parseDataOperand;
  * Created by ahmed on 4/26/17.
  */
 public class LiteralProp {
+    private int literalNumber;
     private String name;
     private int value;
     private int address;
     private boolean isBuilt = false;
     private String objectCode = "";
 
-    public LiteralProp(String name) {
+    public LiteralProp(String name, int literalNumber) {
         this.name = name;
+        this.literalNumber = literalNumber;
         value = parseDataOperand(name.substring(1));
         buildObjectCode();
     }
@@ -58,6 +60,14 @@ public class LiteralProp {
             objectCode += name.substring(3, name.lastIndexOf('\''));
         }
         objectCode = (objectCode + "000000").substring(0, 6).toUpperCase();
+    }
+
+    public int getLiteralNumber() {
+        return literalNumber;
+    }
+
+    public void setLiteralNumber(int literalNumber) {
+        this.literalNumber = literalNumber;
     }
 }
 

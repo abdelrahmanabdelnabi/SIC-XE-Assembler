@@ -25,6 +25,8 @@ public class PassOne {
     private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
     private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
     private HashMap<String, LiteralProp> literalTable;
+    private int literalCount = 1;
+    private int builtLiterals = 1;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
@@ -73,7 +75,7 @@ public class PassOne {
         if (operand.startsWith("=")) {
             if (isDuplicateLiteral(operand))
                 return;
-            literalTable.put(operand, new LiteralProp(operand));
+            literalTable.put(operand, new LiteralProp(operand, literalCount++));
         }
 
     }
@@ -223,13 +225,19 @@ public class PassOne {
 
     private void buildLiterals() {
         // For all literals
-        for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
-            // If Not Built !, then build it and increment loc
-            if (!literal.getValue().isBuilt()) {
-                literal.getValue().buildLiteral(loc.getCurrentCounterValue());
-                // FIX
-                // Always Handle Literals as Word
-                loc.increment(3);
+        boolean flag = true;
+        while (flag) {
+            flag = false;
+            for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
+                // If Not Built !, then build it and increment loc
+                if (!literal.getValue().isBuilt() && literal.getValue().getLiteralNumber() == builtLiterals) {
+                    builtLiterals++;
+                    flag = true;
+                    literal.getValue().buildLiteral(loc.getCurrentCounterValue());
+                    // FIX
+                    // Always Handle Literals as Word
+                    loc.increment(3);
+                }
             }
         }
     }
