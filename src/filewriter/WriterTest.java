@@ -5,7 +5,7 @@ import src.assembler.core.Assembler;
 import src.parser.InputReader;
 import src.parser.Parser;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class WriterTest {
@@ -40,12 +40,11 @@ public class WriterTest {
 
         Writer writer = new Writer(relativePath + "/src/testOut/");
 
-        writer.setFileName("format1.obj");
+        writer.setFileName("format1_obj.txt");
         writer.writeToFile(assembler.getObjectCode());
 
         writer.setFileName("format1_symTab.txt");
-        StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable()
-                , assembler.getLiteralsTable());
+        StringGenerator symbolsString = new SymbolsString(assembler.getSymbolTable(), assembler.getLiteralsTable());
         writer.writeToFile(symbolsString.toString());
 
         writer.setFileName("format1_LstFile.txt");

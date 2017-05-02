@@ -3,7 +3,7 @@ package src.filewriter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class Writer {

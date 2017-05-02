@@ -93,11 +93,9 @@ public class Parser {
                 }
             }
             Logger.Log("Parsing Completed Successfully");
-            LexicalAnalyzer analyzer = new LexicalAnalyzer(parsedInstructions);
-            analyzer.inspectCode();
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.Log("Parsing Failed");
+            Logger.LogError("Parsing Failed");
         }
     }
 

@@ -132,7 +132,7 @@ class PassOne {
                 String error = buildErrorString(inst.getLineNumber(),
                         LABEL, ErrorStrings.LABEL_REDEFINITION);
                 // log error in log file
-                Logger.Log(error);
+                Logger.LogError(error);
                 throw new AssemblerException(error);
             } else {
                 // insert label in symbol table
@@ -249,7 +249,7 @@ class PassOne {
             case 'X':
                 return (operand.length() - 2) / 2;
             default:
-                Logger.Log("Unknown byte directive type !" + operand);
+                Logger.LogError("Unknown byte directive type !" + operand);
         }
         return 0;
     }
@@ -258,11 +258,11 @@ class PassOne {
         return instructions;
     }
 
-    public HashMap<String, SymbolProp> getSymbolTable() {
+    HashMap<String, SymbolProp> getSymbolTable() {
         return symbolTable;
     }
 
-    public HashMap<String, LiteralProp> getLiteralTable() {
+    HashMap<String, LiteralProp> getLiteralTable() {
         return literalTable;
     }
 }

@@ -1,6 +1,9 @@
 package src.assembler.core;
 
-import src.assembler.*;
+import src.assembler.ErrorStrings;
+import src.assembler.Instruction;
+import src.assembler.Logger;
+import src.assembler.SymbolProp;
 import src.assembler.datastructures.Format;
 import src.assembler.datastructures.InstProp;
 import src.assembler.datastructures.LiteralProp;
@@ -17,6 +20,7 @@ import java.util.regex.Pattern;
 import static src.assembler.Common.*;
 import static src.assembler.Instruction.InstructionType.Directive;
 import static src.assembler.Instruction.InstructionType.Instruction;
+import static src.assembler.InstructionPart.OPERAND;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
@@ -28,7 +32,7 @@ import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 class PassTwo {
     private final HashMap<String, SymbolProp> symbolTable;
     private final List<src.assembler.Instruction> instructions;
-    private final Map<String, InstProp> OPTAB = getOpcodeTable();
+    private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
     // --Commented out by Inspection (5/1/17 3:49 AM):private Set<String> directives = getAssemblerDirectivesSet();
     private boolean isBaseSet = false;
@@ -42,9 +46,7 @@ class PassTwo {
     }
 
     void execute() throws AssemblerException {
-        // TODO: format 3, 4 & assembler directives
-
-
+        Logger.Log("Start Pass Two");
         for (Instruction inst : instructions) {
             ObjectBuilder format2 = new Format_2();
             ObjectBuilder format3 = new Format_3();
@@ -61,7 +63,7 @@ class PassTwo {
                     handleFormat4(inst, format4);
                     inst.setObjectCode(format4.toString());
                 } else {
-                    Format format = OPTAB.get(inst.getMnemonic()).getFormat();
+                    Format format = OP_TAB.get(inst.getMnemonic()).getFormat();
                     switch (format) {
                         case FORMAT1:
                             int opCode = getOpCode(inst.getMnemonic());
@@ -81,7 +83,6 @@ class PassTwo {
              * if is assembler directive
              */
             else if (inst.getInstructionType() == Directive) {
-                // TODO : Handle directives (also set baseFlag and base address appropriately)
                 String directive = inst.getMnemonic();
                 switch (directive) {
                     case "BASE":
@@ -93,12 +94,12 @@ class PassTwo {
                                 isBaseSet = true;
                                 baseAddress = parseNumOperand(getRawOperand(operand));
                             }
-                            // else if not symbol nor umuber
+                            // else if not symbol nor number
                             else {
                                 String Error = buildErrorString(inst.getLineNumber(),
-                                        InstructionPart.OPERAND,
+                                        OPERAND,
                                         "Base Value is undefined label or invalid number format");
-                                Logger.Log(Error);
+                                Logger.LogError(Error);
                                 throw new AssemblerException(Error);
                             }
                         } else {
@@ -122,6 +123,7 @@ class PassTwo {
                 }
             }
         }
+        Logger.Log("End pass two successfully");
     }
 
     private void handleFormat2(Instruction inst, ObjectBuilder format_2) {
@@ -168,8 +170,8 @@ class PassTwo {
         boolean validFormat = validLiteral || validOperand;
 
         if (!validFormat) {
-            String error = buildErrorString(inst.getLineNumber(), InstructionPart
-                    .OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
+            String error = buildErrorString(inst.getLineNumber(),
+                    OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
             Logger.LogError(error);
             throw new AssemblerException(error);
         }
@@ -189,8 +191,8 @@ class PassTwo {
 
         if (!(isDecimal || isHexaDecimal)) {
             if (validOperand && !symbolTable.containsKey(rawOperand)) {
-                String error = buildErrorString(inst.getLineNumber(), InstructionPart
-                        .OPERAND, ErrorStrings.UNDEFINED_LABEL);
+                String error = buildErrorString(inst.getLineNumber(),
+                        OPERAND, ErrorStrings.UNDEFINED_LABEL);
 
                 Logger.LogError(error);
                 throw new AssemblerException(inst.toString() + " " + error);
@@ -206,8 +208,8 @@ class PassTwo {
             }
 
             if (!isFitConstant(value)) {
-                String error = buildErrorString(inst.getLineNumber(), InstructionPart
-                        .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
+                String error = buildErrorString(inst.getLineNumber(),
+                        OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
                 Logger.LogError(error);
                 throw new AssemblerException(error);
@@ -219,7 +221,7 @@ class PassTwo {
         if (!(isDecimal || isHexaDecimal)) {
 
             int targetAddress;
-            if(validLiteral) {
+            if (validLiteral) {
                 // get literal address from literal table
                 targetAddress = literalsTable.get(operand).getAddress();
 
@@ -238,8 +240,8 @@ class PassTwo {
             } else {
                 // error
                 // operand address can not fit into a format 3 instruction
-                String error = buildErrorString(inst.getLineNumber(), InstructionPart
-                        .OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
+                String error = buildErrorString(inst.getLineNumber(),
+                        OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
 
                 Logger.LogError(error);
                 throw new AssemblerException(error);
@@ -296,12 +298,11 @@ class PassTwo {
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
         } else {
-            // TODO Error while parsing
+            Logger.LogError(buildErrorString(instruction.getLineNumber(), OPERAND, "Can not calc operand target address"));
         }
         return TA;
     }
 
-    // TODO : Y3ny men el a5ir a3milha kam ? xD
     private boolean isFitPCRelative(int displacement) {
         return displacement >= -2048 && displacement <= 2047;
     }

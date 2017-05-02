@@ -6,7 +6,7 @@ import src.assembler.datastructures.LiteralProp;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class SymbolsString implements StringGenerator {

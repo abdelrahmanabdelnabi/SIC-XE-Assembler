@@ -12,7 +12,7 @@ import static src.assembler.datastructures.Format.FORMAT4;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.VALUE.NUM;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class ObjectString implements StringGenerator {
