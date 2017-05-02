@@ -4,16 +4,16 @@ package sicXE;
  * Created by abdelrahman on 4/9/17.
  */
 
-import sicXE.assembler.Logger;
-import sicXE.assembler.core.Assembler;
-import sicXE.assembler.core.AssemblerException;
-import sicXE.filewriter.ListingString;
-import sicXE.filewriter.SymbolsString;
-import sicXE.filewriter.Writer;
-import sicXE.parser.InputReader;
-import sicXE.parser.LexicalAnalyzer;
-import sicXE.parser.Parser;
-import sicXE.parser.ParsingException;
+import src.assembler.Logger;
+import src.assembler.core.Assembler;
+import src.assembler.core.AssemblerException;
+import src.filewriter.ListingString;
+import src.filewriter.SymbolsString;
+import src.filewriter.Writer;
+import src.parser.InputReader;
+import src.parser.LexicalAnalyzer;
+import src.parser.Parser;
+import src.parser.ParsingException;
 
 class Asm {
     private static Assembler assembler;
@@ -25,7 +25,7 @@ class Asm {
         String filePath = relativePath + "/" + args[0];
 
         // change file filePath to change test file
-//        String filePath = relativePath + "/sicXE/tests/code5/code5.asm";
+//        String filePath = relativePath + "/src/tests/code5/code5.asm";
 
         // create file reader
         InputReader reader = new InputReader(InputReader.InputType.File, filePath);
