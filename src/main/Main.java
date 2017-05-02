@@ -17,10 +17,9 @@ import src.parser.ParsingException;
 
 class Main {
     public static void main(String[] args) {
-
-        // take argument from command line
-        // String path = args[0];
         String relativePath = System.getProperty("user.dir");
+        // Uncomment to take args from Command Line
+//        String path = relativePath + "/" + args[0];
 
         // change file path to change test file
         String path = relativePath + "/src/tests/code5/code5.asm";
