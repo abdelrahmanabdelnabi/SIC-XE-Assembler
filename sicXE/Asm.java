@@ -15,20 +15,29 @@ import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 import src.parser.ParsingException;
 
+import java.io.File;
+
 class Asm {
     private static Assembler assembler;
-    private static String relativePath = System.getProperty("user.dir");
     private static Writer writer = new Writer("");
 
     public static void main(String[] args) {
 //         Uncomment to take args from Command Line
-        String filePath = relativePath + "/" + args[0];
-
+        String relativePath = System.getProperty("user.dir") + "/" + args[0];
+        String absolutePath = args[0];
+        String filePath = lockFile(relativePath, absolutePath);
         // change file filePath to change test file
 //        String filePath = relativePath + "/src/tests/code5/code5.asm";
 
+        InputReader reader = null;
         // create file reader
-        InputReader reader = new InputReader(InputReader.InputType.File, filePath);
+        if (Logger.getErrorsCnt() == 0)
+            reader = new InputReader(InputReader.InputType.File, filePath);
+        else {
+            System.out.println(Logger.getLogString());
+            System.exit(-1);
+        }
+
         // create parser
         Parser parser = new Parser(reader);
         // parse file
@@ -84,5 +93,18 @@ class Asm {
         // Log file
         writer.setFileName(errorFile);
         writer.writeToFile(Logger.getLogString());
+    }
+
+    private static String lockFile(String relativePath, String absolutePath) {
+        File file = new File(relativePath);
+        if (file.exists() && !file.isDirectory()) {
+            return relativePath;
+        }
+        file = new File(absolutePath);
+        if (file.exists() && !file.isDirectory()) {
+            return absolutePath;
+        }
+        Logger.LogError("Can not Lock file, check if file exists at the given path");
+        return "";
     }
 }
