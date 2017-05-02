@@ -16,17 +16,24 @@ import src.parser.Parser;
 import src.parser.ParsingException;
 
 class Main {
+    private static InputReader reader;
+    private static Parser parser;
+    private static LexicalAnalyzer analyzer;
+    private static Assembler assembler;
+    private static String relativePath = System.getProperty("user.dir");
+    private static Writer writer = new Writer("");
+
     public static void main(String[] args) {
-        String relativePath = System.getProperty("user.dir");
         // Uncomment to take args from Command Line
-//        String path = relativePath + "/" + args[0];
+//        String filePath = relativePath + "/" + args[0];
+        // change file filePath to change test file
+        String filePath = relativePath + "/src/tests/code5/code5.asm";
 
-        // change file path to change test file
-        String path = relativePath + "/src/tests/code5/code5.asm";
-
-        InputReader reader = new InputReader(InputReader.InputType.File, path);
-        Parser parser = new Parser(reader);
-
+        // create file reader
+        reader = new InputReader(InputReader.InputType.File, filePath);
+        // create parser
+        parser = new Parser(reader);
+        // parse file
         try {
             parser.parse();
         } catch (ParsingException pe) {
@@ -34,32 +41,33 @@ class Main {
             System.out.println("Parsing Error: " + pe.getMessage());
         }
 
-        /*
-            Validate Syntax Check
-         */
-        LexicalAnalyzer analyser = new LexicalAnalyzer(parser.getParsedInstuctions());
-        analyser.inspectCode();
 
-        Assembler assembler = new Assembler(parser.getParsedInstuctions());
+        // Validate Syntax Check
+        analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
+        analyzer.inspectCode();
 
-        try {
-            assembler.executePassOne();
-            assembler.executePassTwo();
-        } catch (AssemblerException ae) {
-            // TODO: output errors to stdout as well as log file
-            System.out.println("Assembling Error: " + ae.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
+        // check if no syntax errors found
+        if (Logger.getErrorsCnt() == 0) {
+            // continue assembling file
+            assembler = new Assembler(parser.getParsedInstuctions());
+            try {
+                assembler.executePassOne();
+                assembler.executePassTwo();
+            } catch (AssemblerException ae) {
+                // TODO: output errors to stdout as well as log file
+                System.out.println("Assembling Error: " + ae.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+            }
         }
 
+        // end assembling and out Log file
+        String errorFile = filePath.replace(".asm", "_log.txt");
+        String symTabFile = filePath.replace(".asm", "_symTab.txt");
+        String lstTabFile = filePath.replace(".asm", "_LstFile.txt");
+        String objectFile = filePath.replace(".asm", "_obj.txt");
 
-        Writer writer = new Writer("");
-        String errorFile = path.replace(".asm", "_log.txt");
-        String symTabFile = path.replace(".asm", "_symTab.txt");
-        String lstTabFile = path.replace(".asm", "_LstFile.txt");
-        String objectFile = path.replace(".asm", "_obj.obj");
-
-        /* if there's no error write data to files
+        /* if there's no errors found, write data to files
                 else write only log file */
 
         if (Logger.getErrorsCnt() == 0) {
@@ -71,7 +79,7 @@ class Main {
             writer.setFileName(objectFile);
             writer.writeToFile(assembler.getObjectCode());
 
-            // abo fayez table
+            // abo listing table
             writer.setFileName(lstTabFile);
             writer.writeToFile(new ListingString(assembler.getInstructions()).toString());
         }
