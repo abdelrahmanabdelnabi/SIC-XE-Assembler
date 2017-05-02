@@ -40,16 +40,17 @@ public class SymbolsString implements StringGenerator {
     }
 
     private void formLiteralsString() {
-        builder.append("===========================================\n");
-        builder.append("               LITERAL TABLE               \n");
-        builder.append("===========================================\n");
-        builder.append("LITERAL                        ADDRESS(HEX)\n");
-        builder.append("===========================================\n");
+        builder.append("=====================================================\n");
+        builder.append("                     LITERAL TABLE                   \n");
+        builder.append("=====================================================\n");
+        builder.append("LITERAL                  ADDRESS(HEX)      VALUE(HEX)\n");
+        builder.append("=====================================================\n");
         for (Map.Entry<String, LiteralProp> cur : literalsTable.entrySet()) {
-            builder.append(String.format("%-30s %-20s\n", cur.getKey(),
-                    Integer.toHexString(cur.getValue().getAddress()).toUpperCase()));
+            builder.append(String.format("%-25s%-18s%-10s\n", cur.getKey(),
+                    Integer.toHexString(cur.getValue().getAddress()).toUpperCase(),
+                    cur.getValue().getObjectCode()));
         }
-        builder.append("===========================================\n");
+        builder.append("=====================================================\n");
     }
 
 }
