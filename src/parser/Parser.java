@@ -48,6 +48,8 @@ public class Parser {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
                 newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
                 // check if comment line , continue
                 if (newLine.length() == 0 || newLine.charAt(0) == '.') continue;
 
