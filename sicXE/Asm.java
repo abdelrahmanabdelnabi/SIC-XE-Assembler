@@ -23,12 +23,12 @@ class Asm {
 
     public static void main(String[] args) {
 //         Uncomment to take args from Command Line
-//        String relativePath = System.getProperty("user.dir") + "/" + args[0];
-//        String absolutePath = args[0];
-//        String filePath = lockFile(relativePath, absolutePath);
+        String relativePath = System.getProperty("user.dir") + "/" + args[0];
+        String absolutePath = args[0];
+        String filePath = lockFile(relativePath, absolutePath);
         // change file filePath to change test file
-        String relativePath = System.getProperty("user.dir");// + "/" + args[0];
-        String filePath = relativePath + "/src/tests/PROG_FORMAT4/PROG_FORMAT4.asm";
+//        String relativePath = System.getProperty("user.dir");// + "/" + args[0];
+//        String filePath = relativePath + "/src/tests/PROG_FORMAT4/PROG_FORMAT4.asm";
 
         InputReader reader = null;
         // create file reader
