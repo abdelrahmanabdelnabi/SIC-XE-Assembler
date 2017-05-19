@@ -1,6 +1,6 @@
 package src.filewriter;
 
-import src.assembler.SymbolProp;
+import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
 
 import java.util.HashMap;

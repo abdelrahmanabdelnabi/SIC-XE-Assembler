@@ -1,7 +1,7 @@
 package src.assembler.core;
 
 import src.assembler.Instruction;
-import src.assembler.SymbolProp;
+import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
 import src.filewriter.ObjectString;
 

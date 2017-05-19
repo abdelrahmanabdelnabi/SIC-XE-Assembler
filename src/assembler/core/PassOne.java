@@ -3,7 +3,7 @@ package src.assembler.core;
 import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
-import src.assembler.SymbolProp;
+import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.*;
 
 import java.util.HashMap;
