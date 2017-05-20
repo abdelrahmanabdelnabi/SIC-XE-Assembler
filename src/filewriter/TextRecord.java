@@ -32,7 +32,7 @@ public class TextRecord {
     }
 
     public int getLength() {
-        return record.length();
+        return record.length()/2;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class TextRecord {
         if(record.length() == 0)
             return "";
 
-        String length = String.format("%02X", record.length());
+        String length = String.format("%02X", record.length()/2);
         String address = String.format("%06X", startAddress);
 
         return "T" + address + length + record.toString() + "\n";
