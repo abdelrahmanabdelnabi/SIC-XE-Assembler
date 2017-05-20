@@ -3,14 +3,12 @@ package src.assembler.core;
 import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
-import src.assembler.datastructures.SymbolProp;
-import src.assembler.datastructures.Format;
-import src.assembler.datastructures.InstProp;
-import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.*;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
+import src.filewriter.ObjectCodeWriter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,7 @@ import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
-
+import static src.filewriter.ObjectCodeWriter.PLUS;
 /**
  * Created by ahmed on 4/21/17.
  */
@@ -35,14 +33,20 @@ class PassTwo {
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
     // --Commented out by Inspection (5/1/17 3:49 AM):private Set<String> directives = getAssemblerDirectivesSet();
+
+    // Flags for Base relative
     private boolean isBaseSet = false;
     private int baseAddress = 0;
+
+    private ObjectCodeWriter ocw;
 
     PassTwo(List<Instruction> instructions, HashMap<String, SymbolProp> symbolTable
             , HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
         this.symbolTable = symbolTable;
         this.literalsTable = literalsTable;
+        ocw = new ObjectCodeWriter(OpcodeTable.getProgramName(), OpcodeTable.getStartAddress(),
+                OpcodeTable.getProgramLength());
     }
 
     void execute() throws AssemblerException {
@@ -61,20 +65,31 @@ class PassTwo {
                     checkIndexed(inst, format4);
                     checkIndirectImmediate(inst, format4);
                     handleFormat4(inst, format4);
-                    inst.setObjectCode(format4.toString());
+                    String obj;
+                    obj = format4.toString();
+                    inst.setObjectCode(obj);
+                    ocw.appendTextRecord(obj);
+                    ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, getProgramName());
                 } else {
                     Format format = OP_TAB.get(inst.getMnemonic()).getFormat();
                     switch (format) {
                         case FORMAT1:
+                            String obj;
                             int opCode = getOpCode(inst.getMnemonic());
-                            inst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
+                            obj = ObjectBuilder.buildFormatOne(opCode);
+                            inst.setObjectCode(obj);
+                            ocw.appendTextRecord(obj);
                             break;
                         case FORMAT2:
                             handleFormat2(inst, format2);
-                            inst.setObjectCode(format2.toString());
+                            obj = format2.toString();
+                            inst.setObjectCode(obj);
+                            ocw.appendTextRecord(obj);
                             break;
                         case FORMAT3:
-                            inst.setObjectCode(handleFormat3(inst, format3));
+                            obj = handleFormat3(inst, format3);
+                            ocw.appendTextRecord(obj);
+                            inst.setObjectCode(obj);
                             break;
                     }
                 }
@@ -113,10 +128,14 @@ class PassTwo {
                         baseAddress = 0;
                         break;
                     case "BYTE":
-                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
+                        String obj = ObjectBuilder.buildDirectives(inst.getOperand());
+                        inst.setObjectCode(obj);
+                        ocw.appendTextRecord(obj);
                         break;
                     case "WORD":
-                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
+                        String s = ObjectBuilder.buildDirectives(inst.getOperand());
+                        inst.setObjectCode(s);
+                        ocw.appendTextRecord(s);
                         break;
                     case "LTORG":
                         //do nothing ?
@@ -317,6 +336,10 @@ class PassTwo {
 
     public List<Instruction> getOutputInstructions() {
         return instructions;
+    }
+
+    public String getObjectCode() {
+        return ocw.getObjectCode();
     }
 
 }

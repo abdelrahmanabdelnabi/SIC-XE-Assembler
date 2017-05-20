@@ -40,6 +40,10 @@ public class Assembler {
         return objectCodeGenerator.toString();
     }
 
+    public String getObjectCode2() {
+        return passTwo.getObjectCode();
+    }
+
     public HashMap<String, SymbolProp> getSymbolTable() {
         return passOne.getSymbolTable();
     }
