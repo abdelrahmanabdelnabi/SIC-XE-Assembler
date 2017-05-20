@@ -1,22 +1,34 @@
 package src.filewriter;
 
+import java.util.ArrayList;
+
 /**
  * Created by abdelrahman on 5/19/17.
  */
 public class ObjectCodeWriter {
 
+    private ArrayList<String> textRecords;
+    private StringBuilder dRecords;
+    private StringBuilder rRecords;
+    private StringBuilder mRecords;
 
-
-    private int currentRecordAddress = 0;
-
-    private static final int MAX_RECORD_SIZE = 30;
+    private TextRecord currentRecord;
 
     // modification record signs
     public static final boolean PLUS = true;
     public static final boolean MINUS = false;
+    private String headRecord;
+    private String endRecord;
 
     public ObjectCodeWriter(String programName, int startAddress, int length) {
-        this.currentRecordAddress = startAddress;
+        currentRecord = new TextRecord(startAddress);
+        textRecords = new ArrayList<>();
+        mRecords = new StringBuilder();
+        rRecords = new StringBuilder();
+        dRecords = new StringBuilder();
+
+        headRecord = getHeadRecord(programName, startAddress, length);
+        endRecord = getEndRecord(startAddress);
     }
 
     /**
@@ -25,6 +37,13 @@ public class ObjectCodeWriter {
      * @param newCode the object code to be appended
      */
     public void appendTextRecord(String newCode) {
+        if(currentRecord.hasSpaceAvailable(newCode.length()))
+            currentRecord.append(newCode);
+        else {
+            textRecords.add(currentRecord.toString());
+            int nextRecordAddress = currentRecord.getStartAddress() + currentRecord.getLength();
+            currentRecord = new TextRecord(nextRecordAddress);
+        }
 
     }
 
@@ -34,6 +53,12 @@ public class ObjectCodeWriter {
      * @param newAddress the starting address of the new text record
      */
     public void startNewTextRecord(int newAddress) {
+
+        String r = currentRecord.toString();
+        if(!r.isEmpty())
+            textRecords.add(r);
+
+        currentRecord = new TextRecord(newAddress);
     }
 
     /**
@@ -48,7 +73,9 @@ public class ObjectCodeWriter {
      *              field
      */
     public void addModificationRecord(int startAddress, int length, boolean sign, String label) {
-
+        String s = "M" + String.format("%06X%02X%s%6s", startAddress, length, sign == PLUS ? "+" :
+                        "-", label);
+        mRecords.append(s);
     }
 
     /**
@@ -58,8 +85,9 @@ public class ObjectCodeWriter {
      *
      * @param symbol Name of external symbol to be referred
      */
-    public void addReferRecord(String symbol) {
-
+    public void appendReferRecord(String symbol) {
+        String s = String.format("%6s", symbol);
+        rRecords.append(s);
     }
 
     /**
@@ -71,7 +99,8 @@ public class ObjectCodeWriter {
      * @param address relative address of symbol (within this control section)
      */
     public void appendDefineRecord(String symbol, int address) {
-
+        String s = String.format("%6s%6s", symbol, address);
+        dRecords.append(s);
     }
 
     /**
@@ -81,14 +110,24 @@ public class ObjectCodeWriter {
      * @return all the added records formatted properly
      */
     public String getObjectCode() {
+        StringBuilder objectCode = new StringBuilder();
+        objectCode.append(headRecord);
+        objectCode.append(dRecords.toString());
+        objectCode.append(rRecords.toString());
+
+        for(String s : textRecords)
+            objectCode.append(s);
+
+        objectCode.append(endRecord);
         return "";
     }
 
     private String getHeadRecord(String programName, int startAddress, int length) {
-        return "";
+        return "H" + String.format("%6s%06X%06X", programName, startAddress, length);
     }
 
-    private void finishCurrentTextRecord() {
-
+    private String getEndRecord(int progStartAddress) {
+        return "E" + String.format("%6s", progStartAddress);
     }
+
 }
