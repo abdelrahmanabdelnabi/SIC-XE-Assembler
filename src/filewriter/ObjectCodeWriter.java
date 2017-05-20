@@ -43,6 +43,7 @@ public class ObjectCodeWriter {
             textRecords.add(currentRecord.toString());
             int nextRecordAddress = currentRecord.getStartAddress() + currentRecord.getLength();
             currentRecord = new TextRecord(nextRecordAddress);
+            currentRecord.append(newCode);
         }
 
     }
@@ -73,8 +74,8 @@ public class ObjectCodeWriter {
      *              field
      */
     public void addModificationRecord(int startAddress, int length, boolean sign, String label) {
-        String s = "M" + String.format("%06X%02X%s%6s", startAddress, length, sign == PLUS ? "+" :
-                        "-", label);
+        String s = "M" + String.format("%06X%02X%s%-6s\n", startAddress, length, sign == PLUS ?
+                "+" : "-", label);
         mRecords.append(s);
     }
 
@@ -110,24 +111,32 @@ public class ObjectCodeWriter {
      * @return all the added records formatted properly
      */
     public String getObjectCode() {
+        // end current text record first
+        textRecords.add(currentRecord.toString());
+
         StringBuilder objectCode = new StringBuilder();
         objectCode.append(headRecord);
-        objectCode.append(dRecords.toString());
-        objectCode.append(rRecords.toString());
+        if(dRecords.length() > 0)
+            objectCode.append("D").append(dRecords.toString()).append("\n");
+
+        if(rRecords.length() > 0)
+            objectCode.append("R").append(rRecords.toString()).append("\n");
 
         for(String s : textRecords)
             objectCode.append(s);
 
+        objectCode.append(mRecords.toString());
+
         objectCode.append(endRecord);
-        return "";
+        return objectCode.toString();
     }
 
     private String getHeadRecord(String programName, int startAddress, int length) {
-        return "H" + String.format("%6s%06X%06X", programName, startAddress, length);
+        return "H" + String.format("%-6s%06X%06X\n", programName, startAddress, length);
     }
 
     private String getEndRecord(int progStartAddress) {
-        return "E" + String.format("%6s", progStartAddress);
+        return "E" + String.format("%06X", progStartAddress);
     }
 
 }
