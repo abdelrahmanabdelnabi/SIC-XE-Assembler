@@ -117,7 +117,12 @@ public class AssemblerTest {
         assembler.executePassOne();
         assembler.executePassTwo();
 
-        return assembler.getObjectCode();
+        String method1 = assembler.getObjectCode();
+        String method2 = assembler.getObjectCode2();
+
+        assertEquals("two methods of object code generation do not match", method1, method2);
+
+        return method1;
     }
 
     private String readFile(String filePath) {
