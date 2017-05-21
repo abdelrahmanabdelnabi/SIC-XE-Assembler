@@ -138,7 +138,16 @@ class PassTwo {
                         ocw.appendTextRecord(s);
                         break;
                     case "LTORG":
-                        //do nothing ?
+                        break;
+                    //do nothing ?
+                    case "RESW":
+                        // get the new address
+                        // and open a new text record at the new address
+                        int reservedLength = Integer.parseInt(inst.getOperand()) * 3;
+                        ocw.startNewTextRecord(inst.getAddress() + reservedLength);
+                    case "RESB":
+                        reservedLength = Integer.parseInt(inst.getOperand());
+                        ocw.startNewTextRecord(inst.getAddress() + reservedLength);
                 }
             }
         }
