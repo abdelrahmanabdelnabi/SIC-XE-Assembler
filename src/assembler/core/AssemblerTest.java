@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
  * code7: SIC program -- should not test
  */
 public class AssemblerTest {
-    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
+    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/tests";
     private Parser parser;
     private InputReader reader;
     private String code1;

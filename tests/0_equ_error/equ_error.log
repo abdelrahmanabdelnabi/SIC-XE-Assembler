@@ -1,0 +1,18 @@
+***** Section <default> *****
+Stats: size=2003  blocks=2003  symbols=7  literals=0  relocations=0
+Blocks
+    name        start   size  #ins #dir #sto
+    <default>   00000  007D3     6    6    1
+Symbols
+    name        hex       dec  scope     kind      description
+    BEGIN    000006         6  local     relative  FIRST+LOOP
+    DUMP     0007D0      2000  local     relative  label
+    FINAL    000708      1800  local     relative  LOOP*300
+    FIRST    000000         0  local     relative  label
+    LOOP     000006         6  local     relative  label
+    MAIN     000000         0  exported  relative  label
+    POS      000702      1794  local     absolute  FINAL-BEGIN
+Literals
+    label   definition
+Relocations
+    address length flag symbol

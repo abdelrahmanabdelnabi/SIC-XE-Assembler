@@ -1,0 +1,10 @@
+00000            SUM     START   0    
+00000  012000    FIRST   LDA     #BEGIN    
+00003  052FF2    SECOND  LDX     #FINAL    
+00006  9010      LOOP    ADDR    X,A    
+00008  2D000B            TIX     #11    
+0000B  3B2FF8            JLT     LOOP    
+0000E            BEGIN   EQU     FIRST-SECOND+LOOP    
+0000E  00....00  DUMP    RESW    100    
+0013A            FINAL   EQU     LOOP+SECOND-DUMP-BEGIN    
+0013A                    END     SUM    

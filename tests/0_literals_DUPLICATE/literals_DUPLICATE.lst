@@ -1,0 +1,15 @@
+00000            PROG1   START   0    
+00000  050000            LDX     #0    
+00003  75000A            LDT     #10    
+00006  E3200E    RLOOP   TD      *0 (WORD X'0F')    
+00009  332FFA            JEQ     RLOOP    
+0000C  DB200B            RD      *1 (WORD X'F1')    
+0000F  57A00B            STCH    RECORD,X    
+00012  B850              TIXR    T    
+00014  3B2FEF            JLT     RLOOP    
+00017                    LTORG       
+00017  0F0000    *0      WORD    X'0F'    
+0001A  F10000    *1      WORD    X'F1'    
+0001D  00....00  RECORD  RESB    10    
+00027                    END     PROG1    
+                  

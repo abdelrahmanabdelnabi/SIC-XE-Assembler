@@ -13,7 +13,7 @@ import static src.parser.InputReader.InputType.File;
  */
 public class LexicalAnalyzerTest {
     private final String relativePath = System.getProperty("user.dir");
-    private final String testFilePath = "/src/tests/format4/format4.asm";
+    private final String testFilePath = "/tests/format4/format4.asm";
     private Parser parser;
 
     @Before

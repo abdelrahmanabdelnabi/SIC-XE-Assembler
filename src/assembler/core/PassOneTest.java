@@ -3,8 +3,8 @@ package src.assembler.core;
 import org.junit.Assert;
 import org.junit.Test;
 import src.assembler.Instruction;
-import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.SymbolProp;
 import src.parser.InputReader;
 import src.parser.Parser;
 
@@ -74,7 +74,7 @@ public class PassOneTest {
 
     @Test
     public void testLiterals() {
-        String literalsFile = System.getProperty("user.dir") + "/src/tests/literals/literals.asm";
+        String literalsFile = System.getProperty("user.dir") + "/tests/literals/literals.asm";
 
         InputReader inputReader = new InputReader(InputReader.InputType.File, literalsFile);
 
