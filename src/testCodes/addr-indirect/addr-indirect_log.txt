@@ -1,0 +1,7 @@
+2017/04/25_03/49        File path set successfully
+2017/04/25_03/49        Start File Parsing
+2017/04/25_03/49        Line 18 ( five EQU 5 ) is Not a valid SIC(/XE) instruction !
+2017/04/25_03/49        Start Pass One
+2017/04/25_03/49        End Pass One
+2017/04/25_03/49        error in assembling line 10 in the OPERAND part: The displacement relative to the program counter or the base address are out of range
+2017/04/25_03/49        2 Errors Found, TERMINATED

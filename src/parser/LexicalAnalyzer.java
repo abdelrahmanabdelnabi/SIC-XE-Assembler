@@ -73,6 +73,7 @@ public class LexicalAnalyzer {
                 }
             }
         } else if (isDirective(mnemonic)) {
+            inst.setInstructionType(Instruction.InstructionType.Directive);
             inst.setOperandType(VALUE);
             switch (mnemonic) {
                 case "RESW":

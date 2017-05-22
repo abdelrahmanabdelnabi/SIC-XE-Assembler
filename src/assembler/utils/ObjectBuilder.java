@@ -23,7 +23,7 @@ public abstract class ObjectBuilder {
             operand = operand.substring(1).replace("'", "");
             StringBuilder objectCodeBuilder = new StringBuilder();
             for (int i = 0; i < operand.length(); i++) {
-                objectCodeBuilder.append(Integer.toHexString(operand.charAt(i)));
+                objectCodeBuilder.append(Integer.toHexString(operand.charAt(i)).toUpperCase());
             }
             objectCode = objectCodeBuilder.toString();
         } else if (Pattern.matches("X'[A-F0-9]+'", operand)) {
@@ -31,7 +31,7 @@ public abstract class ObjectBuilder {
         } else if (Pattern.matches("0x[0-9A-F]+", operand)) {
             objectCode = operand.replace("0x", "");
         } else if (Pattern.matches("[0-9]+", operand)) {
-            objectCode = Integer.toHexString(Integer.parseInt(operand));
+            objectCode = Integer.toHexString(Integer.parseInt(operand)).toUpperCase();
         }
 
 //        switch (operand.charAt(0)) {

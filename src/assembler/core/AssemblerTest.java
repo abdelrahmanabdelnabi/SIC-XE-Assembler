@@ -3,6 +3,7 @@ package src.assembler.core;
 import org.junit.Before;
 import org.junit.Test;
 import src.parser.InputReader;
+import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 
 import java.io.File;
@@ -27,6 +28,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class AssemblerTest {
     private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/tests";
+
+    private LexicalAnalyzer analyzer;
+
     private Parser parser;
     private InputReader reader;
     private String code1;
@@ -113,11 +117,18 @@ public class AssemblerTest {
 
     private String runAssembler() {
         parser.parse();
+        analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
+        analyzer.inspectCode();
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
         assembler.executePassOne();
         assembler.executePassTwo();
 
-        return assembler.getObjectCode();
+        String method1 = assembler.getObjectCode();
+        String method2 = assembler.getObjectCode2();
+
+        //assertEquals("two methods of object code generation do not match", method1, method2);
+
+        return method2;
     }
 
     private String readFile(String filePath) {

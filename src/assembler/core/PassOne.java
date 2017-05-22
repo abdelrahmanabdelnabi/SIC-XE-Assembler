@@ -6,10 +6,7 @@ import src.assembler.Logger;
 import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static src.assembler.Common.buildErrorString;
 import static src.assembler.InstructionPart.*;
@@ -31,7 +28,7 @@ class PassOne {
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
         symbolTable = new HashMap<>();
-        literalTable = new HashMap<>();
+        literalTable = new LinkedHashMap<>();
     }
 
 

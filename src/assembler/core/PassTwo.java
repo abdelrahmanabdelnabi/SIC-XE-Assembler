@@ -3,16 +3,15 @@ package src.assembler.core;
 import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
-import src.assembler.datastructures.SymbolProp;
-import src.assembler.datastructures.Format;
-import src.assembler.datastructures.InstProp;
-import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.*;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
+import src.filewriter.ObjectCodeWriter;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -25,6 +24,8 @@ import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
+import static src.filewriter.ObjectCodeWriter.PLUS;
+import static src.assembler.datastructures.OperandType.VALUE.NUM;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -34,15 +35,20 @@ class PassTwo {
     private final List<src.assembler.Instruction> instructions;
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
-    // --Commented out by Inspection (5/1/17 3:49 AM):private Set<String> directives = getAssemblerDirectivesSet();
+
+    // Flags for Base relative
     private boolean isBaseSet = false;
     private int baseAddress = 0;
+
+    private ObjectCodeWriter ocw;
 
     PassTwo(List<Instruction> instructions, HashMap<String, SymbolProp> symbolTable
             , HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
         this.symbolTable = symbolTable;
         this.literalsTable = literalsTable;
+        ocw = new ObjectCodeWriter(OpcodeTable.getProgramName(), OpcodeTable.getStartAddress(),
+                OpcodeTable.getProgramLength());
     }
 
     void execute() throws AssemblerException {
@@ -61,20 +67,32 @@ class PassTwo {
                     checkIndexed(inst, format4);
                     checkIndirectImmediate(inst, format4);
                     handleFormat4(inst, format4);
-                    inst.setObjectCode(format4.toString());
+                    String obj;
+                    obj = format4.toString();
+                    inst.setObjectCode(obj);
+                    ocw.appendTextRecord(obj);
+                    if(inst.getValueType() != NUM)
+                        ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, getProgramName());
                 } else {
                     Format format = OP_TAB.get(inst.getMnemonic()).getFormat();
                     switch (format) {
                         case FORMAT1:
+                            String obj;
                             int opCode = getOpCode(inst.getMnemonic());
-                            inst.setObjectCode(ObjectBuilder.buildFormatOne(opCode));
+                            obj = ObjectBuilder.buildFormatOne(opCode);
+                            inst.setObjectCode(obj);
+                            ocw.appendTextRecord(obj);
                             break;
                         case FORMAT2:
                             handleFormat2(inst, format2);
-                            inst.setObjectCode(format2.toString());
+                            obj = format2.toString();
+                            inst.setObjectCode(obj);
+                            ocw.appendTextRecord(obj);
                             break;
                         case FORMAT3:
-                            inst.setObjectCode(handleFormat3(inst, format3));
+                            obj = handleFormat3(inst, format3);
+                            ocw.appendTextRecord(obj);
+                            inst.setObjectCode(obj);
                             break;
                     }
                 }
@@ -113,13 +131,34 @@ class PassTwo {
                         baseAddress = 0;
                         break;
                     case "BYTE":
-                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
+                        String obj = ObjectBuilder.buildDirectives(inst.getOperand());
+                        inst.setObjectCode(obj);
+                        ocw.appendTextRecord(obj);
                         break;
                     case "WORD":
-                        inst.setObjectCode(ObjectBuilder.buildDirectives(inst.getOperand()));
+                        String s = ObjectBuilder.buildDirectives(inst.getOperand());
+                        inst.setObjectCode(s);
+                        ocw.appendTextRecord(s);
+                        break;
+                    case "RESW":
+                        // get the new address
+                        // and open a new text record at the new address
+                        int reservedLength = Integer.parseInt(inst.getOperand()) * 3;
+                        ocw.startNewTextRecord(inst.getAddress() + reservedLength);
+                        break;
+                    case "RESB":
+                        reservedLength = Integer.parseInt(inst.getOperand());
+                        ocw.startNewTextRecord(inst.getAddress() + reservedLength);
                         break;
                     case "LTORG":
-                        //do nothing ?
+                        fillLiteralPool(inst.getAddress());
+                        break;
+                    case "END":
+                        flushLiteralTable();
+                        break;
+                    case "CEND":
+                        flushLiteralTable();
+                        break;
                 }
             }
         }
@@ -164,7 +203,7 @@ class PassTwo {
         // note also that this does NOT allow spaces in the operand
         boolean validLiteral = operand.startsWith("=");//operand.matches("=X'[A-F0-9]+'|=C'[a-zA-Z0-9]+'");
         boolean validOperand =
-                operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)|X'[0-9A-F]+'))|" +
+                operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)))|" +
                         "(([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
         boolean validFormat = validLiteral || validOperand;
@@ -185,7 +224,7 @@ class PassTwo {
         String rawOperand = getRawOperand(operand);
 
         boolean isDecimal = rawOperand.matches("-?[0-9]+");
-        boolean isHexaDecimal = rawOperand.matches("(0x-?[0-9A-F]+)|(X'[0-9A-F]+')");
+        boolean isHexaDecimal = rawOperand.matches("(0x-?[0-9A-F]+)");
 
         int displacement = 0;
 
@@ -204,9 +243,7 @@ class PassTwo {
                 value = Integer.parseInt(rawOperand);
             } else // hexadecimal
             {
-                String hexaNumber = rawOperand.replace("X", "");
-                hexaNumber = hexaNumber.replaceAll("'", "");
-                hexaNumber = hexaNumber.replace("0x", "");
+                String hexaNumber = rawOperand.replace("0x", "");
                 value = Integer.parseInt(hexaNumber, 16);
             }
 
@@ -296,7 +333,7 @@ class PassTwo {
         String operand = getRawOperand(instruction.getOperand());
         int TA = 0;
         // check is value or symbol
-        if (Pattern.matches("[0-9]+|0x[0-9]+", operand)) {
+        if (Pattern.matches("[0-9]+|0x[0-9A-F]+", operand)) {
             TA = parseNumOperand(operand);
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
@@ -317,6 +354,34 @@ class PassTwo {
 
     public List<Instruction> getOutputInstructions() {
         return instructions;
+    }
+
+    public String getObjectCode() {
+        return ocw.getObjectCode();
+    }
+
+    private void fillLiteralPool(int poolStartAddress) {
+
+        int expectedAddress = poolStartAddress;
+        Iterator<Map.Entry<String, LiteralProp>> iterator = literalsTable.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String,LiteralProp> entry = iterator.next();
+            int address = entry.getValue().getAddress();
+            if (address == expectedAddress) {
+                String objectCode = entry.getValue().getObjectCode();
+                ocw.appendTextRecord(objectCode);
+                expectedAddress += objectCode.length() / 2;
+                iterator.remove();
+            }
+        }
+    }
+
+    private void flushLiteralTable() {
+        for(Map.Entry<String, LiteralProp> entry : literalsTable.entrySet()) {
+            String objectCode = entry.getValue().getObjectCode();
+            ocw.appendTextRecord(objectCode);
+        }
     }
 
 }
