@@ -3,6 +3,7 @@ package src.assembler.core;
 import org.junit.Before;
 import org.junit.Test;
 import src.parser.InputReader;
+import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 
 import java.io.File;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertEquals;
  * code7: SIC program -- should not test
  */
 public class AssemblerTest {
+    private LexicalAnalyzer analyzer;
     private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
     private Parser parser;
     private InputReader reader;
@@ -113,6 +115,8 @@ public class AssemblerTest {
 
     private String runAssembler() {
         parser.parse();
+        analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
+        analyzer.inspectCode();
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
         assembler.executePassOne();
         assembler.executePassTwo();
