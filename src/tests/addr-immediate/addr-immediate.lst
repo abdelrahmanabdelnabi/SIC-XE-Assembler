@@ -40,4 +40,4 @@
                   
                   . careful: start address may be too large
                   . direct: pc-rel fail, base-rel fail
-0082D  010000           LDA     #first    
+0082D  010000           LDA     #first
