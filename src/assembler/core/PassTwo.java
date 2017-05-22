@@ -25,6 +25,7 @@ import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 import static src.filewriter.ObjectCodeWriter.PLUS;
+import static src.assembler.datastructures.OperandType.VALUE.NUM;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -70,7 +71,8 @@ class PassTwo {
                     obj = format4.toString();
                     inst.setObjectCode(obj);
                     ocw.appendTextRecord(obj);
-                    ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, getProgramName());
+                    if(inst.getValueType() != NUM)
+                        ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, getProgramName());
                 } else {
                     Format format = OP_TAB.get(inst.getMnemonic()).getFormat();
                     switch (format) {
@@ -331,7 +333,7 @@ class PassTwo {
         String operand = getRawOperand(instruction.getOperand());
         int TA = 0;
         // check is value or symbol
-        if (Pattern.matches("[0-9]+|0x[0-9]+", operand)) {
+        if (Pattern.matches("[0-9]+|0x[0-9A-F]+", operand)) {
             TA = parseNumOperand(operand);
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
