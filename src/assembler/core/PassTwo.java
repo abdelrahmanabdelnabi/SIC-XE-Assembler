@@ -11,6 +11,7 @@ import src.assembler.utils.ObjectBuilder;
 import src.filewriter.ObjectCodeWriter;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -24,6 +25,7 @@ import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 import static src.filewriter.ObjectCodeWriter.PLUS;
+
 /**
  * Created by ahmed on 4/21/17.
  */
@@ -32,7 +34,6 @@ class PassTwo {
     private final List<src.assembler.Instruction> instructions;
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
-    // --Commented out by Inspection (5/1/17 3:49 AM):private Set<String> directives = getAssemblerDirectivesSet();
 
     // Flags for Base relative
     private boolean isBaseSet = false;
@@ -51,6 +52,7 @@ class PassTwo {
 
     void execute() throws AssemblerException {
         Logger.Log("Start Pass Two");
+        int index = 0;
         for (Instruction inst : instructions) {
             ObjectBuilder format2 = new Format_2();
             ObjectBuilder format3 = new Format_3();
@@ -137,19 +139,26 @@ class PassTwo {
                         inst.setObjectCode(s);
                         ocw.appendTextRecord(s);
                         break;
-                    case "LTORG":
-                        break;
-                    //do nothing ?
                     case "RESW":
                         // get the new address
                         // and open a new text record at the new address
                         int reservedLength = Integer.parseInt(inst.getOperand()) * 3;
                         ocw.startNewTextRecord(inst.getAddress() + reservedLength);
+                        break;
                     case "RESB":
                         reservedLength = Integer.parseInt(inst.getOperand());
                         ocw.startNewTextRecord(inst.getAddress() + reservedLength);
+                        break;
+                    case "LTORG":
+                        fillLiteralPool(inst.getAddress());
+                        break;
+                    case "END":
+                        // get address of previous instruction
+                        flushLiteralTable();
+                        break;
                 }
             }
+            index++;
         }
         Logger.Log("End pass two successfully");
     }
@@ -349,6 +358,30 @@ class PassTwo {
 
     public String getObjectCode() {
         return ocw.getObjectCode();
+    }
+
+    private void fillLiteralPool(int poolStartAddress) {
+
+        int expectedAddress = poolStartAddress;
+        Iterator<Map.Entry<String, LiteralProp>> iterator = literalsTable.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String,LiteralProp> entry = iterator.next();
+            int address = entry.getValue().getAddress();
+            if (address == expectedAddress) {
+                String objectCode = entry.getValue().getObjectCode();
+                ocw.appendTextRecord(objectCode);
+                expectedAddress += objectCode.length() / 2;
+                iterator.remove();
+            }
+        }
+    }
+
+    private void flushLiteralTable() {
+        for(Map.Entry<String, LiteralProp> entry : literalsTable.entrySet()) {
+            String objectCode = entry.getValue().getObjectCode();
+            ocw.appendTextRecord(objectCode);
+        }
     }
 
 }
