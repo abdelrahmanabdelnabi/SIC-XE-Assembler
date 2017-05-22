@@ -1,22 +1,22 @@
 MAIN     START  0
-         EXTDEF ADDR,ADDR2,ADDR3
+         EXTDEF ADDR1,ADDR2,ADDR3
          EXTREF RTADDR,GETPAIR       
          CLEAR  X
          +JSUB  GETPAIR
          STCH   ADDR2
          +JSUB  GETPAIR
          STCH   ADDR3
-         LDB    ADDR
+         LDB    ADDR1
          +JSUB  GETPAIR
-         STCH   ADDR 
+         STCH   ADDR1 
          +JSUB  GETPAIR
          STCH   ADDR2
 LOOP     +JSUB  GETPAIR
-         STCH   ADDR,X
+         STCH   ADDR1,X
          TIXR   X
          +STCH  RTADDR
          J      LOOP
-ADDR     RESB   1
+ADDR1    RESB   1
 ADDR2    RESB   1
 ADDR3    RESB   1
 GETPAIR  CSECT
@@ -32,11 +32,11 @@ RTADDR   RESB   1
 ORADDR   RESB   1
 HEX      RESB   1
 READ     CSECT
-         EXTREF ADDR     
-	 TD     =X'F1'
+         EXTREF ADDR1     
+	 TD     INDEV
          JEQ    READ 
          CLEAR  A
-         RD     =X'F1'
+         RD     INDEV
          COMP   #48
          JLT    EOFCK
          SUB    #48
@@ -49,5 +49,9 @@ EOFCK    COMP   #33
          COMP   #4
          JGT    READ
 EXIT     CLEAR  L 
-         +J     ADDR      
+         +J     ADDR1 
+INDEV    BYTE   X'F1'     
          END    MAIN
+   
+         
+                  

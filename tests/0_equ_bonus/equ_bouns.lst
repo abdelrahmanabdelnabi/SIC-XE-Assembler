@@ -1,11 +1,11 @@
 003E8            SUM    START   1000    
-003E8  0107D0    FIRST  LDA     #BEGIN    
-003EB  0507D3           LDX     #FINAL    
-003EE  9010      LOOP   ADDR    X,A    
-003F0  2D000B           TIX     #11    
-003F3  3B2FF8           JLT     LOOP    
-003F6  0D0003           STA     #POS    
-003F9                   ORG     2000    
+003E8  011007D0  FIRST  +LDA     #BEGIN    
+003EC  051007D3        +LDX     #FINAL    
+003F0  9010      LOOP   ADDR    X,A    
+003F2  2D000B           TIX     #11    
+003F5  3B2FF8           JLT     LOOP    
+003F8  0D100003        +STA     #POS    
+003FC                   ORG     2000    
 007D0            BEGIN  EQU     *    
 007D0  000000    DUMP   RESW    1    
 007D3            FINAL  EQU     *    

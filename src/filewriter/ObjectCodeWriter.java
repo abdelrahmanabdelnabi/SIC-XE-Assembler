@@ -7,16 +7,14 @@ import java.util.ArrayList;
  */
 public class ObjectCodeWriter {
 
+    // modification record signs
+    public static final boolean PLUS = true;
+    public static final boolean MINUS = false;
     private ArrayList<String> textRecords;
     private StringBuilder dRecords;
     private StringBuilder rRecords;
     private StringBuilder mRecords;
-
     private TextRecord currentRecord;
-
-    // modification record signs
-    public static final boolean PLUS = true;
-    public static final boolean MINUS = false;
     private String headRecord;
     private String endRecord;
 
@@ -37,7 +35,7 @@ public class ObjectCodeWriter {
      * @param newCode the object code to be appended
      */
     public void appendTextRecord(String newCode) {
-        if(currentRecord.hasSpaceAvailable(newCode.length()))
+        if (currentRecord.hasSpaceAvailable(newCode.length()))
             currentRecord.append(newCode);
         else {
             textRecords.add(currentRecord.toString());
@@ -56,7 +54,7 @@ public class ObjectCodeWriter {
     public void startNewTextRecord(int newAddress) {
 
         String r = currentRecord.toString();
-        if(!r.isEmpty())
+        if (!r.isEmpty())
             textRecords.add(r);
 
         currentRecord = new TextRecord(newAddress);
@@ -68,10 +66,10 @@ public class ObjectCodeWriter {
      * this method.
      *
      * @param startAddress the starting address of the address to be modified
-     * @param length the length of the address to be modified
-     * @param sign is the modification addition or subtraction
-     * @param label external symbol whose value is to be added or subtracted from the indicated
-     *              field
+     * @param length       the length of the address to be modified
+     * @param sign         is the modification addition or subtraction
+     * @param label        external symbol whose value is to be added or subtracted from the indicated
+     *                     field
      */
     public void addModificationRecord(int startAddress, int length, boolean sign, String label) {
         String s = "M" + String.format("%06X%02X%s%-6s\n", startAddress, length, sign == PLUS ?
@@ -96,7 +94,7 @@ public class ObjectCodeWriter {
      * Defined symbols appear in the object code in the same order they are added with calls to
      * this method.
      *
-     * @param symbol Name of external symbol to be defined
+     * @param symbol  Name of external symbol to be defined
      * @param address relative address of symbol (within this control section)
      */
     public void appendDefineRecord(String symbol, int address) {
@@ -116,13 +114,13 @@ public class ObjectCodeWriter {
 
         StringBuilder objectCode = new StringBuilder();
         objectCode.append(headRecord);
-        if(dRecords.length() > 0)
+        if (dRecords.length() > 0)
             objectCode.append("D").append(dRecords.toString()).append("\n");
 
-        if(rRecords.length() > 0)
+        if (rRecords.length() > 0)
             objectCode.append("R").append(rRecords.toString()).append("\n");
 
-        for(String s : textRecords)
+        for (String s : textRecords)
             objectCode.append(s);
 
         objectCode.append(mRecords.toString());

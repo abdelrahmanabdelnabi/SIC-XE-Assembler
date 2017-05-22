@@ -5,7 +5,7 @@ Blocks
     <default>   00000  00034    15    4    3
 Symbols
     name                hex       dec  scope     kind      description
-    ADDR             000031        49  exported  relative  label
+    ADDR1            000031        49  exported  relative  label
     ADDR2            000032        50  exported  relative  label
     ADDR3            000033        51  exported  relative  label
     GETPAIR          000000         0  imported  relative  
@@ -40,21 +40,20 @@ Relocations
     address length flag symbol
     00004        5  +    READ
 ***** Section READ *****
-Stats: size=53  blocks=53  symbols=6  literals=1  relocations=1
+Stats: size=51  blocks=51  symbols=6  literals=0  relocations=1
 Blocks
     name        start   size  #ins #dir #sto
-    <default>   00000  00035    17    3    0
+    <default>   00000  00033    17    3    0
 Symbols
     name                hex       dec  scope     kind      description
-    *0               000032        50  local     relative  label
-    ADDR             000000         0  imported  relative  
+    ADDR1            000000         0  imported  relative  
     EOFCK            000020        32  local     relative  label
     EXIT             00002C        44  local     relative  label
     GOBACK           00001D        29  local     relative  label
+    INDEV            000032        50  local     relative  label
     READ             000000         0  exported  relative  label
 Literals
     label   definition
-    *0      WORD X'F1'
 Relocations
     address length flag symbol
-    0002F        5  +    ADDR
+    0002F        5  +    ADDR1
