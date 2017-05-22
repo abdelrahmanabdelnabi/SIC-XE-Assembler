@@ -1,8 +1,0 @@
-2017/05/03_14/24        File path set successfully
-2017/05/03_14/24        Start File Parsing
-2017/05/03_14/24        Parsing Completed Successfully
-2017/05/03_14/24        Start Pass One
-2017/05/03_14/24        End Pass One
-2017/05/03_14/24        Start Pass Two
-2017/05/03_14/24        error in assembling line 25 in the OPERAND part: Operand format is invalid
-2017/05/03_14/24        1 Errors Found, TERMINATED

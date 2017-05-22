@@ -51,6 +51,3 @@ EOFCK    COMP   #33
 EXIT     CLEAR  L 
          +J     ADDR      
          END    MAIN
-   
-         
-                  
