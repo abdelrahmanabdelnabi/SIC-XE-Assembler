@@ -52,7 +52,6 @@ class PassTwo {
 
     void execute() throws AssemblerException {
         Logger.Log("Start Pass Two");
-        int index = 0;
         for (Instruction inst : instructions) {
             ObjectBuilder format2 = new Format_2();
             ObjectBuilder format3 = new Format_3();
@@ -153,12 +152,13 @@ class PassTwo {
                         fillLiteralPool(inst.getAddress());
                         break;
                     case "END":
-                        // get address of previous instruction
+                        flushLiteralTable();
+                        break;
+                    case "CEND":
                         flushLiteralTable();
                         break;
                 }
             }
-            index++;
         }
         Logger.Log("End pass two successfully");
     }
@@ -201,7 +201,7 @@ class PassTwo {
         // note also that this does NOT allow spaces in the operand
         boolean validLiteral = operand.startsWith("=");//operand.matches("=X'[A-F0-9]+'|=C'[a-zA-Z0-9]+'");
         boolean validOperand =
-                operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)|X'[0-9A-F]+'))|" +
+                operand.matches("([#@]?([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+)))|" +
                         "(([a-zA-Z][a-zA-Z0-9]*|-?([0-9]+|(0x)?-?[0-9A-F]+))(,X)?)");
 
         boolean validFormat = validLiteral || validOperand;
@@ -222,7 +222,7 @@ class PassTwo {
         String rawOperand = getRawOperand(operand);
 
         boolean isDecimal = rawOperand.matches("-?[0-9]+");
-        boolean isHexaDecimal = rawOperand.matches("(0x-?[0-9A-F]+)|(X'[0-9A-F]+')");
+        boolean isHexaDecimal = rawOperand.matches("(0x-?[0-9A-F]+)");
 
         int displacement = 0;
 
@@ -241,9 +241,7 @@ class PassTwo {
                 value = Integer.parseInt(rawOperand);
             } else // hexadecimal
             {
-                String hexaNumber = rawOperand.replace("X", "");
-                hexaNumber = hexaNumber.replaceAll("'", "");
-                hexaNumber = hexaNumber.replace("0x", "");
+                String hexaNumber = rawOperand.replace("0x", "");
                 value = Integer.parseInt(hexaNumber, 16);
             }
 
