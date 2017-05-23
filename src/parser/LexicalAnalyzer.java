@@ -133,7 +133,7 @@ public class LexicalAnalyzer {
                     break;
 
                 case "EQU":
-                    if (!Pattern.matches("(((([A-Za-z][A-Za-z0-9]+)|([A-Za-z]))([+]|[-])?)|(([0-9]+)([+]|[-]|)))+", operand)) {
+                    if (!Pattern.matches("((([A-Za-z][A-Za-z0-9]+)|([A-Za-z])|([0-9]+)|([*]))([+]|[-])?)+", operand)) {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EQU Operand");
                         Logger.LogError(errorStr);
                     }
