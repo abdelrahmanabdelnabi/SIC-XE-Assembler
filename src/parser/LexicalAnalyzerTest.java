@@ -34,37 +34,37 @@ public class LexicalAnalyzerTest {
 
     @Test
     public void setTest_Control_Section() {
-        code = loadFile(test_Control_Section);
+        code = loadfile(test_Control_Section);
         runTest(code);
     }
 
     @Test
     public void setTest_Control_Section_Error() {
-        code = loadFile(test_Control_Section_Error);
+        code = loadfile(test_Control_Section_Error);
         runTest(code);
     }
 
     @Test
     public void setTest_equ() {
-        code = loadFile(test_equ);
+        code = loadfile(test_equ);
         runTest(code);
     }
 
     @Test
     public void setTest_equ_bonus() {
-        code = loadFile(test_equ_bonus);
+        code = loadfile(test_equ_bonus);
         runTest(code);
     }
 
     @Test
     public void setTest_equ_error() {
-        code = loadFile(test_equ_error);
+        code = loadfile(test_equ_error);
         runTest(code);
     }
 
     @Test
     public void setCodeTest() {
-        code = loadFile(testFilePath);
+        code = loadfile(testFilePath);
         runTest(code);
     }
 
@@ -80,7 +80,7 @@ public class LexicalAnalyzerTest {
         writer.writeToFile(Logger.getLogString());
     }
 
-    private String loadFile(String filePath) {
+    private String loadfile(String filePath) {
         String result = "";
         try {
             File file = new File(filePath);
