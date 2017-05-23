@@ -39,8 +39,9 @@ public class Logger {
         return errorsCnt;
     }
 
-    public static void clearLogString() {
+    public static void reset() {
         logString = new StringBuilder();
+        errorsCnt = 0;
     }
 
     // console logging

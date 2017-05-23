@@ -7,7 +7,7 @@ public enum OperandType {
     REGISTER, NONE, VALUE, INVALID;
 
     public enum VALUE {
-        LABEL, DATA, NUM
+        LABEL, DATA, NUM, EXPRESSION, LOCCTR
     }
 }
 
