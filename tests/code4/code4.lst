@@ -1,0 +1,55 @@
+                  . changed: device number 05 to 01
+00000            COPY    START   0    
+00000  17202D    FIRST   STL     RETADR    
+00003  69202D            LDB     #LENGTH    
+00003                    BASE    LENGTH    
+00006  4B101036  CLOOP  +JSUB    RDREC    
+0000A  032026            LDA     LENGTH    
+0000D  290000            COMP    #0    
+00010  332007            JEQ     ENDFIL    
+00013  4B10105F         +JSUB    WRREC    
+00017  3F2FEC            J       CLOOP    
+0001A  032010    ENDFIL  LDA     *0 (WORD C'EOF')    
+0001D  0F2016            STA     BUFFER    
+00020  010003            LDA     #3    
+00023  0F200D            STA     LENGTH    
+00026  4B10105F         +JSUB    WRREC    
+0002A  3E2003            J       @RETADR    
+0002D                    LTORG       
+0002D  454F46    *0      WORD    C'EOF'    
+00030  000000    RETADR  RESW    1    
+00033  000000    LENGTH  RESW    1    
+00036  00....00  BUFFER  RESB    4096    
+                  
+                  . Subroutine to read record into buffer
+                  
+01036  B410      RDREC   CLEAR   X    
+01038  B400              CLEAR   A    
+0103A  B440              CLEAR   S    
+0103C  7510105C         +LDT     #MAXLEN    
+01040  E32035    RLOOP   TD      *1 (WORD X'F1')    
+01043  332FFA            JEQ     RLOOP    
+01046  DB202F            RD      *1 (WORD X'F1')    
+01049  A004              COMPR   A,S    
+0104B  332008            JEQ     EXIT    
+0104E  57C003            STCH    BUFFER,X    
+01051  B850              TIXR    T    
+01053  3B2FEA            JLT     RLOOP    
+01056  134000    EXIT    STX     LENGTH    
+01059  4F0000            RSUB        
+0105C  000000    MAXLEN  RESW    1    
+                  
+                  . Subroutine to write record from buffer
+                  
+0105F  B410      WRREC   CLEAR   X    
+01061  774000            LDT     LENGTH    
+01064  E32014    WLOOP   TD      *2 (WORD X'01')    
+01067  332FFA            JEQ     WLOOP    
+0106A  53C003            LDCH    BUFFER,X    
+0106D  DF200B            WD      *2 (WORD X'01')    
+01070  B850              TIXR    T    
+01072  3B2FEF            JLT     WLOOP    
+01075  4F0000            RSUB        
+01078  F10000    *1      WORD    X'F1'    
+0107B  010000    *2      WORD    X'01'    
+0107E                    END     FIRST    

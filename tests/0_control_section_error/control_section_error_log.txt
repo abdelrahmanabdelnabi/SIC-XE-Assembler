@@ -1,0 +1,3 @@
+2017/05/23_05/20        Start File Parsing
+2017/05/23_05/20        Parsing Completed Successfully
+2017/05/23_05/20        0 Errors Found, TERMINATED
