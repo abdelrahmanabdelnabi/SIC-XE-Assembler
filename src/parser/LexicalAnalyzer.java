@@ -55,6 +55,8 @@ public class LexicalAnalyzer {
                 errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid 1st Operand");
                 Logger.LogError(errorStr);
             }
+            //
+            inst.setOperandType(actual1stOperand);
 
             // Validate 2nd operand if it exists
             OperandType expected2ndOperand = getSecondOperandType(mnemonic);
@@ -110,6 +112,7 @@ public class LexicalAnalyzer {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid BYTE Operand");
                         Logger.LogError(errorStr);
                     }
+                    inst.setValueType(NUM);
                     break;
 
                 case "END":
@@ -122,6 +125,8 @@ public class LexicalAnalyzer {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EXTREF/EXTDEF Operand");
                         Logger.LogError(errorStr);
                     }
+                    inst.setOperandType(VALUE);
+                    inst.setValueType(LABEL);
                     break;
 
                 // TODO Implement org,equ,csect
@@ -130,10 +135,12 @@ public class LexicalAnalyzer {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid ORG Operand");
                         Logger.LogError(errorStr);
                     }
+                    inst.setOperandType(VALUE);
+                    inst.setValueType(NUM);
                     break;
 
                 case "EQU":
-                    if (!Pattern.matches("((([A-Za-z][A-Za-z0-9]+)|([A-Za-z])|([0-9]+)|([*]))([+]|[-])?)+", operand)) {
+                    if (analyzeEQUOperand(inst) == null) {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EQU Operand");
                         Logger.LogError(errorStr);
                     }
@@ -144,6 +151,7 @@ public class LexicalAnalyzer {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "CSECT has no Operand");
                         Logger.LogError(errorStr);
                     }
+                    inst.setOperandType(NONE);
                     break;
 
                 default:
@@ -190,6 +198,39 @@ public class LexicalAnalyzer {
         if (Pattern.matches("A|X|L|B|S|T|F|PC|SW", rawOperand))
             return REGISTER;
 
+        Logger.Log(buildErrorString(inst.getLineNumber(), OPERAND, "Invalid Operand"));
         return INVALID;
+    }
+
+    private VALUE analyzeEQUOperand(Instruction inst) {
+        String operand = inst.getOperand();
+        inst.setOperandType(VALUE);
+
+        // loc
+        if (Pattern.matches("[*]", operand)) {
+            inst.setValueType(LOCCTR);
+            return LOCCTR;
+        }
+
+        // num
+        if (Pattern.matches("(0x)?[0-9]+", operand)) {
+            inst.setValueType(NUM);
+            return NUM;
+        }
+
+        // single label
+        if (Pattern.matches("[A-Za-z][A-Za-z0-9]*", operand)) {
+            inst.setValueType(LABEL);
+            return LABEL;
+        }
+
+        // expression
+        if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|))|(([0-9]+)([+]|[-]|)))+", operand)
+                && !operand.endsWith("+") && !operand.endsWith("-")) {
+            inst.setValueType(EXPRESSION);
+            return EXPRESSION;
+        }
+
+        return null;
     }
 }
