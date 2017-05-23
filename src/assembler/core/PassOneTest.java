@@ -3,8 +3,8 @@ package src.assembler.core;
 import org.junit.Assert;
 import org.junit.Test;
 import src.assembler.Instruction;
-import src.assembler.SymbolProperties;
 import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.SymbolProp;
 import src.parser.InputReader;
 import src.parser.Parser;
 
@@ -49,26 +49,25 @@ public class PassOneTest {
         correctOutput.get(4).setAddress(10);
 
         assertEquals("Incorrect number of output instructions", correctOutput.size(),
-                actualOutput.size
-                        ());
+                actualOutput.size());
 
         for (int i = 0; i < correctOutput.size(); i++) {
             assertEquals(correctOutput.get(i).getAddress(), actualOutput.get(i).getAddress());
         }
 
-        for (String s : assembler.getSymbolTable().keySet())
+        for (String s : passOne.getSymbolTable().keySet())
             System.out.println(s);
 
-        assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, assembler
+        assertEquals("Symbol Table doesn't contain the correct number of symbols", 4, passOne
                 .getSymbolTable().size());
 
-        Assert.assertEquals(assembler.getSymbolTable().get("COPY").getAddress(), new SymbolProperties
+        Assert.assertEquals(passOne.getSymbolTable().get("COPY").getAddress(), new SymbolProp
                 (0).getAddress());
-        assertEquals(assembler.getSymbolTable().get("FIRST").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("FIRST").getAddress(), new SymbolProp
                 (0).getAddress());
-        assertEquals(assembler.getSymbolTable().get("CLOOP").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("CLOOP").getAddress(), new SymbolProp
                 (3).getAddress());
-        assertEquals(assembler.getSymbolTable().get("RETADR").getAddress(), new SymbolProperties
+        assertEquals(passOne.getSymbolTable().get("RETADR").getAddress(), new SymbolProp
                 (10).getAddress());
 
     }

@@ -1,5 +1,9 @@
 package src.assembler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -37,17 +41,19 @@ public class Common {
      */
     public static int parseDataOperand(String operand) {
         String obj = "";
-        switch (operand.charAt(0)) {
-            case 'X':
-                obj = operand.substring(1).replace("'", "");
-                break;
-            case 'C':
-                for (int i = 2; i < operand.length() - 1; i++) {
-                    obj += Integer.toHexString(operand.charAt(i));
-                }
-        }
+        if (operand.startsWith("X"))
+            obj = operand.substring(1).replace("'", "");
+
+        else if (operand.startsWith("C"))
+            for (int i = 2; i < operand.length() - 1; i++)
+                obj += Integer.toHexString(operand.charAt(i));
+
+        else if (Pattern.matches("0x[0-9A-F]+", operand))
+            obj = operand.substring(2);
+
         return Integer.parseInt(obj, 16);
     }
+
 
     /**
      * @param operand "crude"
@@ -60,5 +66,27 @@ public class Common {
                 replace("@", "").
                 replace("#", "").
                 replace("=", "");
+    }
+
+    /**
+     * @param filePath String
+     * @return file content as a string
+     */
+    public static String fileToString(String filePath) {
+        String result = "";
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+
+            result = new String(data, "UTF-8");
+        } catch (FileNotFoundException e) {
+            System.err.println("Can not find file: " + (filePath));
+        } catch (IOException e) {
+            System.err.println("Can not read file: " + filePath);
+        }
+        return result;
     }
 }

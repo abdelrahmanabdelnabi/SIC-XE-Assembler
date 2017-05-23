@@ -8,8 +8,8 @@ import static src.assembler.datastructures.OperandType.*;
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
-    private static Map<String, InstProp> opCodeTable = new HashMap<>();
-    private static Set<String> assemblerDirectives = new HashSet<>();
+    private static final Map<String, InstProp> opCodeTable = new HashMap<>();
+    private static final Set<String> assemblerDirectives = new HashSet<>();
     private static String programName = "";
     private static int startAddress = 0;
     private static int programLength;
@@ -44,13 +44,13 @@ public class OpcodeTable {
         return opCodeTable.get(mnemonic).getOpCode();
     }
 
-    public static Format getFormat(String instruction) {
-        return opCodeTable.get(instruction).getFormat();
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public static Format getFormat(String instruction) {
+//        return opCodeTable.get(instruction).getFormat();
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 
     private static void fillOpcodeTable() {
-        // TODO: to be reviewed
-
         //FORMAT 1
         opCodeTable.put("FIX", new InstProp(196, Format.FORMAT1, NONE, NONE));
         opCodeTable.put("FLOAT", new InstProp(192, Format.FORMAT1, NONE, NONE));
@@ -133,9 +133,14 @@ public class OpcodeTable {
         assemblerDirectives.add("BASE");
         assemblerDirectives.add("NOBASE");
         assemblerDirectives.add("END");
-        assemblerDirectives.add("ORG");
         assemblerDirectives.add("LTORG");
-        // TODO : Add them all
+        // Phase 2
+        assemblerDirectives.add("EXTREF");
+        assemblerDirectives.add("EXTDEF");
+        assemblerDirectives.add("ORG");
+        assemblerDirectives.add("EQU");
+        // ??
+        assemblerDirectives.add("CSECT");
     }
 
     public static String getProgramName() {

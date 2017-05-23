@@ -28,4 +28,4 @@ a       LDA		@a
 b       BYTE    C'FOO'
 
 . careful: start address may be too large
-		LDA		@first
+.		LDA		@first

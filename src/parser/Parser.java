@@ -19,8 +19,8 @@ import static src.assembler.datastructures.OpcodeTable.isMnemonic;
  * does not know the details of the src.assembler or instructions
  */
 public class Parser {
-    private ArrayList<Instruction> parsedInstructions;
-    private InputReader reader;
+    private final ArrayList<Instruction> parsedInstructions;
+    private final InputReader reader;
 
     public Parser(InputReader reader) {
         this.reader = reader;
@@ -47,6 +47,8 @@ public class Parser {
             while ((newLine = reader.getLine()) != null) {
                 lineNumber++;
                 // Replace all whitespaces/tabs/spaces with a single space
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
+                newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
                 newLine = newLine.trim().replaceAll("^ +| +$|( )+|\t+", " ");
                 // check if comment line , continue
                 if (newLine.length() == 0 || newLine.charAt(0) == '.') continue;
@@ -83,21 +85,16 @@ public class Parser {
                  * Error !
                  */
                 else {
-                    // TODO: print a more descriptive error message (ex: unknown mnemonic /
-                    // TODO: unexpected token ...
-                    // TODO : THIS IS DESCRIPTIVE ENOUGH FOR A PARSER
                     Logger.LogError("Line " + lineNumber + " ( " + newLine + " )" + " is Not a " +
                             "valid SIC(/XE) instruction !");
                     throw new ParsingException("Unrecognized line format " + "( " + newLine + " )",
                             lineNumber);
                 }
-
-
             }
             Logger.Log("Parsing Completed Successfully");
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.Log("Parsing Failed");
+            Logger.LogError("Parsing Failed");
         }
     }
 

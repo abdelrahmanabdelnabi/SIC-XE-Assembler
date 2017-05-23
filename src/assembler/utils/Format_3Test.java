@@ -3,14 +3,14 @@ package src.assembler.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abdelrahman on 4/25/17.
  */
 public class Format_3Test {
+    private final int LDA = 0;
     private ObjectBuilder builder;
-    private int LDA = 0;
 
     @Before
     public void setUp() throws Exception {

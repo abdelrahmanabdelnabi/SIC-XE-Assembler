@@ -3,7 +3,7 @@ package src.filewriter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class Writer {
@@ -31,7 +31,9 @@ public class Writer {
         this.fileName = fileName;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+// --Commented out by Inspection START (5/1/17 3:49 AM):
+//    public void setPath(String path) {
+//        this.path = path;
+//    }
+// --Commented out by Inspection STOP (5/1/17 3:49 AM)
 }

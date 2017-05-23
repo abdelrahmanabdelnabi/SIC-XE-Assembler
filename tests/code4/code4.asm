@@ -15,6 +15,7 @@ ENDFIL  LDA    =C'EOF'
         STA     LENGTH
        +JSUB    WRREC
         J      @RETADR
+        LTORG
 RETADR  RESW    1
 LENGTH  RESW    1
 BUFFER  RESB    4096

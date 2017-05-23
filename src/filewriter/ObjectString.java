@@ -1,28 +1,36 @@
 package src.filewriter;
 
 import src.assembler.Instruction;
+import src.assembler.datastructures.LiteralProp;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static src.assembler.Common.extendToLength;
+import static src.assembler.datastructures.Format.FORMAT4;
 import static src.assembler.datastructures.OpcodeTable.*;
+import static src.assembler.datastructures.OperandType.VALUE.NUM;
 
-/**
+/*
  * Created by ahmed on 4/19/17.
  */
 public class ObjectString implements StringGenerator {
-    private List<Instruction> instructions;
-    private StringBuilder objectCode;
+    private final List<Instruction> instructions;
+    private final HashMap<String, LiteralProp> literalsTable;
+    private final StringBuilder objectCode;
+    private final StringBuilder Mrecords;
 
-    public ObjectString(List<Instruction> instructions) {
+    public ObjectString(List<Instruction> instructions, HashMap<String, LiteralProp> literalsTable) {
         this.instructions = instructions;
+        this.literalsTable = literalsTable;
         objectCode = new StringBuilder();
+        Mrecords = new StringBuilder();
     }
 
     public String toString() {
         form_H();
         form_T();
-        form_M();
         form_E();
         return objectCode.toString();
     }
@@ -31,30 +39,58 @@ public class ObjectString implements StringGenerator {
     private void form_H() {
         // H RECORD
         objectCode.append("H");
-        objectCode.append(getProgramName()).append(" ");
-        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()), 6));
-        objectCode.append(extendToLength(Integer.toHexString(getProgramLength()), 6));
+        objectCode.append(String.format("%-6s", getProgramName()));
+        objectCode.append(extendToLength(Integer.toHexString(getStartAddress()).toUpperCase(), 6));
+        objectCode.append(extendToLength(Integer.toHexString(getProgramLength()).toUpperCase(), 6));
         objectCode.append("\n");
         // END OF H RECORD
     }
 
     private void form_T() {
         // T RECORD
+        int expectedAddress = 0;
         StringBuilder T = new StringBuilder();
         int startAddress = instructions.get(0).getAddress();
         boolean addressFlag = false;
         // Loop all the instructions
-        for (Instruction inst : instructions) {
+        for (int i = 0; i < instructions.size(); i++) {
+
+            Instruction inst = instructions.get(i);
+            expectedAddress = inst.getAddress();
 
             // If found multiple data-storage then continue;
-            if (addressFlag && !inst.getHasObject()) continue;
+            if (addressFlag && inst.getHasObject() && !inst.getMnemonic().equals("END")) continue;
 
             if (addressFlag) {
                 addressFlag = false;
                 startAddress = inst.getAddress();
             }
 
-            if (!inst.getHasObject()) {
+            // Literals Insertion
+            if (inst.getMnemonic().equals("LTORG")) {
+                boolean found = true;
+                while (found) {
+                    found = false;
+                    for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
+                        if (literal.getValue().getAddress() == expectedAddress) {
+                            if (T.length() + literal.getValue().getObjectCode().length() <= 60) {
+                                T.append(literal.getValue().getObjectCode());
+                            } else {
+                                makeSingle_T(T, startAddress);
+                                // Create new T record
+                                T = new StringBuilder(literal.getValue().getObjectCode());
+                                startAddress = literal.getValue().getAddress();
+                            }
+                            found = true;
+                            // FIX AS ANY LITERAL NOW IS A WORD
+                            expectedAddress = expectedAddress + 3;
+//                        literalsTable.remove(literal.getKey());
+                        }
+                    }
+                }
+            }
+
+            if (inst.getHasObject()) {
                 String mnemonic = inst.getMnemonic();
                 // if RESW or RESB found close current T and open new one
                 if (mnemonic.equals("RESW") || mnemonic.equals("RESB")) {
@@ -76,9 +112,37 @@ public class ObjectString implements StringGenerator {
                 T = new StringBuilder(inst.getObjectCode());
                 startAddress = inst.getAddress();
             }
+
+            if (inst.getFormat() == FORMAT4 && inst.getValueType() != NUM)
+                form_M(inst);
         }
+
+        // append remaining literals
+        boolean found = true;
+        while (found) {
+            found = false;
+            for (Map.Entry<String, LiteralProp> literal : literalsTable.entrySet()) {
+                if (literal.getValue().getAddress() == expectedAddress) {
+                    if (T.length() + literal.getValue().getObjectCode().length() <= 60) {
+                        T.append(literal.getValue().getObjectCode());
+                    } else {
+                        makeSingle_T(T, startAddress);
+                        // Create new T record
+                        T = new StringBuilder(literal.getValue().getObjectCode());
+                        startAddress = literal.getValue().getAddress();
+                    }
+                    found = true;
+                    // FIX AS LITERAL IS A WORD
+                    expectedAddress = expectedAddress + 3;
+//                        literalsTable.remove(literal.getKey());
+                }
+            }
+        }
+
         // append remaining T
         makeSingle_T(T, startAddress);
+        objectCode.append(Mrecords.toString());
+
     }
 
 
@@ -93,8 +157,10 @@ public class ObjectString implements StringGenerator {
         objectCode.append(T.toString()).append("\n");
     }
 
-    private void form_M() {
-
+    private void form_M(Instruction inst) {
+        Mrecords.append("M");
+        Mrecords.append(extendToLength(Integer.toHexString(inst.getAddress() + 1), 6).toUpperCase());
+        Mrecords.append("05\n");
     }
 
     private void form_E() {

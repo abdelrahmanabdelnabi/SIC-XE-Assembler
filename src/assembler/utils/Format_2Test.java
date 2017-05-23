@@ -2,17 +2,15 @@ package src.assembler.utils;
 
 import org.junit.Before;
 import org.junit.Test;
-import src.assembler.datastructures.OpcodeTable;
-import src.assembler.datastructures.RegisterTable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abdelrahman on 4/24/17.
  */
 public class Format_2Test {
     private ObjectBuilder format2Builder;
-    
+
     @Before
     public void setUp() throws Exception {
         format2Builder = new Format_2();
@@ -55,7 +53,7 @@ public class Format_2Test {
     }
 
 // Exception Tests
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void setIndirect() throws Exception {
         format2Builder.setIndirect(true);
@@ -80,5 +78,5 @@ public class Format_2Test {
     public void setPCRelative() throws Exception {
         format2Builder.setPCRelative(true);
     }
-    
+
 }

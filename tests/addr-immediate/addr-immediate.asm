@@ -40,4 +40,4 @@ b       BYTE    C'FOO'
 
 . careful: start address may be too large
 .direct: pc-rel fail, base-rel fail
-		LDA		#first
+.		LDA		#first

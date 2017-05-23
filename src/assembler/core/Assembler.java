@@ -1,7 +1,7 @@
 package src.assembler.core;
 
 import src.assembler.Instruction;
-import src.assembler.SymbolProperties;
+import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.LiteralProp;
 import src.filewriter.ObjectString;
 
@@ -14,14 +14,13 @@ import java.util.List;
 
 public class Assembler {
     // Instructions
-    private List<Instruction> inputInstructions;
+    private final List<Instruction> inputInstructions;
     private PassOne passOne;
     private PassTwo passTwo;
     private ObjectString objectCodeGenerator;
 
     public Assembler(List<Instruction> inputInstructions) {
         this.inputInstructions = inputInstructions;
-        this.objectCodeGenerator = new ObjectString(inputInstructions);
     }
 
     public void executePassOne() throws AssemblerException {
@@ -32,13 +31,20 @@ public class Assembler {
     public void executePassTwo() throws AssemblerException {
         passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable(), passOne.getLiteralTable());
         passTwo.execute();
+        // Bug fix , literals at start is null
+        // moved this from constructor
+        this.objectCodeGenerator = new ObjectString(inputInstructions, getLiteralsTable());
     }
 
     public String getObjectCode() {
         return objectCodeGenerator.toString();
     }
 
-    public HashMap<String, SymbolProperties> getSymbolTable() {
+    public String getObjectCode2() {
+        return passTwo.getObjectCode();
+    }
+
+    public HashMap<String, SymbolProp> getSymbolTable() {
         return passOne.getSymbolTable();
     }
 

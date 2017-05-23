@@ -3,13 +3,10 @@ package src.assembler.core;
 import src.assembler.ErrorStrings;
 import src.assembler.Instruction;
 import src.assembler.Logger;
-import src.assembler.SymbolProperties;
+import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static src.assembler.Common.buildErrorString;
 import static src.assembler.InstructionPart.*;
@@ -18,18 +15,20 @@ import static src.assembler.datastructures.OpcodeTable.*;
 /*
  * Created by ahmed on 4/21/17.
  */
-public class PassOne {
+class PassOne {
+    private final LocationCounter loc = new LocationCounter();
+    private final HashMap<String, SymbolProp> symbolTable;
+    private final Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
+    private final Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
+    private final HashMap<String, LiteralProp> literalTable;
     private List<Instruction> instructions;
-    private LocationCounter loc = new LocationCounter();
-    private HashMap<String, SymbolProperties> symbolTable;
-    private Map<String, InstProp> OPTAB = OpcodeTable.getOpcodeTable();
-    private Set<String> directives = OpcodeTable.getAssemblerDirectivesSet();
-    private HashMap<String, LiteralProp> literalTable;
+    private int literalCount = 1;
+    private int builtLiterals = 1;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
         symbolTable = new HashMap<>();
-        literalTable = new HashMap<>();
+        literalTable = new LinkedHashMap<>();
     }
 
 
@@ -73,7 +72,7 @@ public class PassOne {
         if (operand.startsWith("=")) {
             if (isDuplicateLiteral(operand))
                 return;
-            literalTable.put(operand, new LiteralProp(operand));
+            literalTable.put(operand, new LiteralProp(operand, literalCount++));
         }
 
     }
@@ -112,7 +111,7 @@ public class PassOne {
 
             // if program has a name, then put it in the symbol table
             if (!inst.getLabel().isEmpty())
-                symbolTable.put(inst.getLabel(), new SymbolProperties(startAddress));
+                symbolTable.put(inst.getLabel(), new SymbolProp(startAddress));
             setProgramName(inst.getLabel());
             setStartAddress(loc.getCurrentCounterValue());
         }
@@ -130,11 +129,11 @@ public class PassOne {
                 String error = buildErrorString(inst.getLineNumber(),
                         LABEL, ErrorStrings.LABEL_REDEFINITION);
                 // log error in log file
-                Logger.Log(error);
+                Logger.LogError(error);
                 throw new AssemblerException(error);
             } else {
                 // insert label in symbol table
-                symbolTable.put(label, new SymbolProperties(loc.getCurrentCounterValue()));
+                symbolTable.put(label, new SymbolProp(loc.getCurrentCounterValue()));
             }
         }
     }
@@ -223,11 +222,19 @@ public class PassOne {
 
     private void buildLiterals() {
         // For all literals
-        for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
-            // If Not Built !, then build it and increment loc
-            if (!literal.getValue().isBuilt()) {
-                literal.getValue().buildLiteral(loc.getCurrentCounterValue());
-                loc.increment(literal.getValue().getLength());
+        boolean flag = true;
+        while (flag) {
+            flag = false;
+            for (Map.Entry<String, LiteralProp> literal : literalTable.entrySet()) {
+                // If Not Built !, then build it and increment loc
+                if (!literal.getValue().isBuilt() && literal.getValue().getLiteralNumber() == builtLiterals) {
+                    builtLiterals++;
+                    flag = true;
+                    literal.getValue().buildLiteral(loc.getCurrentCounterValue());
+                    // FIX
+                    // Always Handle Literals as Word
+                    loc.increment(3);
+                }
             }
         }
     }
@@ -239,7 +246,7 @@ public class PassOne {
             case 'X':
                 return (operand.length() - 2) / 2;
             default:
-                Logger.Log("Unknown byte directive type !" + operand);
+                Logger.LogError("Unknown byte directive type !" + operand);
         }
         return 0;
     }
@@ -248,11 +255,11 @@ public class PassOne {
         return instructions;
     }
 
-    public HashMap<String, SymbolProperties> getSymbolTable() {
+    HashMap<String, SymbolProp> getSymbolTable() {
         return symbolTable;
     }
 
-    public HashMap<String, LiteralProp> getLiteralTable() {
+    HashMap<String, LiteralProp> getLiteralTable() {
         return literalTable;
     }
 }

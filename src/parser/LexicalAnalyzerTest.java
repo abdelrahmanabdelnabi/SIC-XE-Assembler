@@ -5,10 +5,7 @@ import org.junit.Test;
 import src.assembler.Logger;
 import src.filewriter.Writer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import static src.parser.InputReader.InputType.File;
 
 
 /*
