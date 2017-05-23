@@ -1,11 +1,3 @@
-2017/05/23_02/08        Start File Parsing
-2017/05/23_02/08        Line 2 ( EXTDEF INDEV ) is Not a valid SIC(/XE) instruction !
-2017/05/23_02/08        Start File Parsing
-2017/05/23_02/08        Line 9 ( BEGIN EQU * ) is Not a valid SIC(/XE) instruction !
-2017/05/23_02/08        Start File Parsing
-2017/05/23_02/08        Line 9 ( BEGIN EQU FIRST+LOOP ) is Not a valid SIC(/XE) instruction !
-2017/05/23_02/08        Start File Parsing
-2017/05/23_02/08        Line 7 ( BEGIN EQU FIRST-SECOND+LOOP ) is Not a valid SIC(/XE) instruction !
-2017/05/23_02/08        Start File Parsing
-2017/05/23_02/08        Parsing Completed Successfully
-2017/05/23_02/09        4 Errors Found, TERMINATED
+2017/05/23_04/37        Start File Parsing
+2017/05/23_04/37        Parsing Completed Successfully
+2017/05/23_04/37        0 Errors Found, TERMINATED
