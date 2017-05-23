@@ -5,7 +5,7 @@ import org.junit.Test;
 import src.assembler.Logger;
 import src.filewriter.Writer;
 
-import static src.parser.InputReader.InputType.File;
+import static src.assembler.Common.fileToString;
 
 
 /*
@@ -14,12 +14,13 @@ import static src.parser.InputReader.InputType.File;
 public class LexicalAnalyzerTest {
     private String code = "";
     private String relativePath = System.getProperty("user.dir");
-    private String test_Control_Section = "tests/0_control_section/control_section.asm";
-    private String test_Control_Section_Error = "tests/0_control_section_error/control_section_error.asm";
-    private String test_equ = "tests/0_equ/equ.asm";
-    private String test_equ_bonus = "tests/0_equ_bonus/equ_bouns.asm";
-    private String test_equ_error = "tests/0_equ_error/equ_error.asm";
-    private String testFilePath = "/tests/format4/format4.asm";
+    private String test_Control_Section = relativePath + "/tests/0_control_section/control_section.asm";
+    private String test_Control_Section_Error = relativePath + "/tests/0_control_section_error/control_section_error.asm";
+    private String test_equ = relativePath + "/tests/0_equ/equ.asm";
+    private String test_equ_bonus = relativePath + "/tests/0_equ_bonus/equ_bouns.asm";
+    private String test_equ_error = relativePath + "/tests/0_equ_error/equ_error.asm";
+    private String testGeneralFile = relativePath + "path to some random shit";
+    private String testFilePath = "";// relativePath + "/tests/format4/format4.asm";
     private Parser parser;
     private InputReader inputReader;
 
@@ -31,66 +32,57 @@ public class LexicalAnalyzerTest {
 
     @Test
     public void setTest_Control_Section() {
-        code = loadfile(test_Control_Section);
+        code = fileToString(test_Control_Section);
+        testFilePath = test_Control_Section;
         runTest(code);
     }
 
     @Test
     public void setTest_Control_Section_Error() {
-        code = loadfile(test_Control_Section_Error);
+        code = fileToString(test_Control_Section_Error);
+        testFilePath = test_Control_Section_Error;
         runTest(code);
     }
 
     @Test
     public void setTest_equ() {
-        code = loadfile(test_equ);
+        code = fileToString(test_equ);
+        testFilePath = test_equ;
         runTest(code);
     }
 
     @Test
     public void setTest_equ_bonus() {
-        code = loadfile(test_equ_bonus);
+        code = fileToString(test_equ_bonus);
+        testFilePath = test_equ_bonus;
         runTest(code);
     }
 
     @Test
     public void setTest_equ_error() {
-        code = loadfile(test_equ_error);
+        code = fileToString(test_equ_error);
+        testFilePath = test_equ_error;
         runTest(code);
     }
 
-    @Test
-    public void setCodeTest() {
-        code = loadfile(testFilePath);
-        runTest(code);
-    }
+//    @Test
+//    public void setTestGeneralFile() {
+//        code = fileToString(testGeneralFile);
+//        runTest(code);
+//    }
 
-    public void runTest(String code) {
+    private void runTest(String code) {
+        Logger.clearLogString();
+
         inputReader.setInputString(code);
         parser.parse();
 
         LexicalAnalyzer analyser = new LexicalAnalyzer(parser.getParsedInstuctions());
         analyser.inspectCode();
 
-        Writer writer = new Writer(relativePath);
+        Writer writer = new Writer("");
         writer.setFileName(testFilePath.replace(".asm", "_log.txt"));
         writer.writeToFile(Logger.getLogString());
     }
 
-    private String loadfile(String filePath) {
-        String result = "";
-        try {
-            File file = new File(filePath);
-            FileInputStream fis = new FileInputStream(file);
-            byte[] data = new byte[(int) file.length()];
-            fis.read(data);
-            fis.close();
-            result = new String(data, "UTF-8");
-        } catch (FileNotFoundException e) {
-            System.err.println("Can not find file: " + (filePath));
-        } catch (IOException e) {
-            System.err.println("Can not read file: " + filePath);
-        }
-        return result;
-    }
 }

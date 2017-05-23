@@ -78,36 +78,76 @@ public class LexicalAnalyzer {
             switch (mnemonic) {
                 case "RESW":
                     if (!Pattern.matches("[0-9]+", operand)) {
-                        errorStr = buildErrorString(inst.getLineNumber(),
-                                OPERAND, "Invalid RESW Operand");
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid RESW Operand");
                         Logger.LogError(errorStr);
                     }
                     inst.setValueType(NUM);
                     break;
                 case "RESB":
                     if (!Pattern.matches("[0-9]+", operand)) {
-                        errorStr = buildErrorString(inst.getLineNumber(),
-                                OPERAND, "Invalid RESB Operand");
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid RESB Operand");
                         Logger.LogError(errorStr);
                     }
                     inst.setValueType(NUM);
                     break;
                 case "WORD":
                     if (!Pattern.matches("0x[0-9A-F]{1,6}|X'[0-9]{1,6}'|C'[a-zA-Z0-9]{1,3}'", operand)) {
-                        errorStr = buildErrorString(inst.getLineNumber(),
-                                OPERAND, "Invalid WORD Operand");
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid WORD Operand");
                         Logger.LogError(errorStr);
                     }
                     inst.setValueType(DATA);
                     break;
                 case "BYTE"://
                     if (!Pattern.matches("X'[0-9A-F]+'|C'[a-zA-Z0-9]+'", operand)) {
-                        errorStr = buildErrorString(inst.getLineNumber(),
-                                OPERAND, "Invalid BYTE Operand");
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid BYTE Operand");
                         Logger.LogError(errorStr);
                     }
                     inst.setValueType(NUM);
                     break;
+
+                case "START":
+                    if (!Pattern.matches("(0x)?[0-9]+", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid BYTE Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    break;
+
+                case "END":
+                    break;
+
+                case "EXTREF":
+                case "EXTDEF":
+                    if (!Pattern.matches("(([A-Za-z][a-z0-9A-Z]+|[A-Za-z])(,)?)+", operand)
+                            && !operand.endsWith(",")) {
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EXTREF/EXTDEF Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    break;
+
+                // TODO Implement org,equ,csect
+                case "ORG":
+                    if (!Pattern.matches("[0-9]+|", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid ORG Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    break;
+
+                case "EQU":
+                    if (!Pattern.matches("(((([A-Za-z][A-Za-z0-9]+)|([A-Za-z]))([+]|[-])?)|(([0-9]+)([+]|[-]|)))+", operand)) {
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EQU Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    break;
+
+                case "CSECT":
+                    if (operand.length() != 0) {
+                        errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "CSECT has no Operand");
+                        Logger.LogError(errorStr);
+                    }
+                    break;
+
+                default:
+                    Logger.Log(inst.getLineNumber() + "  -> Unhandled Directive: " + mnemonic);
             }
         } else {
             // if invalid mnemonic
