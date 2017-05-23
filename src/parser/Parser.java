@@ -4,8 +4,8 @@ package src.parser;
  * Created by abdelrahman on 3/22/17.
  */
 
-import src.assembler.Instruction;
-import src.assembler.Logger;
+import src.assembler.datastructures.Instruction;
+import src.misc.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;

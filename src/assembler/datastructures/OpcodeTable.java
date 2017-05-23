@@ -4,7 +4,7 @@ import java.util.*;
 
 import static src.assembler.datastructures.OperandType.*;
 
-/**
+/*
  * Created by abdelrahman on 4/7/17.
  */
 public class OpcodeTable {
@@ -44,11 +44,56 @@ public class OpcodeTable {
         return opCodeTable.get(mnemonic).getOpCode();
     }
 
-// --Commented out by Inspection START (5/1/17 3:49 AM):
-//    public static Format getFormat(String instruction) {
-//        return opCodeTable.get(instruction).getFormat();
-//    }
-// --Commented out by Inspection STOP (5/1/17 3:49 AM)
+    public static String getProgramName() {
+        return programName;
+    }
+
+    public static void setProgramName(String programName) {
+        OpcodeTable.programName = programName;
+    }
+
+    public static int getStartAddress() {
+        return startAddress;
+    }
+
+    public static void setStartAddress(int startAddress) {
+        OpcodeTable.startAddress = startAddress;
+    }
+
+    public static int getProgramLength() {
+        return programLength;
+    }
+
+    public static void setProgramLength(int programLength) {
+        OpcodeTable.programLength = programLength;
+    }
+
+    public static OperandType getFirstOperandType(String mnemonic) {
+        return opCodeTable.get(mnemonic).getFirstOperand();
+    }
+
+    public static OperandType getSecondOperandType(String mnemonic) {
+        return opCodeTable.get(mnemonic).getSecondOperand();
+    }
+
+    private static void fillAssemblerDirectives() {
+        assemblerDirectives.add("BYTE");
+        assemblerDirectives.add("RESB");
+        assemblerDirectives.add("WORD");
+        assemblerDirectives.add("RESW");
+        assemblerDirectives.add("START");
+        assemblerDirectives.add("BASE");
+        assemblerDirectives.add("NOBASE");
+        assemblerDirectives.add("END");
+        assemblerDirectives.add("LTORG");
+        // Phase 2
+        assemblerDirectives.add("EXTREF");
+        assemblerDirectives.add("EXTDEF");
+        assemblerDirectives.add("ORG");
+        assemblerDirectives.add("EQU");
+        // ??
+        assemblerDirectives.add("CSECT");
+    }
 
     private static void fillOpcodeTable() {
         //FORMAT 1
@@ -122,56 +167,5 @@ public class OpcodeTable {
         opCodeTable.put("STX", new InstProp(16, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("SUB", new InstProp(28, Format.FORMAT3, VALUE, NONE));
         opCodeTable.put("SUBF", new InstProp(92, Format.FORMAT3, VALUE, NONE));
-    }
-
-    private static void fillAssemblerDirectives() {
-        assemblerDirectives.add("BYTE");
-        assemblerDirectives.add("RESB");
-        assemblerDirectives.add("WORD");
-        assemblerDirectives.add("RESW");
-        assemblerDirectives.add("START");
-        assemblerDirectives.add("BASE");
-        assemblerDirectives.add("NOBASE");
-        assemblerDirectives.add("END");
-        assemblerDirectives.add("LTORG");
-        // Phase 2
-        assemblerDirectives.add("EXTREF");
-        assemblerDirectives.add("EXTDEF");
-        assemblerDirectives.add("ORG");
-        assemblerDirectives.add("EQU");
-        // ??
-        assemblerDirectives.add("CSECT");
-    }
-
-    public static String getProgramName() {
-        return programName;
-    }
-
-    public static void setProgramName(String programName) {
-        OpcodeTable.programName = programName;
-    }
-
-    public static int getStartAddress() {
-        return startAddress;
-    }
-
-    public static void setStartAddress(int startAddress) {
-        OpcodeTable.startAddress = startAddress;
-    }
-
-    public static int getProgramLength() {
-        return programLength;
-    }
-
-    public static void setProgramLength(int programLength) {
-        OpcodeTable.programLength = programLength;
-    }
-
-    public static OperandType getFirstOperandType(String mnemonic) {
-        return opCodeTable.get(mnemonic).getFirstOperand();
-    }
-
-    public static OperandType getSecondOperandType(String mnemonic) {
-        return opCodeTable.get(mnemonic).getSecondOperand();
     }
 }

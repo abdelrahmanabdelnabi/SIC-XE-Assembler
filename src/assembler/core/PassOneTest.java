@@ -2,7 +2,7 @@ package src.assembler.core;
 
 import org.junit.Assert;
 import org.junit.Test;
-import src.assembler.Instruction;
+import src.assembler.datastructures.Instruction;
 import src.assembler.datastructures.LiteralProp;
 import src.assembler.datastructures.SymbolProp;
 import src.parser.InputReader;

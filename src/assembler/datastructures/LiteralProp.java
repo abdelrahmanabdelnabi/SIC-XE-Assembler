@@ -1,6 +1,6 @@
 package src.assembler.datastructures;
 
-import static src.assembler.Common.parseDataOperand;
+import static src.misc.Common.parseDataOperand;
 
 /**
  * Created by ahmed on 4/26/17.

@@ -2,9 +2,9 @@ package src.parser;
 
 import org.junit.Before;
 import org.junit.Test;
-import src.assembler.Logger;
+import src.misc.Logger;
 
-import static src.assembler.Common.fileToString;
+import static src.misc.Common.fileToString;
 import static src.parser.InputReader.InputType;
 
 /**

@@ -1,8 +1,8 @@
 package src.assembler.core;
 
-import src.assembler.Instruction;
-import src.assembler.datastructures.SymbolProp;
+import src.assembler.datastructures.Instruction;
 import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.SymbolProp;
 import src.filewriter.ObjectString;
 
 import java.util.HashMap;

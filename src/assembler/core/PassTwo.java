@@ -1,14 +1,13 @@
 package src.assembler.core;
 
-import src.assembler.ErrorStrings;
-import src.assembler.Instruction;
-import src.assembler.Logger;
 import src.assembler.datastructures.*;
 import src.assembler.utils.Format_2;
 import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
 import src.filewriter.ObjectCodeWriter;
+import src.misc.ErrorStrings;
+import src.misc.Logger;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,23 +15,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static src.assembler.Common.*;
-import static src.assembler.Instruction.InstructionType.Directive;
-import static src.assembler.Instruction.InstructionType.Instruction;
-import static src.assembler.InstructionPart.OPERAND;
+import static src.assembler.datastructures.Instruction.InstructionType.Directive;
+import static src.assembler.datastructures.Instruction.InstructionType.Instruction;
+import static src.assembler.datastructures.InstructionPart.OPERAND;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.REGISTER;
 import static src.assembler.datastructures.OperandType.VALUE;
+import static src.assembler.datastructures.OperandType.VALUE.NUM;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 import static src.filewriter.ObjectCodeWriter.PLUS;
-import static src.assembler.datastructures.OperandType.VALUE.NUM;
+import static src.misc.Common.*;
 
 /**
  * Created by ahmed on 4/21/17.
  */
 class PassTwo {
     private final HashMap<String, SymbolProp> symbolTable;
-    private final List<src.assembler.Instruction> instructions;
+    private final List<src.assembler.datastructures.Instruction> instructions;
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
 

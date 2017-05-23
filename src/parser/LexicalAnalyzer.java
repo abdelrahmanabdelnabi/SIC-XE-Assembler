@@ -4,20 +4,20 @@ package src.parser;
  * Created by ahmed on 4/28/17.
  */
 
-import src.assembler.Instruction;
-import src.assembler.Logger;
+import src.assembler.datastructures.Instruction;
 import src.assembler.datastructures.OperandType;
+import src.misc.Logger;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import static src.assembler.Common.buildErrorString;
-import static src.assembler.Common.getRawOperand;
-import static src.assembler.InstructionPart.MNEMONIC;
-import static src.assembler.InstructionPart.OPERAND;
+import static src.assembler.datastructures.InstructionPart.MNEMONIC;
+import static src.assembler.datastructures.InstructionPart.OPERAND;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.*;
 import static src.assembler.datastructures.OperandType.VALUE.*;
+import static src.misc.Common.buildErrorString;
+import static src.misc.Common.getRawOperand;
 
 /**
  * This Class is responsible for code syntax analysis

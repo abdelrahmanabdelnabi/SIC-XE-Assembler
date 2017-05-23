@@ -1,16 +1,16 @@
 package src.filewriter;
 
-import src.assembler.Instruction;
+import src.assembler.datastructures.Instruction;
 import src.assembler.datastructures.LiteralProp;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static src.assembler.Common.extendToLength;
 import static src.assembler.datastructures.Format.FORMAT4;
 import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.OperandType.VALUE.NUM;
+import static src.misc.Common.extendToLength;
 
 /*
  * Created by ahmed on 4/19/17.

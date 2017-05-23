@@ -1,4 +1,6 @@
-package src.assembler;
+package src.misc;
+
+import src.assembler.datastructures.InstructionPart;
 
 import java.io.File;
 import java.io.FileInputStream;

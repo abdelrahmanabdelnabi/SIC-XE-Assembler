@@ -4,12 +4,12 @@ package sicXE;
  * Created by abdelrahman on 4/9/17.
  */
 
-import src.assembler.Logger;
 import src.assembler.core.Assembler;
 import src.assembler.core.AssemblerException;
 import src.filewriter.ListingString;
 import src.filewriter.SymbolsString;
 import src.filewriter.Writer;
+import src.misc.Logger;
 import src.parser.InputReader;
 import src.parser.LexicalAnalyzer;
 import src.parser.Parser;

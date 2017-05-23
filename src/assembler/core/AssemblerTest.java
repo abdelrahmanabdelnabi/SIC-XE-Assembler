@@ -7,7 +7,7 @@ import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 
 import static org.junit.Assert.assertEquals;
-import static src.assembler.Common.fileToString;
+import static src.misc.Common.fileToString;
 
 /**
  * Created by abdelrahman on 4/25/17.

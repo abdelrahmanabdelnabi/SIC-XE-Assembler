@@ -1,16 +1,14 @@
 package src.assembler.core;
 
-import src.assembler.ErrorStrings;
-import src.assembler.Instruction;
-import src.assembler.Logger;
-import src.assembler.datastructures.SymbolProp;
 import src.assembler.datastructures.*;
+import src.misc.ErrorStrings;
+import src.misc.Logger;
 
 import java.util.*;
 
-import static src.assembler.Common.buildErrorString;
-import static src.assembler.InstructionPart.*;
+import static src.assembler.datastructures.InstructionPart.*;
 import static src.assembler.datastructures.OpcodeTable.*;
+import static src.misc.Common.buildErrorString;
 
 /*
  * Created by ahmed on 4/21/17.

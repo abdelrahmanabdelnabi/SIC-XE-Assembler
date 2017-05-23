@@ -1,10 +1,10 @@
 package src.filewriter;
 
-import src.assembler.Instruction;
+import src.assembler.datastructures.Instruction;
 
 import java.util.List;
 
-import static src.assembler.Common.extendToLength;
+import static src.misc.Common.extendToLength;
 
 /*
  * Created by ahmed on 4/19/17.

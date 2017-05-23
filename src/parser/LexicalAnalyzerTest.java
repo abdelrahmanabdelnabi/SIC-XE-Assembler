@@ -2,10 +2,10 @@ package src.parser;
 
 import org.junit.Before;
 import org.junit.Test;
-import src.assembler.Logger;
 import src.filewriter.Writer;
+import src.misc.Logger;
 
-import static src.assembler.Common.fileToString;
+import static src.misc.Common.fileToString;
 
 
 /*
