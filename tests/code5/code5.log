@@ -1,32 +1,22 @@
 ***** Section <default> *****
-Stats: size=4211  blocks=115  symbols=17  literals=2  relocations=1
+Stats: size=36  blocks=36  symbols=7  literals=4  relocations=0
 Blocks
     name        start   size  #ins #dir #sto
-    <default>   00000  00073    36    7    2
-    CBLKS       00073  01000     0    3    1
+    <default>   00000  00024     8    6    0
 Symbols
-    name         hex       dec  scope     kind      description
-    *0        00006D       109  local     relative  label
-    *1        000070       112  local     relative  label
-    BUFFEND   001073      4211  local     absolute  *
-    BUFFER    000073       115  local     relative  label
-    CLOOP     000003         3  local     relative  label
-    COPY      000000         0  exported  relative  label
-    ENDFIL    000015        21  local     relative  label
-    EXIT      00004D        77  local     relative  label
-    FIRST     000000         0  local     relative  label
-    INPUT     000053        83  local     relative  label
-    LENGTH    00002A        42  local     relative  label
-    MAXLEN    001000      4096  local     absolute  BUFFEND-BUFFER
-    RDREC     00002D        45  local     relative  label
-    RETADR    000027        39  local     relative  label
-    RLOOP     000037        55  local     relative  label
-    WLOOP     000059        89  local     relative  label
-    WRREC     000054        84  local     relative  label
+    name        hex       dec  scope     kind      description
+    *0       000018        24  local     relative  label
+    *1       00001B        27  local     relative  label
+    *2       00001E        30  local     relative  label
+    *3       000021        33  local     relative  label
+    first    000000         0  local     relative  label
+    halt     000015        21  local     relative  label
+    main     000000         0  exported  relative  label
 Literals
     label   definition
-    *0      WORD C'EOF'
-    *1      WORD X'01'
+    *0      WORD 1193046
+    *1      WORD X'AABBCC'
+    *2      WORD X'41'
+    *3      WORD X'42'
 Relocations
     address length flag symbol
-    00034        5
