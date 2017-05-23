@@ -2,9 +2,9 @@ package src.parser;
 
 import org.junit.Before;
 import org.junit.Test;
+import src.assembler.Logger;
 
-import java.util.Arrays;
-
+import static src.assembler.Common.fileToString;
 import static src.parser.InputReader.InputType;
 
 /**
@@ -12,19 +12,63 @@ import static src.parser.InputReader.InputType;
  */
 public class ParserTest {
     private final String relativePath = System.getProperty("user.dir");
-    private final String testFilePath = relativePath + "/src/testIn/parsingTest.asm";
+    private final String testFilePath = relativePath + "/tests/PROG_FORMAT4/PROG_FORMAT4.asm";
+    private final String testControlSection = relativePath + "/tests/0_control_section/control_section.asm";
+    private final String testControlSectionError = relativePath + "/tests/0_control_section_error/control_section_error.asm";
+    private final String testEqu = relativePath + "/tests/0_equ/equ.asm";
+    private final String testEquBonus = relativePath + "/tests/0_equ_bonus/equ_bouns.asm";
+    private final String testEquError = relativePath + "/tests/0_equ_error/equ_error.asm";
+
+    private String code;
     private Parser parser;
     private InputReader reader;
 
     @Before
     public void setUp() {
-        reader = new InputReader(InputType.File, testFilePath);
+        reader = new InputReader(InputType.String, "");
         parser = new Parser(reader);
     }
 
     @Test
-    public void testReader_Parser() {
-        System.out.println(Arrays.toString(parser.getParsedInstuctions().toArray()));
+    public void setTestControlSection() {
+        code = fileToString(testControlSection);
+        runTest(code);
     }
 
+    @Test
+    public void setTestControlSectionError() {
+        code = fileToString(testControlSectionError);
+        runTest(code);
+    }
+
+    @Test
+    public void setTestEqu() {
+        code = fileToString(testEqu);
+        runTest(code);
+    }
+
+    @Test
+    public void setTestEquBonus() {
+        code = fileToString(testEquBonus);
+        runTest(code);
+    }
+
+    @Test
+    public void setTestEquError() {
+        code = fileToString(testEquError);
+        runTest(code);
+    }
+
+    @Test
+    public void setGeneralTest() {
+        code = fileToString(testFilePath);
+        runTest(code);
+    }
+
+    private void runTest(String code) {
+        reader.setInputString(code);
+        parser.parse();
+
+        System.out.println("\n\n" + Logger.getLogString());
+    }
 }

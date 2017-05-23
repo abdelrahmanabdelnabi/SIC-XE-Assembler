@@ -85,9 +85,6 @@ public class Parser {
                  * Error !
                  */
                 else {
-                    // TODO: print a more descriptive error message (ex: unknown mnemonic /
-                    // TODO: unexpected token ...
-                    // TODO : THIS IS DESCRIPTIVE ENOUGH FOR A PARSER
                     Logger.LogError("Line " + lineNumber + " ( " + newLine + " )" + " is Not a " +
                             "valid SIC(/XE) instruction !");
                     throw new ParsingException("Unrecognized line format " + "( " + newLine + " )",
