@@ -5,9 +5,12 @@ import org.junit.Test;
 import src.parser.InputReader;
 import src.parser.Parser;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abdelrahman on 4/25/17.
@@ -15,12 +18,10 @@ import static org.junit.Assert.*;
  * Integration Tests
  */
 public class AssemblerTest {
+    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/tests";
     private Parser parser;
     private InputReader reader;
     private Assembler assembler;
-
-    private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/src/tests";
-
     private String code1;
     private String code2;
     private String code3;
@@ -68,6 +69,7 @@ public class AssemblerTest {
 
         assertEquals("Generated object code does not match the expected code", correctObjectCode3, actual);
     }
+
     private String readFile(String filePath) {
         String result = "";
         try {

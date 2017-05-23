@@ -1,0 +1,14 @@
+003E8            SUM    START   1000    
+003E8  011007D0  FIRST  +LDA     #BEGIN    
+003EC  051007D3        +LDX     #FINAL    
+003F0  9010      LOOP   ADDR    X,A    
+003F2  2D000B           TIX     #11    
+003F5  3B2FF8           JLT     LOOP    
+003F8  0D100003        +STA     #POS    
+003FC                   ORG     2000    
+007D0            BEGIN  EQU     *    
+007D0  000000    DUMP   RESW    1    
+007D3            FINAL  EQU     *    
+007D3            POS    EQU     FINAL-BEGIN    
+007D3                   END     SUM    
+                  

@@ -75,7 +75,7 @@ public class PassOneTest {
 
     @Test
     public void testLiterals() {
-        String literalsFile = System.getProperty("user.dir") + "/src/tests/literals/literals.asm";
+        String literalsFile = System.getProperty("user.dir") + "/tests/literals/literals.asm";
 
         InputReader inputReader = new InputReader(InputReader.InputType.File, literalsFile);
 

@@ -1,0 +1,57 @@
+00000            MAIN     START   0    
+00000                     EXTDEF  ADDR1,ADDR2,ADDR3    
+00000                     EXTREF  RTADDR,GETPAIR    
+00000  B410               CLEAR   X    
+00002  4B100000          +JSUB    GETPAIR    
+00006  572029             STCH    ADDR2    
+00009  4B100000          +JSUB    GETPAIR    
+0000D  572023             STCH    ADDR3    
+00010  6B201E             LDB     ADDR1    
+00013  4B100000          +JSUB    GETPAIR    
+00017  572017             STCH    ADDR1    
+0001A  4B100000          +JSUB    GETPAIR    
+0001E  572011             STCH    ADDR2    
+00021  4B100000  LOOP    +JSUB    GETPAIR    
+00025  57A009             STCH    ADDR1,X    
+00028  B810               TIXR    X    
+0002A  57100000          +STCH    RTADDR    
+0002E  3F2FF0             J       LOOP    
+00031  00        ADDR1    RESB    1    
+00032  00        ADDR2    RESB    1    
+00033  00        ADDR3    RESB    1    
+00000            GETPAIR  CSECT       
+00000                     EXTDEF  RTADDR,ORADDR    
+00000                     EXTREF  READ    
+00000  17200F             STL     RTADDR    
+00003  4B100000          +JSUB    READ    
+00007  A403               SHIFTL  A,4    
+00009  572008             STCH    HEX    
+0000C  472004             OR      ORADDR    
+0000F  3E2000             J       @RTADDR    
+00012  00        RTADDR   RESB    1    
+00013  00        ORADDR   RESB    1    
+00014  00        HEX      RESB    1    
+00000            READ     CSECT       
+00000                     EXTREF  ADDR1    
+00000  E3202F             TD      INDEV    
+00003  332FFA             JEQ     READ    
+00006  B400               CLEAR   A    
+00008  DB2027             RD      INDEV    
+0000B  290030             COMP    #48    
+0000E  3B200F             JLT     EOFCK    
+00011  1D0030             SUB     #48    
+00014  29000A             COMP    #10    
+00017  3B2003             JLT     GOBACK    
+0001A  1D0007             SUB     #7    
+0001D  4F0000    GOBACK   RSUB        
+00020  290021    EOFCK    COMP    #33    
+00023  332006             JEQ     EXIT    
+00026  290004             COMP    #4    
+00029  372FD4             JGT     READ    
+0002C  B420      EXIT     CLEAR   L    
+0002E  3F100000          +J       ADDR1    
+00032  F1        INDEV    BYTE    X'F1'    
+00034                     END     MAIN    
+                  
+                  
+                  

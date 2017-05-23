@@ -1,0 +1,11 @@
+00000            MAIN    START   0    
+00000  01100004  FIRST  +LDA     #BEGIN    
+00004  051FFFF8  SECOND  +LDX     #FINAL    
+00008  9010      LOOP    ADDR    X,A    
+0000A  2D000B            TIX     #11    
+0000D  3B2FF8            JLT     LOOP    
+00010            BEGIN   EQU     FIRST-SECOND+LOOP    
+00010  00....00  DUMP    RESW    100    
+0013C            FINAL   EQU     LOOP+SECOND-DUMP-BEGIN    
+0013C                    END     MAIN    
+                  
