@@ -6,12 +6,8 @@ import src.parser.InputReader;
 import src.parser.LexicalAnalyzer;
 import src.parser.Parser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
+import static src.assembler.Common.fileToString;
 
 /**
  * Created by abdelrahman on 4/25/17.
@@ -55,20 +51,20 @@ public class AssemblerTest {
         parser = new Parser(reader);
 
         // read test programs
-        code1 = readFile(TESTS_DIRECTORY + "/code1/code1.asm");
-        code2 = readFile(TESTS_DIRECTORY + "/code2/code2.asm");
-        code3 = readFile(TESTS_DIRECTORY + "/code3/code3.asm");
-        code4 = readFile(TESTS_DIRECTORY + "/code4/code4.asm");
-        code5 = readFile(TESTS_DIRECTORY + "/code5/code5.asm");
-//        addrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
-        addrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
-        correctObjectCode1 = readFile(TESTS_DIRECTORY + "/code1/code1.obj");
-        correctObjectCode2 = readFile(TESTS_DIRECTORY + "/code2/code2.obj");
-        correctObjectCode3 = readFile(TESTS_DIRECTORY + "/code3/code3.obj");
-        correctObjectCode4 = readFile(TESTS_DIRECTORY + "/code4/code4.obj");
-        correctObjectCode5 = readFile(TESTS_DIRECTORY + "/code5/code5.obj");
-//        correctAddrImm = readFile(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
-        correctAddrIndirect = readFile(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
+        code1 = fileToString(TESTS_DIRECTORY + "/code1/code1.asm");
+        code2 = fileToString(TESTS_DIRECTORY + "/code2/code2.asm");
+        code3 = fileToString(TESTS_DIRECTORY + "/code3/code3.asm");
+        code4 = fileToString(TESTS_DIRECTORY + "/code4/code4.asm");
+        code5 = fileToString(TESTS_DIRECTORY + "/code5/code5.asm");
+//        addrImm = fileToString(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
+        addrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
+        correctObjectCode1 = fileToString(TESTS_DIRECTORY + "/code1/code1.obj");
+        correctObjectCode2 = fileToString(TESTS_DIRECTORY + "/code2/code2.obj");
+        correctObjectCode3 = fileToString(TESTS_DIRECTORY + "/code3/code3.obj");
+        correctObjectCode4 = fileToString(TESTS_DIRECTORY + "/code4/code4.obj");
+        correctObjectCode5 = fileToString(TESTS_DIRECTORY + "/code5/code5.obj");
+//        correctAddrImm = fileToString(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
+        correctAddrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
     }
 
 
@@ -131,22 +127,22 @@ public class AssemblerTest {
         return method2;
     }
 
-    private String readFile(String filePath) {
-        String result = "";
-        try {
-            File file = new File(filePath);
-            FileInputStream fis = new FileInputStream(file);
-            byte[] data = new byte[(int) file.length()];
-            fis.read(data);
-            fis.close();
-
-            result = new String(data, "UTF-8");
-        } catch (FileNotFoundException e) {
-            System.err.println("Can not find file: " + (filePath));
-        } catch (IOException e) {
-            System.err.println("Can not read file: " + filePath);
-        }
-        return result;
-    }
+//    private String fileToString(String filePath) {
+//        String result = "";
+//        try {
+//            File file = new File(filePath);
+//            FileInputStream fis = new FileInputStream(file);
+//            byte[] data = new byte[(int) file.length()];
+//            fis.read(data);
+//            fis.close();
+//
+//            result = new String(data, "UTF-8");
+//        } catch (FileNotFoundException e) {
+//            System.err.println("Can not find file: " + (filePath));
+//        } catch (IOException e) {
+//            System.err.println("Can not read file: " + filePath);
+//        }
+//        return result;
+//    }
 
 }

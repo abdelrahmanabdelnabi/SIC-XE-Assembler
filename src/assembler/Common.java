@@ -1,5 +1,9 @@
 package src.assembler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -62,5 +66,27 @@ public class Common {
                 replace("@", "").
                 replace("#", "").
                 replace("=", "");
+    }
+
+    /**
+     * @param filePath String
+     * @return file content as a string
+     */
+    public static String fileToString(String filePath) {
+        String result = "";
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+
+            result = new String(data, "UTF-8");
+        } catch (FileNotFoundException e) {
+            System.err.println("Can not find file: " + (filePath));
+        } catch (IOException e) {
+            System.err.println("Can not read file: " + filePath);
+        }
+        return result;
     }
 }
