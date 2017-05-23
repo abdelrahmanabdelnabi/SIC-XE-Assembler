@@ -3,7 +3,7 @@ package src.assembler;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
+/*
  * Created by ahmed on 4/9/17.
  */
 
@@ -24,7 +24,7 @@ public class Logger {
         logger.LogMessage(message);
     }
 
-    // Signlton pattern, to Log Error
+    // Singleton pattern, to Log Error
     public static void LogError(String message) {
         errorsCnt++;
         logger.LogMessage(message);
@@ -39,6 +39,9 @@ public class Logger {
         return errorsCnt;
     }
 
+    public static void clearLogString() {
+        logString = new StringBuilder();
+    }
 
     // console logging
     private void LogMessage(String message) {
