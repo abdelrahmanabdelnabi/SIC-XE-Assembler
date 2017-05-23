@@ -72,7 +72,7 @@ public class LexicalAnalyzerTest {
 //    }
 
     private void runTest(String code) {
-        Logger.clearLogString();
+        Logger.reset();
 
         inputReader.setInputString(code);
         parser.parse();

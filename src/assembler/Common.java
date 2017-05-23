@@ -17,7 +17,7 @@ public class Common {
     }
 
     public static String buildErrorString(int lineNumber, InstructionPart ip, String error) {
-        return "error in assembling line " + lineNumber + " in the " + ip.toString() + " part: " + error;
+        return "Error line: " + lineNumber + ", Invalid " + ip.toString() + ", Message: " + error;
     }
 
     /**

@@ -66,7 +66,7 @@ public class ParserTest {
     }
 
     private void runTest(String code) {
-        Logger.clearLogString();
+        Logger.reset();
         reader.setInputString(code);
         parser.parse();
         System.out.println("\n\n" + Logger.getLogString());
