@@ -419,7 +419,7 @@ class PassOne {
                     }
                     // if added to relative
                     if (absCnt == 0 && relCnt >= 2) {
-                        errorString = buildErrorString(inst.getLineNumber(), OPERAND, "Can not Add to relative symbols");
+                        errorString = buildErrorString(inst.getLineNumber(), OPERAND, "Can not Add two relative symbols");
                         Logger.LogError(errorString);
 //                    throw new AssemblerException(errorString);
                     }
