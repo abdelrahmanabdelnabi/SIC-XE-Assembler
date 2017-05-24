@@ -27,16 +27,18 @@ public class SymbolsString implements StringGenerator {
     }
 
     private void formSymbolString() {
-        builder.append("===========================================\n");
-        builder.append("                SYMBOL TABLE               \n");
-        builder.append("===========================================\n");
-        builder.append("SYMBOL                         ADDRESS(HEX)\n");
-        builder.append("===========================================\n");
+        builder.append("================================================================\n");
+        builder.append("                         SYMBOL TABLE                           \n");
+        builder.append("================================================================\n");
+        builder.append("SYMBOL                         ADDRESS(HEX)           TYPE      \n");
+        builder.append("================================================================\n");
         for (Map.Entry<String, SymbolProp> cur : symbolTable.entrySet()) {
-            builder.append(String.format("%-30s %-20s\n", cur.getKey(),
-                    Integer.toHexString(cur.getValue().getAddress()).toUpperCase()));
+            builder.append(String.format("%-30s %-20s %-10s\n",
+                    cur.getKey(),
+                    Integer.toHexString(cur.getValue().getAddress()).toUpperCase(),
+                    cur.getValue().getType().toString()));
         }
-        builder.append("===========================================\n");
+        builder.append("================================================================\n");
     }
 
     private void formLiteralsString() {
