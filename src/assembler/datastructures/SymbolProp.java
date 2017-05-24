@@ -11,6 +11,11 @@ public class SymbolProp {
         this.address = address;
     }
 
+    public SymbolProp(int address, SymbolType type) {
+        this.address = address;
+        this.type = type;
+    }
+
     public int getAddress() {
         return address;
     }
@@ -23,7 +28,7 @@ public class SymbolProp {
         this.type = type;
     }
 
-    enum SymbolType {
+    public enum SymbolType {
         RELATIVE, ABSOLUTE, NONE
     }
 }
