@@ -1,6 +1,7 @@
 package src.assembler.core;
 
 import src.assembler.datastructures.Instruction;
+import src.assembler.datastructures.LiteralProp;
 import src.assembler.datastructures.SymbolProp;
 
 import java.util.ArrayList;
@@ -59,6 +60,17 @@ public class MultiProgramAssembler {
 
         for(Assembler asm : singleProgramAssemblers)
             tables.add(asm.getSymbolTable());
+
+        return tables;
+    }
+
+    public List<Map<String, LiteralProp>> getLiteralsTables() {
+        int size = singleProgramAssemblers.size();
+
+        List<Map<String, LiteralProp>> tables = new ArrayList<>(size);
+
+        for(Assembler asm : singleProgramAssemblers)
+            tables.add(asm.getLiteralsTable());
 
         return tables;
     }
