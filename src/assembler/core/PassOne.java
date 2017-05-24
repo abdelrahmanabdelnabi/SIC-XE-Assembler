@@ -25,6 +25,7 @@ class PassOne {
     private List<Instruction> instructions;
     private int literalCount = 1;
     private int builtLiterals = 1;
+    private boolean orgFlag = false;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
@@ -250,7 +251,43 @@ class PassOne {
     }
 
     private void ORG(Instruction inst) {
+        switch (inst.getOperandType()) {
+            case NONE:
+                if (!orgFlag) {
+                    errorString = buildErrorString(inst.getLineNumber(), OPERAND, "First Org occurrence must have an operand");
+                    Logger.LogError(errorString);
+                    throw new AssemblerException(errorString);
+                }
+                orgFlag = false;
+                loc.orgRestore();
+                break;
 
+            case VALUE:
+                orgFlag = true;
+                switch (inst.getValueType()) {
+                    case LOCCTR:
+                        loc.orgSet(loc.getCurrentCounterValue());
+                        break;
+
+                    case NUM:
+                        loc.orgSet(parseNumOperand(inst.getOperand()));
+                        break;
+
+                    case LABEL:
+                        if (!symbolTable.containsKey(inst.getOperand())) {
+                            errorString = buildErrorString(inst.getLineNumber(), OPERAND, UNDEFINED_LABEL);
+                            Logger.LogError(errorString);
+                            throw new AssemblerException(errorString);
+                        }
+                        loc.orgSet(symbolTable.get(inst.getOperand()).getAddress());
+                        break;
+
+                    case EXPRESSION:
+                        break;
+                    case DATA:
+                        break;
+                }
+        }
     }
 
     private void LTORG() {
@@ -286,7 +323,7 @@ class PassOne {
 
     private void EQU(Instruction inst) {
         int value = 0;
-        SymbolType type;
+        SymbolType type = NONE;
         switch (inst.getValueType()) {
             case NUM:
                 value = parseNumOperand(inst.getOperand());
@@ -314,11 +351,12 @@ class PassOne {
 
             case LOCCTR:
                 value = loc.getCurrentCounterValue();
-                type = RELATIVE;
+                type = orgFlag ? ABSOLUTE : RELATIVE;
                 break;
 
             case EXPRESSION:
                 int tmpValue, relCnt = 0, absCnt = 0;
+                Boolean errorMultiplyDivide = false;
                 String tokens[] = inst.getOperand().split("[-]|[+]");
                 String signs;
                 StringBuilder signsBuilder = new StringBuilder("+");
@@ -326,76 +364,77 @@ class PassOne {
                 for (int i = 0; i < inst.getOperand().length(); i++)
                     if (inst.getOperand().charAt(i) == '+' || inst.getOperand().charAt(i) == '-')
                         signsBuilder.append(inst.getOperand().charAt(i));
+                    else if (inst.getOperand().charAt(i) == '*' || inst.getOperand().charAt(i) == '/')
+                        errorMultiplyDivide = true;
 
-                signs = signsBuilder.toString();
+                if (errorMultiplyDivide) {
+                    errorString = buildErrorString(inst.getLineNumber(), OPERAND, "Multiplication And Division Are Not Allowed in EQU");
+                    Logger.LogError(errorString);
+                } else {
+                    signs = signsBuilder.toString();
 
-                for (String token : tokens) {
-                    try {
-                        tmpValue = Integer.parseInt(token);
-                        if (signs.charAt(0) == '+') {
-                            absCnt++;
-                            value += tmpValue;
-                        } else {
-                            absCnt--;
-                            value -= tmpValue;
+                    for (String token : tokens) {
+                        try {
+                            // if is number
+                            tmpValue = Integer.parseInt(token);
+                            if (signs.charAt(0) == '+') {
+                                absCnt++;
+                                value += tmpValue;
+                            } else {
+                                absCnt--;
+                                value -= tmpValue;
+                            }
                         }
-                    } catch (NumberFormatException e) {
-                        if (!symbolTable.containsKey(token)) {
-                            errorString = buildErrorString(inst.getLineNumber(), OPERAND, FORWARD_REFERENCING);
-                            Logger.LogError(errorString);
-                            throw new AssemblerException("");
-                        }
-                        tmpValue = symbolTable.get(token).getAddress();
-                        switch (symbolTable.get(token).getType()) {
-                            case ABSOLUTE:
-                                if (signs.charAt(0) == '+') {
-                                    absCnt++;
-                                    value += tmpValue;
-                                } else if (signs.charAt(0) == '-') {
-                                    absCnt--;
-                                    value -= tmpValue;
-                                }
-                                break;
+                        // if is symbol
+                        catch (NumberFormatException e) {
+                            if (!symbolTable.containsKey(token)) {
+                                errorString = buildErrorString(inst.getLineNumber(), OPERAND, FORWARD_REFERENCING);
+                                Logger.LogError(errorString);
+                                throw new AssemblerException(errorString);
+                            }
+                            tmpValue = symbolTable.get(token).getAddress();
+                            switch (symbolTable.get(token).getType()) {
+                                case ABSOLUTE:
+                                    if (signs.charAt(0) == '+') {
+                                        absCnt++;
+                                        value += tmpValue;
+                                    } else if (signs.charAt(0) == '-') {
+                                        absCnt--;
+                                        value -= tmpValue;
+                                    }
+                                    break;
 
-                            case RELATIVE:
-                                if (signs.charAt(0) == '+') {
-                                    relCnt++;
-                                    value += tmpValue;
-                                } else if (signs.charAt(0) == '-') {
-                                    relCnt--;
-                                    value -= tmpValue;
-                                }
-                                break;
+                                case RELATIVE:
+                                    if (signs.charAt(0) == '+') {
+                                        relCnt++;
+                                        value += tmpValue;
+                                    } else if (signs.charAt(0) == '-') {
+                                        relCnt--;
+                                        value -= tmpValue;
+                                    }
+                                    break;
+                            }
                         }
+                        signs = signs.replaceFirst("[-]|[+]", "");
                     }
-                    // if token == 0
-                    catch (AssemblerException e) {
-                        if (!token.equals("*")) {
-                            errorString = buildErrorString(inst.getLineNumber(), OPERAND, EXPRESSION_TOKEN_ERROR);
-                            Logger.LogError(errorString);
-                            throw new AssemblerException(errorString);
-                        }
-                        if (signs.charAt(0) == '+') {
-                            relCnt++;
-                            value += loc.getCurrentCounterValue();
-                        } else if (signs.charAt(0) == '-') {
-                            relCnt--;
-                            value -= loc.getCurrentCounterValue();
-                        }
+                    // if added to relative
+                    if (absCnt == 0 && relCnt >= 2) {
+                        errorString = buildErrorString(inst.getLineNumber(), OPERAND, "Can not Add two relative symbols");
+                        Logger.LogError(errorString);
+//                    throw new AssemblerException(errorString);
                     }
-                    signs = signs.replaceFirst("[-]|[+]", "");
+                    // all terms are absolute or relative in pairs
+                    else if (absCnt >= 0 && relCnt == 0) {
+                        type = ABSOLUTE;
+                    }
+                    // all terms are relative in pairs but for 1
+                    else if (absCnt == 0 && relCnt == 1) {
+                        type = RELATIVE;
+                    }
+                    // a mix of abs and rel, or 2 relative added, not allowed as far as i get it
+                    else
+                        type = NONE;
                 }
-                // all terms are absolute or relative in pairs
-                if (absCnt > 0 && relCnt == 0 || absCnt == 0 && relCnt % 2 == 0) {
-                    type = ABSOLUTE;
-                }
-                // all terms are relative in pairs but for 1
-                else if (absCnt == 0 && relCnt == 1) {
-                    type = RELATIVE;
-                }
-                // a mix of abs and rel, or 2 relative added, not allowed as far as i get it
-                else
-                    type = NONE;
                 break;
 
             default:

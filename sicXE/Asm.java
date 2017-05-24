@@ -29,7 +29,7 @@ class Asm {
 
         // change filePath to change test file
         String relativePath = System.getProperty("user.dir");// + "/" + args[0];
-        String filePath = relativePath + "/tests/0_equ/equ.asm";
+        String filePath = relativePath + "/tests/0_equ_error/equ_error.asm";
 
         if (filePath.length() != 0) {
 
@@ -82,7 +82,7 @@ class Asm {
 
                 // object
                 writer.setFileName(objectFile);
-                writer.writeToFile(assembler.getObjectCode());
+                writer.writeToFile(assembler.getObjectCode2());
 
                 // abo listing table
                 writer.setFileName(lstTabFile);

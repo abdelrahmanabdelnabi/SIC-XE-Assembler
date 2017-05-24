@@ -131,16 +131,14 @@ public class LexicalAnalyzer {
 
                 // TODO Implement org,equ,csect
                 case "ORG":
-                    if (!Pattern.matches("[0-9]+|", operand)) {
+                    if (ORG(inst)) {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid ORG Operand");
                         Logger.LogError(errorStr);
                     }
-                    inst.setOperandType(VALUE);
-                    inst.setValueType(NUM);
                     break;
 
                 case "EQU":
-                    if (analyzeEQUOperand(inst) == null) {
+                    if (EQU(inst) == null) {
                         errorStr = buildErrorString(inst.getLineNumber(), OPERAND, "Invalid EQU Operand");
                         Logger.LogError(errorStr);
                     }
@@ -202,7 +200,7 @@ public class LexicalAnalyzer {
         return INVALID;
     }
 
-    private VALUE analyzeEQUOperand(Instruction inst) {
+    private VALUE EQU(Instruction inst) {
         String operand = inst.getOperand();
         inst.setOperandType(VALUE);
 
@@ -231,12 +229,35 @@ public class LexicalAnalyzer {
         }
 
         // expression
-        if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|))|(([0-9]+)([+]|[-]|)))+", operand)
+        if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|[*]|[/]|))|(([0-9]+)([+]|[-]|[*]|[/]|)))+", operand)
                 && !operand.endsWith("+") && !operand.endsWith("-")) {
             inst.setValueType(EXPRESSION);
             return EXPRESSION;
         }
 
         return null;
+    }
+
+    private boolean ORG(Instruction inst) {
+        String operand = inst.getOperand();
+
+        if (Pattern.matches("[0-9]+", operand)) {
+            inst.setOperandType(VALUE);
+            inst.setValueType(NUM);
+            return false;
+        }
+
+        if (Pattern.matches("[A-Za-z][A-Za-z0-9]*", operand)) {
+            inst.setOperandType(VALUE);
+            inst.setValueType(LABEL);
+            return false;
+        }
+
+        if (operand.length() == 0) {
+            inst.setOperandType(NONE);
+            return false;
+        }
+
+        return true;
     }
 }
