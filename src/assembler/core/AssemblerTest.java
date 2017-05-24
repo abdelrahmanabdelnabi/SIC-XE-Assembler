@@ -34,6 +34,7 @@ public class AssemblerTest {
     private String code5;
     private String addrIndirect;
     private String equate;
+    private String controlsec;
 
     private String correctObjectCode1;
     private String correctObjectCode2;
@@ -42,6 +43,7 @@ public class AssemblerTest {
     private String correctObjectCode5;
     private String correctObjectEquate;
     private String correctAddrIndirect;
+    private String getCorrectControlsec;
 
     @Before
     public void setUp() {
@@ -56,6 +58,7 @@ public class AssemblerTest {
         code5 = fileToString(TESTS_DIRECTORY + "/code5/code5.asm");
         addrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
         equate = fileToString(TESTS_DIRECTORY + "/0_equ/equ.asm");
+        controlsec = fileToString(TESTS_DIRECTORY + "/0_control_section/control_section.asm");
 
         correctObjectCode1 = fileToString(TESTS_DIRECTORY + "/code1/code1.obj");
         correctObjectCode2 = fileToString(TESTS_DIRECTORY + "/code2/code2.obj");
@@ -64,6 +67,8 @@ public class AssemblerTest {
         correctObjectCode5 = fileToString(TESTS_DIRECTORY + "/code5/code5.obj");
         correctAddrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
         correctObjectEquate = fileToString(TESTS_DIRECTORY + "/0_equ/equ.obj");
+        getCorrectControlsec = fileToString(TESTS_DIRECTORY +
+                "/0_control_section/control_section.obj");
     }
 
     @Test
@@ -115,6 +120,31 @@ public class AssemblerTest {
         String actual = runAssembler();
         assertEquals("Generated object code does not match the expected code",
                 correctObjectEquate, actual);
+
+    }
+
+    @Test
+    public void testControlSection() {
+        InputReader reader = new InputReader(InputReader.InputType.String, controlsec);
+        parser = new Parser(reader);
+        parser.parse();
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
+        analyzer.inspectCode();
+        MultiProgramAssembler mpa = new MultiProgramAssembler(parser.getParsedInstuctions());
+
+        mpa.executePassOne();
+        mpa.executePassTwo();
+
+        String[] codes = mpa.getObjectCode();
+
+        StringBuilder actual = new StringBuilder();
+        for(String s : codes) {
+            actual.append(s);
+            actual.append("\n");
+        }
+
+        assertEquals("Generated object code does not match the expected code",
+                getCorrectControlsec, actual.toString());
 
     }
 
