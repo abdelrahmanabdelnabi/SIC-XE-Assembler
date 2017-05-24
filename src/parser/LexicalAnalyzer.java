@@ -229,7 +229,7 @@ public class LexicalAnalyzer {
         }
 
         // expression
-        if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|))|(([0-9]+)([+]|[-]|)))+", operand)
+        if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|[*]|[/]|))|(([0-9]+)([+]|[-]|[*]|[/]|)))+", operand)
                 && !operand.endsWith("+") && !operand.endsWith("-")) {
             inst.setValueType(EXPRESSION);
             return EXPRESSION;
