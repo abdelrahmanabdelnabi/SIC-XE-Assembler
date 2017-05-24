@@ -29,7 +29,7 @@ class Asm {
 
         // change filePath to change test file
         String relativePath = System.getProperty("user.dir");// + "/" + args[0];
-        String filePath = relativePath + "/tests/0_equ_error/equ_error.asm";
+        String filePath = relativePath + "/tests/0_equ_bonus/equ_bouns.asm";
 
         if (filePath.length() != 0) {
 

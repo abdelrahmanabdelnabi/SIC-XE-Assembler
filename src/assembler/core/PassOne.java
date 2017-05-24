@@ -25,6 +25,7 @@ class PassOne {
     private List<Instruction> instructions;
     private int literalCount = 1;
     private int builtLiterals = 1;
+    private boolean orgFlag = false;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
@@ -252,10 +253,17 @@ class PassOne {
     private void ORG(Instruction inst) {
         switch (inst.getOperandType()) {
             case NONE:
+                if (!orgFlag) {
+                    errorString = buildErrorString(inst.getLineNumber(), OPERAND, "First Org occurrence must have an operand");
+                    Logger.LogError(errorString);
+                    throw new AssemblerException(errorString);
+                }
+                orgFlag = false;
                 loc.orgRestore();
                 break;
 
             case VALUE:
+                orgFlag = true;
                 switch (inst.getValueType()) {
                     case LOCCTR:
                         loc.orgSet(loc.getCurrentCounterValue());
@@ -343,7 +351,7 @@ class PassOne {
 
             case LOCCTR:
                 value = loc.getCurrentCounterValue();
-                type = RELATIVE;
+                type = orgFlag ? ABSOLUTE : RELATIVE;
                 break;
 
             case EXPRESSION:
