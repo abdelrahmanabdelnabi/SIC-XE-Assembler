@@ -25,8 +25,6 @@ import static src.misc.Common.fileToString;
 public class AssemblerTest {
     private static final String TESTS_DIRECTORY = System.getProperty("user.dir") + "/tests";
 
-    private LexicalAnalyzer analyzer;
-
     private Parser parser;
     private InputReader reader;
     private String code1;
@@ -34,15 +32,15 @@ public class AssemblerTest {
     private String code3;
     private String code4;
     private String code5;
-    // --Commented out by Inspection (5/1/17 3:49 AM):private String addrImm;
     private String addrIndirect;
+    private String equate;
 
     private String correctObjectCode1;
     private String correctObjectCode2;
     private String correctObjectCode3;
     private String correctObjectCode4;
     private String correctObjectCode5;
-    // --Commented out by Inspection (5/1/17 3:49 AM):private String correctAddrImm;
+    private String correctObjectEquate;
     private String correctAddrIndirect;
 
     @Before
@@ -56,17 +54,17 @@ public class AssemblerTest {
         code3 = fileToString(TESTS_DIRECTORY + "/code3/code3.asm");
         code4 = fileToString(TESTS_DIRECTORY + "/code4/code4.asm");
         code5 = fileToString(TESTS_DIRECTORY + "/code5/code5.asm");
-//        addrImm = fileToString(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.asm");
         addrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.asm");
+        equate = fileToString(TESTS_DIRECTORY + "/0_equ/equ.asm");
+
         correctObjectCode1 = fileToString(TESTS_DIRECTORY + "/code1/code1.obj");
         correctObjectCode2 = fileToString(TESTS_DIRECTORY + "/code2/code2.obj");
         correctObjectCode3 = fileToString(TESTS_DIRECTORY + "/code3/code3.obj");
         correctObjectCode4 = fileToString(TESTS_DIRECTORY + "/code4/code4.obj");
         correctObjectCode5 = fileToString(TESTS_DIRECTORY + "/code5/code5.obj");
-//        correctAddrImm = fileToString(TESTS_DIRECTORY + "/addr-immediate/addr-immediate.obj");
         correctAddrIndirect = fileToString(TESTS_DIRECTORY + "/addr-indirect/addr-indirect.obj");
+        correctObjectEquate = fileToString(TESTS_DIRECTORY + "/0_equ/equ.obj");
     }
-
 
     @Test
     public void testCode1() {
@@ -111,9 +109,18 @@ public class AssemblerTest {
         assertEquals("Generated object code does not match the expected code", correctAddrIndirect, actual);
     }
 
+    @Test
+    public void testEquate() {
+        reader.setInputString(equate);
+        String actual = runAssembler();
+        assertEquals("Generated object code does not match the expected code",
+                correctObjectEquate, actual);
+
+    }
+
     private String runAssembler() {
         parser.parse();
-        analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(parser.getParsedInstuctions());
         analyzer.inspectCode();
         Assembler assembler = new Assembler(parser.getParsedInstuctions());
         assembler.executePassOne();
