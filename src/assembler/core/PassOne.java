@@ -61,7 +61,7 @@ class PassOne {
         LTORG();
 
         // Set Program Length
-        programLength = loc.getCurrentCounterValue() - OpcodeTable.getStartAddress();
+        programLength = loc.getCurrentCounterValue() - startAddress;
         Logger.Log("End Pass One");
     }
 
@@ -101,11 +101,10 @@ class PassOne {
 
     private void START(Instruction inst) {
         // check for START directive
-        int startAddress = 0;
 
         if (inst.getMnemonic().equals("START")) {
             try {
-                startAddress = Integer.parseInt(inst.getOperand(), 16);
+                startAddress = Integer.parseInt(inst.getOperand(), 10);
             } catch (NumberFormatException e) {
                 // build errorString string
                 errorString = buildErrorString(inst.getLineNumber(), OPERAND, INVALID_NUMBER_FORMAT);
