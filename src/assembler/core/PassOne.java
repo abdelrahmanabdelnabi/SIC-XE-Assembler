@@ -7,7 +7,6 @@ import src.misc.Logger;
 import java.util.*;
 
 import static src.assembler.datastructures.InstructionPart.*;
-import static src.assembler.datastructures.OpcodeTable.*;
 import static src.assembler.datastructures.SymbolProp.SymbolType.*;
 import static src.misc.Common.*;
 import static src.misc.ErrorStrings.*;
@@ -25,6 +24,10 @@ class PassOne {
     private List<Instruction> instructions;
     private int literalCount = 1;
     private int builtLiterals = 1;
+
+    private String programName = "";
+    private int programLength;
+    private int startAddress = 0;
 
     PassOne(List<Instruction> instructions) {
         this.instructions = instructions;
@@ -57,7 +60,7 @@ class PassOne {
         LTORG();
 
         // Set Program Length
-        setProgramLength(loc.getCurrentCounterValue() - OpcodeTable.getStartAddress());
+        programLength = loc.getCurrentCounterValue() - OpcodeTable.getStartAddress();
         Logger.Log("End Pass One");
     }
 
@@ -116,9 +119,12 @@ class PassOne {
             // if program has a name, then put it in the symbol table
             if (!inst.getLabel().isEmpty())
                 symbolTable.put(inst.getLabel(), new SymbolProp(startAddress, RELATIVE));
-            setProgramName(inst.getLabel());
-            setStartAddress(loc.getCurrentCounterValue());
+            programName = inst.getLabel();
+            startAddress = loc.getCurrentCounterValue();
+        } else if(inst.getMnemonic().equals("CSECT")) {
+            programName = inst.getLabel();
         }
+
         loc.setCurrentCounterValue(startAddress);
     }
 
@@ -411,6 +417,18 @@ class PassOne {
         }
         // if everything is OK
         symbolTable.put(inst.getLabel(), new SymbolProp(value, type));
+    }
+
+    public String getProgramName() {
+        return programName;
+    }
+
+    public int getProgramLength() {
+        return programLength;
+    }
+
+    public int getStartAddress() {
+        return startAddress;
     }
 
     public List<Instruction> getInstructions() {
