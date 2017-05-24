@@ -1,5 +1,7 @@
 package src.assembler.datastructures;
 
+import static src.assembler.datastructures.LocationCounter.Counter.*;
+
 /**
  * Created by abdelrahman on 4/7/17.
  */
@@ -7,8 +9,10 @@ public class LocationCounter {
     private int codeCounter;
     private int dataCounter;
     private int blockCounter;
+    private int cachedCounter;
 
-    private Counter currentCounter = Counter.CODE;
+    private Counter cachedType = CODE;
+    private Counter counterType = CODE;
 
     /**
      * increments the current location counter with the specified offset
@@ -17,7 +21,7 @@ public class LocationCounter {
      * @returns the new value of the current counter
      */
     public void increment(int offset) {
-        switch (currentCounter) {
+        switch (counterType) {
             case CODE:
                 codeCounter += offset;
                 return;
@@ -31,24 +35,8 @@ public class LocationCounter {
         }
     }
 
-// --Commented out by Inspection START (5/1/17 3:49 AM):
-//    public int setCurrentCounter(Counter c) {
-//        currentCounter = c;
-//        switch (currentCounter) {
-//            case CODE:
-//                return codeCounter;
-//            case DATA:
-//                return dataCounter;
-//            case BLOCKS:
-//                return blockCounter;
-//            default:
-//                return 0;
-//        }
-//    }
-// --Commented out by Inspection STOP (5/1/17 3:49 AM)
-
     public int getCurrentCounterValue() {
-        switch (currentCounter) {
+        switch (counterType) {
             case CODE:
                 return codeCounter;
             case DATA:
@@ -61,7 +49,7 @@ public class LocationCounter {
     }
 
     public void setCurrentCounterValue(int newValue) {
-        switch (currentCounter) {
+        switch (counterType) {
             case CODE:
                 codeCounter = newValue;
                 break;
@@ -70,6 +58,41 @@ public class LocationCounter {
                 break;
             case BLOCKS:
                 blockCounter = newValue;
+                break;
+        }
+    }
+
+    public void orgSet(int newValue) {
+        switch (counterType) {
+            case DATA:
+                cachedCounter = dataCounter;
+                cachedType = DATA;
+                dataCounter = newValue;
+                break;
+            case CODE:
+                cachedCounter = codeCounter;
+                cachedType = CODE;
+                codeCounter = newValue;
+                break;
+            case BLOCKS:
+                cachedCounter = blockCounter;
+                cachedType = BLOCKS;
+                blockCounter = cachedCounter;
+                break;
+        }
+    }
+
+
+    public void orgRestore() {
+        switch (cachedType) {
+            case DATA:
+                dataCounter = cachedCounter;
+                break;
+            case CODE:
+                codeCounter = cachedCounter;
+                break;
+            case BLOCKS:
+                blockCounter = cachedCounter;
                 break;
         }
     }
