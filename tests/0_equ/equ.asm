@@ -7,5 +7,5 @@ LOOP     ADDR   X,A
 BEGIN    EQU    FIRST-SECOND+LOOP
 DUMP     RESW   100
 FINAL    EQU    LOOP+SECOND-DUMP-BEGIN 
-         END    MAIN  
-                  
+         END    MAIN
+

@@ -87,16 +87,20 @@ public class Instruction {
         this.hasObject = true;
     }
 
-    public void setOperandType(OperandType operandType) {
-        this.operandType = operandType;
-    }
-
     public OperandType.VALUE getValueType() {
         return valueType;
     }
 
     public void setValueType(OperandType.VALUE valueType) {
         this.valueType = valueType;
+    }
+
+    public OperandType getOperandType() {
+        return operandType;
+    }
+
+    public void setOperandType(OperandType operandType) {
+        this.operandType = operandType;
     }
 
     public enum InstructionType {
