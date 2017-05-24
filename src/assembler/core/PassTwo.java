@@ -34,6 +34,7 @@ class PassTwo {
     private final List<src.assembler.datastructures.Instruction> instructions;
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
+    private String programName = "";
 
     // Flags for Base relative
     private boolean isBaseSet = false;
@@ -42,12 +43,14 @@ class PassTwo {
     private ObjectCodeWriter ocw;
 
     PassTwo(List<Instruction> instructions, HashMap<String, SymbolProp> symbolTable
-            , HashMap<String, LiteralProp> literalsTable) {
+            , HashMap<String, LiteralProp> literalsTable, String programName, int programLength,
+            int startAddress) {
+        this.programName = programName;
         this.instructions = instructions;
         this.symbolTable = symbolTable;
         this.literalsTable = literalsTable;
-        ocw = new ObjectCodeWriter(OpcodeTable.getProgramName(), OpcodeTable.getStartAddress(),
-                OpcodeTable.getProgramLength());
+        ocw = new ObjectCodeWriter(programName, startAddress,
+                programLength);
     }
 
     void execute() throws AssemblerException {
@@ -70,8 +73,18 @@ class PassTwo {
                     obj = format4.toString();
                     inst.setObjectCode(obj);
                     ocw.appendTextRecord(obj);
-                    if(inst.getValueType() != NUM)
-                        ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, getProgramName());
+                    if(inst.getValueType() != NUM) {
+                        String label = getRawOperand(inst.getOperand());
+                        String modificationSymbol = "";
+                        if(symbolTable.get(label).getType() == SymbolProp.SymbolType.EXTREF) {
+                            // if label is an external reference
+                            modificationSymbol = label;
+                        } else {
+                            modificationSymbol = programName;
+                        }
+                        ocw.addModificationRecord(inst.getAddress() + 1, 5, PLUS, modificationSymbol);
+                    }
+
                 } else {
                     Format format = OP_TAB.get(inst.getMnemonic()).getFormat();
                     switch (format) {
@@ -163,7 +176,7 @@ class PassTwo {
                         // also add R record for each symbol
                         String[] symbols = getSymbolList(inst.getOperand());
                         for(String str : symbols) {
-                            symbolTable.put(str, new SymbolProp(0, SymbolProp.SymbolType.NONE));
+                            symbolTable.put(str, new SymbolProp(0, SymbolProp.SymbolType.EXTREF));
                             ocw.appendReferRecord(str);
                         }
                         break;

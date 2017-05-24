@@ -29,7 +29,9 @@ public class Assembler {
     }
 
     public void executePassTwo() throws AssemblerException {
-        passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable(), passOne.getLiteralTable());
+        passTwo = new PassTwo(passOne.getInstructions(), passOne.getSymbolTable(), passOne
+                .getLiteralTable(), passOne.getProgramName(), passOne.getProgramLength(), passOne
+                .getStartAddress());
         passTwo.execute();
         // Bug fix , literals at start is null
         // moved this from constructor

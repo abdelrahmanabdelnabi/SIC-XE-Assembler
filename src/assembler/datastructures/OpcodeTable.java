@@ -48,9 +48,6 @@ public class OpcodeTable {
         return programName;
     }
 
-    public static void setProgramName(String programName) {
-        OpcodeTable.programName = programName;
-    }
 
     public static int getStartAddress() {
         return startAddress;
@@ -64,9 +61,6 @@ public class OpcodeTable {
         return programLength;
     }
 
-    public static void setProgramLength(int programLength) {
-        OpcodeTable.programLength = programLength;
-    }
 
     public static OperandType getFirstOperandType(String mnemonic) {
         return opCodeTable.get(mnemonic).getFirstOperand();

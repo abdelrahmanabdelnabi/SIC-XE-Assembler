@@ -85,7 +85,7 @@ public class ObjectCodeWriter {
      * @param symbol Name of external symbol to be referred
      */
     public void appendReferRecord(String symbol) {
-        String s = String.format("%6s", symbol);
+        String s = String.format("%-6s", symbol);
         rRecords.append(s);
     }
 
@@ -98,7 +98,7 @@ public class ObjectCodeWriter {
      * @param address relative address of symbol (within this control section)
      */
     public void appendDefineRecord(String symbol, int address) {
-        String s = String.format("%6s%6s", symbol, address);
+        String s = String.format("%-6s%06X", symbol, address);
         dRecords.append(s);
     }
 

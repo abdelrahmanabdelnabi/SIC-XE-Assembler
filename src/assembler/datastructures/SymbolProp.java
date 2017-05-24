@@ -29,6 +29,6 @@ public class SymbolProp {
     }
 
     public enum SymbolType {
-        RELATIVE, ABSOLUTE, NONE
+        RELATIVE, ABSOLUTE, EXTREF, NONE
     }
 }
