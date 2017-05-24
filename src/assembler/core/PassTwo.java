@@ -155,9 +155,32 @@ class PassTwo {
                     case "END":
                         flushLiteralTable();
                         break;
-                    case "CEND":
-                        flushLiteralTable();
+                    case "CSECT":
                         break;
+                    case "EXTREF":
+                        // get list of referred symbols and add them to symbol table
+                        // with the value 0
+                        // also add R record for each symbol
+                        String[] symbols = getSymbolList(inst.getOperand());
+                        for(String str : symbols) {
+                            symbolTable.put(str, new SymbolProp(0, SymbolProp.SymbolType.NONE));
+                            ocw.appendReferRecord(str);
+                        }
+                        break;
+                    case "EXTDEF":
+                        String[] sybmols = getSymbolList(inst.getOperand());
+                        for(String str : sybmols) {
+                            // check that they are defined in the program
+                            if(symbolTable.containsKey(str)) {
+                                ocw.appendDefineRecord(str, symbolTable.get(str).getAddress());
+                            } else {
+                                // error
+                                buildErrorString(inst.getLineNumber(), InstructionPart.OPERAND,
+                                        ErrorStrings.UNDEFINED_LABEL);
+                            }
+                        }
+                        break;
+
                 }
             }
         }
@@ -381,6 +404,16 @@ class PassTwo {
             String objectCode = entry.getValue().getObjectCode();
             ocw.appendTextRecord(objectCode);
         }
+    }
+
+    private String[] getSymbolList(String listOfSymbols) {
+        String[] tokens = listOfSymbols.split(",");
+
+        for(int i = 0; i < tokens.length; i++) {
+            tokens[i] = tokens[i].trim(); // trim extra spaces
+        }
+
+        return tokens;
     }
 
 }
