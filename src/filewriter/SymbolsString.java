@@ -3,18 +3,17 @@ package src.filewriter;
 import src.assembler.datastructures.LiteralProp;
 import src.assembler.datastructures.SymbolProp;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /*
  * Created by ahmed on 4/19/17.
  */
 public class SymbolsString implements StringGenerator {
-    private final HashMap<String, SymbolProp> symbolTable;
-    private final HashMap<String, LiteralProp> literalsTable;
+    private final Map<String, SymbolProp> symbolTable;
+    private final Map<String, LiteralProp> literalsTable;
     private final StringBuilder builder;
 
-    public SymbolsString(HashMap<String, SymbolProp> symbolTable, HashMap<String, LiteralProp> literalsTable) {
+    public SymbolsString(Map<String, SymbolProp> symbolTable, Map<String, LiteralProp> literalsTable) {
         this.symbolTable = symbolTable;
         this.literalsTable = literalsTable;
         builder = new StringBuilder();

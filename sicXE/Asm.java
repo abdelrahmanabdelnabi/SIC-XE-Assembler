@@ -4,8 +4,10 @@ package sicXE;
  * Created by abdelrahman on 4/9/17.
  */
 
-import src.assembler.core.Assembler;
 import src.assembler.core.AssemblerException;
+import src.assembler.core.MultiProgramAssembler;
+import src.assembler.datastructures.LiteralProp;
+import src.assembler.datastructures.SymbolProp;
 import src.filewriter.ListingString;
 import src.filewriter.SymbolsString;
 import src.filewriter.Writer;
@@ -16,9 +18,11 @@ import src.parser.Parser;
 import src.parser.ParsingException;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 class Asm {
-    private static Assembler assembler;
+    private static MultiProgramAssembler assembler;
     private static Writer writer = new Writer("");
 
     public static void main(String[] args) {
@@ -29,7 +33,7 @@ class Asm {
 
         // change filePath to change test file
         String relativePath = System.getProperty("user.dir");// + "/" + args[0];
-        String filePath = relativePath + "/tests/0_equ_error/equ_error.asm";
+        String filePath = relativePath + "/tests/0_equ_bonus/equ_bouns.asm";
 
         if (filePath.length() != 0) {
 
@@ -54,7 +58,7 @@ class Asm {
             // check if no syntax errors found
             if (Logger.getErrorsCnt() == 0) {
                 // continue assembling file
-                assembler = new Assembler(parser.getParsedInstuctions());
+                assembler = new MultiProgramAssembler(parser.getParsedInstuctions());
                 try {
                     assembler.executePassOne();
                     assembler.executePassTwo();
@@ -78,15 +82,33 @@ class Asm {
             if (Logger.getErrorsCnt() == 0) {
                 // Symbols
                 writer.setFileName(symTabFile);
-                writer.writeToFile(new SymbolsString(assembler.getSymbolTable(), assembler.getLiteralsTable()).toString());
+
+                String tables = "";
+
+                List<Map<String, SymbolProp>> symbolsTables = assembler.getSymbolTables();
+                List<Map<String, LiteralProp>> literalsTables = assembler.getLiteralsTables();
+                for(int i = 0; i < symbolsTables.size(); i++) {
+                    tables += new SymbolsString(symbolsTables.get(i), literalsTables.get(i))
+                            .toString();
+                }
+
+                writer.writeToFile(tables);
 
                 // object
                 writer.setFileName(objectFile);
-                writer.writeToFile(assembler.getObjectCode2());
+                String[] codes = assembler.getObjectCode();
+
+                StringBuilder output = new StringBuilder();
+                for(String s : codes) {
+                    output.append(s);
+                    output.append("\n");
+                }
+
+                writer.writeToFile(output.toString());
 
                 // abo listing table
                 writer.setFileName(lstTabFile);
-                writer.writeToFile(new ListingString(assembler.getInstructions()).toString());
+                writer.writeToFile(new ListingString(parser.getParsedInstuctions()).toString());
             }
             // Log file
             writer.setFileName(errorFile);
