@@ -224,6 +224,12 @@ public class LexicalAnalyzer {
             return LABEL;
         }
 
+        //
+        if (Pattern.matches("X'[A-F0-9]+'|C'[a-zA-Z0-9]+'", operand)) {
+            inst.setValueType(DATA);
+            return DATA;
+        }
+
         // expression
         if (Pattern.matches("(([a-zA-Z][a-zA-Z0-9]*([+]|[-]|))|(([0-9]+)([+]|[-]|)))+", operand)
                 && !operand.endsWith("+") && !operand.endsWith("-")) {
