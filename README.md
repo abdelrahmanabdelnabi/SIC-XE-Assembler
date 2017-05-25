@@ -3,7 +3,9 @@ An Implementation of the SIC/XE assembler written in Java
 
 
 ### Supported Features
-- Sic-XE code with literals
+- SIC-XE code
+- Literals
+- Control Section with (CSECT) directive
 
 
 ### How to use
