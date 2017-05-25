@@ -6,7 +6,6 @@ import src.assembler.utils.Format_3;
 import src.assembler.utils.Format_4;
 import src.assembler.utils.ObjectBuilder;
 import src.filewriter.ObjectCodeWriter;
-import src.misc.ErrorStrings;
 import src.misc.Logger;
 
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import static src.assembler.datastructures.OperandType.VALUE.NUM;
 import static src.assembler.datastructures.RegisterTable.getRegisterNumber;
 import static src.filewriter.ObjectCodeWriter.PLUS;
 import static src.misc.Common.*;
+import static src.misc.ErrorStrings.*;
 
 /**
  * Created by ahmed on 4/21/17.
@@ -35,7 +35,7 @@ class PassTwo {
     private final Map<String, InstProp> OP_TAB = getOpcodeTable();
     private final HashMap<String, LiteralProp> literalsTable;
     private String programName = "";
-
+    private String errorString = "";
     // Flags for Base relative
     private boolean isBaseSet = false;
     private int baseAddress = 0;
@@ -73,10 +73,11 @@ class PassTwo {
                     obj = format4.toString();
                     inst.setObjectCode(obj);
                     ocw.appendTextRecord(obj);
-                    if(inst.getValueType() != NUM) {
+                    if (inst.getValueType() != NUM) {
                         String label = getRawOperand(inst.getOperand());
-                        String modificationSymbol = "";
-                        if(symbolTable.get(label).getType() == SymbolProp.SymbolType.EXTREF) {
+                        String modificationSymbol;
+
+                        if (symbolTable.containsKey(label) && symbolTable.get(label).getType() == SymbolProp.SymbolType.EXTREF) {
                             // if label is an external reference
                             modificationSymbol = label;
                         } else {
@@ -126,11 +127,10 @@ class PassTwo {
                             }
                             // else if not symbol nor number
                             else {
-                                String Error = buildErrorString(inst.getLineNumber(),
-                                        OPERAND,
+                                errorString = buildErrorString(inst.getLineNumber(), OPERAND,
                                         "Base Value is undefined label or invalid number format");
-                                Logger.LogError(Error);
-                                throw new AssemblerException(Error);
+                                Logger.LogError(errorString);
+                                throw new AssemblerException(errorString);
                             }
                         } else {
                             isBaseSet = true;
@@ -175,21 +175,21 @@ class PassTwo {
                         // with the value 0
                         // also add R record for each symbol
                         String[] symbols = getSymbolList(inst.getOperand());
-                        for(String str : symbols) {
+                        for (String str : symbols) {
                             symbolTable.put(str, new SymbolProp(0, SymbolProp.SymbolType.EXTREF));
                             ocw.appendReferRecord(str);
                         }
                         break;
                     case "EXTDEF":
                         String[] sybmols = getSymbolList(inst.getOperand());
-                        for(String str : sybmols) {
+                        for (String str : sybmols) {
                             // check that they are defined in the program
-                            if(symbolTable.containsKey(str)) {
+                            if (symbolTable.containsKey(str)) {
                                 ocw.appendDefineRecord(str, symbolTable.get(str).getAddress());
                             } else {
                                 // error
-                                buildErrorString(inst.getLineNumber(), InstructionPart.OPERAND,
-                                        ErrorStrings.UNDEFINED_LABEL);
+                                errorString = buildErrorString(inst.getLineNumber(), OPERAND, UNDEFINED_LABEL);
+                                Logger.LogError(errorString);
                             }
                         }
                         break;
@@ -244,10 +244,9 @@ class PassTwo {
         boolean validFormat = validLiteral || validOperand;
 
         if (!validFormat) {
-            String error = buildErrorString(inst.getLineNumber(),
-                    OPERAND, ErrorStrings.INVALID_OPERAND_FORMAT);
-            Logger.LogError(error);
-            throw new AssemblerException(error);
+            errorString = buildErrorString(inst.getLineNumber(), OPERAND, INVALID_OPERAND_FORMAT);
+            Logger.LogError(errorString);
+            throw new AssemblerException(errorString);
         }
 
         // prepare needed flags
@@ -265,11 +264,9 @@ class PassTwo {
 
         if (!(isDecimal || isHexaDecimal)) {
             if (validOperand && !symbolTable.containsKey(rawOperand)) {
-                String error = buildErrorString(inst.getLineNumber(),
-                        OPERAND, ErrorStrings.UNDEFINED_LABEL);
-
-                Logger.LogError(error);
-                throw new AssemblerException(inst.toString() + " " + error);
+                errorString = buildErrorString(inst.getLineNumber(), OPERAND, UNDEFINED_LABEL);
+                Logger.LogError(errorString);
+                throw new AssemblerException(inst.toString() + " " + errorString);
             }
         } else { // if number
             // check if it fits in the displacement of a format 3 instruction
@@ -283,11 +280,9 @@ class PassTwo {
             }
 
             if (!isFitConstant(value)) {
-                String error = buildErrorString(inst.getLineNumber(),
-                        OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
-
-                Logger.LogError(error);
-                throw new AssemblerException(error);
+                errorString = buildErrorString(inst.getLineNumber(), OPERAND, DISP_OUT_OF_RANGE);
+                Logger.LogError(errorString);
+                throw new AssemblerException(errorString);
             }
             displacement = value;
         }
@@ -315,11 +310,9 @@ class PassTwo {
             } else {
                 // error
                 // operand address can not fit into a format 3 instruction
-                String error = buildErrorString(inst.getLineNumber(),
-                        OPERAND, ErrorStrings.DISP_OUT_OF_RANGE);
-
-                Logger.LogError(error);
-                throw new AssemblerException(error);
+                errorString = buildErrorString(inst.getLineNumber(), OPERAND, DISP_OUT_OF_RANGE);
+                Logger.LogError(errorString);
+                throw new AssemblerException(errorString);
             }
         }
 
@@ -373,7 +366,9 @@ class PassTwo {
         } else if (symbolTable.containsKey(operand)) {
             TA = symbolTable.get(operand).getAddress();
         } else {
-            Logger.LogError(buildErrorString(instruction.getLineNumber(), OPERAND, "Can not calc operand target address"));
+            errorString = buildErrorString(instruction.getLineNumber(), OPERAND,
+                    "Can not calc operand target address, Symbol is not a Label nor EXTREF");
+            Logger.LogError(errorString);
         }
         return TA;
     }
@@ -401,7 +396,7 @@ class PassTwo {
         Iterator<Map.Entry<String, LiteralProp>> iterator = literalsTable.entrySet().iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String,LiteralProp> entry = iterator.next();
+            Map.Entry<String, LiteralProp> entry = iterator.next();
             int address = entry.getValue().getAddress();
             if (address == expectedAddress) {
                 String objectCode = entry.getValue().getObjectCode();
@@ -413,7 +408,7 @@ class PassTwo {
     }
 
     private void flushLiteralTable() {
-        for(Map.Entry<String, LiteralProp> entry : literalsTable.entrySet()) {
+        for (Map.Entry<String, LiteralProp> entry : literalsTable.entrySet()) {
             String objectCode = entry.getValue().getObjectCode();
             ocw.appendTextRecord(objectCode);
         }
@@ -422,7 +417,7 @@ class PassTwo {
     private String[] getSymbolList(String listOfSymbols) {
         String[] tokens = listOfSymbols.split(",");
 
-        for(int i = 0; i < tokens.length; i++) {
+        for (int i = 0; i < tokens.length; i++) {
             tokens[i] = tokens[i].trim(); // trim extra spaces
         }
 

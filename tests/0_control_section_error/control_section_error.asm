@@ -10,7 +10,7 @@ RLOOP    TD     INDEV
          JLT    RLOOP 
 INDEV    BYTE   X'F1' 
 RECORD   RESB   100
-PROG2    CSCET
+PROG2    CSECT
          EXTREF INDEV         
          LDX    #0
          LDT    #10
