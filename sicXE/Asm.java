@@ -27,13 +27,13 @@ class Asm {
 
     public static void main(String[] args) {
 //         Uncomment to take args from Command Line
-//        String relativePath = System.getProperty("user.dir") + "/" + args[0];
-//        String absolutePath = args[0];
-//        String filePath = lockFile(relativePath, absolutePath);
+        String relativePath = System.getProperty("user.dir") + "/" + args[0];
+        String absolutePath = args[0];
+        String filePath = lockFile(relativePath, absolutePath);
 
-        // change filePath to change test file
-        String relativePath = System.getProperty("user.dir");// + "/" + args[0];
-        String filePath = relativePath + "/tests/0_control_section_error/control_section_error.asm";
+//        // change filePath to change test file
+//        String relativePath = System.getProperty("user.dir");// + "/" + args[0];
+//        String filePath = relativePath + "/tests/0_control_section_error/control_section_error.asm";
 
         if (filePath.length() != 0) {
 

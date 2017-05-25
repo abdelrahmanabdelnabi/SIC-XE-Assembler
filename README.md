@@ -9,7 +9,7 @@ An Implementation of the SIC/XE assembler written in Java
 ### How to use
 - Clone this project
     ````
-    git clone  
+    git clone https://github.com/abdelrahmanabdelnabi/SIC-XE-Assembler
     ````
 
 
@@ -27,6 +27,6 @@ An Implementation of the SIC/XE assembler written in Java
 
 - Run Assembler using
     ````
-    java -cp SIC-XE-Assembler sicXE.Asm code.asm
+    java -cp SIC-XE-Assembler sicXE.Asm path_to_code.asm
     ````
 
