@@ -12,29 +12,22 @@
 
 ### How to use
 
-    - Clone this project
+- Clone this project
+    ````
+    git clone https://github.com/abdelrahmanabdelnabi/SIC-XE-Assembler
+    ````
 
-        ````
-        git clone https://github.com/abdelrahmanabdelnabi/SIC-XE-Assembler
-        ````
+- Change Directory to project folder
+    ````
+    cd SIC-XE-Assembler
+    ````
 
+- Build jar file
+    ````
+    make
+    ````
 
-    - Change Directory to project folder
-
-        ````
-        cd SIC-XE-Assembler
-        ````
-
-
-    - Build jar file
-
-        ````
-        make
-        ````
-
-
-    - Run Assembler using
-
-        ````
-        java -cp SIC-XE-Assembler sicXE.Asm path_to_code.asm
-        ````
+- Run Assembler using
+    ````
+    java -cp SIC-XE-Assembler sicXE.Asm path_to_code.asm
+    ````
